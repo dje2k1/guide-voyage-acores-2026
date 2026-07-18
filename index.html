@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>L'Été Atlantique 2026 — Guide de voyage</title>
+<style>
+  :root{
+    --atlantic:#0b3954; --lagoon:#087e8b; --volcanic:#1c1c1e; --hydrangea:#7c6fb0;
+    --sand:#f6f1e7; --card:#fff; --ink:#22333b; --gold:#c9a227; --ok:#0f8a5f; --terra:#b3541e;
+    --c1:#c9a227; --c2:#087e8b; --c3:#0f8a5f; --c4:#7c6fb0; --c5:#b3541e; --c6:#0b3954;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:"Avenir Next","Segoe UI",system-ui,sans-serif;background:var(--sand);color:var(--ink);padding-bottom:70px;}
+  .cover{background:linear-gradient(140deg,var(--atlantic) 0%,var(--lagoon) 100%);color:#fff;padding:38px 20px 30px;text-align:center;}
+  .cover h1{font-size:1.6rem;letter-spacing:-.02em;}
+  .cover .dates{margin-top:8px;font-size:.9rem;opacity:.9;}
+  .cover .fam{margin-top:10px;font-size:.78rem;opacity:.8;}
+  .cover .totaux{display:flex;justify-content:center;gap:26px;margin-top:18px;flex-wrap:wrap;}
+  .cover .totaux div{text-align:center;}
+  .cover .totaux b{display:block;font-size:1.25rem;}
+  .cover .totaux span{font-size:.68rem;opacity:.85;text-transform:uppercase;letter-spacing:.05em;}
+  .allbooked{display:inline-block;margin-top:16px;background:#0f8a5f;padding:7px 18px;border-radius:22px;font-weight:800;font-size:.8rem;letter-spacing:.04em;}
+  main{max-width:900px;margin:0 auto;padding:24px 14px 0;display:grid;gap:26px;}
+
+  .panel{background:var(--card);border-radius:18px;box-shadow:0 3px 14px rgba(11,57,84,.09);border:1px solid rgba(11,57,84,.07);overflow:hidden;}
+  .panel h2{padding:16px 18px 4px;color:var(--atlantic);font-size:1.05rem;}
+  .panel .hint{padding:0 18px 12px;font-size:.75rem;color:#7b8a92;}
+
+  /* CALENDRIER */
+  .calbar{display:flex;height:56px;margin:6px 14px 0;border-radius:12px;overflow:hidden;}
+  .calbar div{display:flex;align-items:center;justify-content:center;color:#fff;font-size:.68rem;font-weight:800;text-align:center;line-height:1.25;padding:2px;}
+  .caldates{display:flex;margin:0 14px 16px;position:relative;height:26px;}
+  .caldates span{font-size:.62rem;color:#5b6b73;border-left:1.5px solid #b9c6c2;padding:4px 0 0 4px;font-weight:700;}
+  .caldates .end{position:absolute;right:0;top:0;border-left:none;padding:4px 2px 0 0;}
+  .caltrans{display:flex;margin:0 14px 6px;height:18px;}
+  .caltrans span{font-size:.78rem;text-align:right;transform:translateX(8px);}
+
+  /* CARTE */
+  .map-svg{display:block;width:100%;height:auto;background:linear-gradient(180deg,#dce9f2 0%,#c8dde9 100%);}
+  .legend{display:flex;flex-wrap:wrap;gap:10px;padding:12px 18px 16px;}
+  .legend span{display:inline-flex;align-items:center;gap:6px;font-size:.7rem;font-weight:700;color:#3c5058;}
+  .dot{width:14px;height:14px;border-radius:50%;display:inline-block;border:2px solid #fff;box-shadow:0 1px 3px rgba(0,0,0,.25);}
+
+  /* ÉTAPES */
+  .etape{background:var(--card);border-radius:18px;overflow:hidden;box-shadow:0 3px 14px rgba(11,57,84,.09);border:1px solid rgba(11,57,84,.07);}
+  .hero{position:relative;height:200px;overflow:hidden;background:linear-gradient(120deg,#0b3954,#087e8b);}
+  .hero img{width:100%;height:100%;object-fit:cover;display:block;}
+  .num{position:absolute;top:12px;left:12px;color:#fff;font-weight:800;font-size:.78rem;padding:6px 12px;border-radius:20px;box-shadow:0 2px 6px rgba(0,0,0,.25);}
+  .statut{position:absolute;top:12px;right:12px;font-size:.68rem;font-weight:800;padding:5px 11px;border-radius:20px;color:#fff;background:var(--ok);letter-spacing:.03em;box-shadow:0 2px 6px rgba(0,0,0,.25);}
+  .body{padding:16px 18px 6px;}
+  .body h2{color:var(--atlantic);font-size:1.15rem;letter-spacing:-.01em;padding:0;}
+  .body h2 a{color:inherit;text-decoration:none;}
+  .body h2 a:hover{color:var(--lagoon);text-decoration:underline;}
+  .lieu{font-size:.78rem;color:var(--lagoon);font-weight:700;text-transform:uppercase;letter-spacing:.06em;margin-top:2px;}
+  .specs{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0;}
+  .specs span{background:#eef3f1;border-radius:8px;font-size:.72rem;padding:5px 10px;font-weight:600;color:#3c5058;}
+  .specs .note{background:var(--atlantic);color:#fff;}
+  .specs .pool{background:#d8f0e6;color:var(--ok);}
+  .specs .nopool{background:#f4e9e2;color:#8a5a3a;}
+  .prix{display:flex;justify-content:space-between;align-items:baseline;border-top:1px dashed #dfe3df;padding-top:10px;margin-top:4px;}
+  .prix b{font-size:1.1rem;color:var(--volcanic);}
+  .prix i{font-style:normal;font-size:.72rem;color:#7b8a92;}
+  .lien{display:inline-block;margin:10px 0 4px;font-size:.78rem;font-weight:700;color:var(--lagoon);text-decoration:none;border:1.5px solid var(--lagoon);padding:7px 14px;border-radius:22px;}
+  .lien:hover{background:var(--lagoon);color:#fff;}
+  .incont{background:#f6f8f4;margin:12px -18px 0;padding:13px 18px 15px;}
+  .incont h3{font-size:.72rem;text-transform:uppercase;letter-spacing:.07em;color:var(--hydrangea);margin-bottom:7px;}
+  .incont p{font-size:.82rem;line-height:1.55;color:#41525a;}
+  .transit{display:flex;align-items:center;gap:12px;background:var(--volcanic);color:#fff;border-radius:14px;padding:12px 16px;font-size:.8rem;line-height:1.4;}
+  .transit .ico{font-size:1.3rem;}
+  .transit b{color:#ffd97d;}
+  footer{max-width:900px;margin:30px auto 0;padding:0 16px;font-size:.7rem;color:#7b8a92;line-height:1.5;}
+  @media(min-width:700px){.hero{height:240px;}}
+</style>
+</head>
+<body>
+
+<div class="cover">
+  <h1>🌊 L'Été Atlantique de la famille</h1>
+  <div class="dates">Algarve → São Miguel → Pico → Faial → Terceira</div>
+  <div class="dates"><b>30 juillet → 23 août 2026</b> · 24 nuits · 6 maisons</div>
+  <div class="fam">Jérôme · Elsa · Louise (11) · Solène & Alice (8)</div>
+  <div class="totaux">
+    <div><b>9 929 €</b><span>Hébergements</span></div>
+    <div><b>414 €</b><span>par nuit</span></div>
+    <div><b>2 🏊</b><span>piscines privées</span></div>
+    <div><b>4 îles</b><span>+ l'Algarve</span></div>
+  </div>
+  <div class="allbooked">✅ TOUT EST RÉSERVÉ — IL N'Y A PLUS QU'À PARTIR</div>
+</div>
+
+<main>
+
+<!-- ═══════════ CALENDRIER GÉNÉRAL ═══════════ -->
+<section class="panel">
+  <h2>📅 Le voyage en un coup d'œil</h2>
+  <div class="hint">24 nuits · largeur proportionnelle à la durée de chaque étape</div>
+  <div class="calbar">
+    <div style="flex:7;background:var(--c1);">1 · Algarve<br>7 nuits</div>
+    <div style="flex:4;background:var(--c2);">2 · Vila Franca<br>4 n</div>
+    <div style="flex:4;background:var(--c3);">3 · Fenais da Luz<br>4 n</div>
+    <div style="flex:3;background:var(--c4);">4 · Pico<br>3 n</div>
+    <div style="flex:2;background:var(--c5);">5 · Faial<br>2 n</div>
+    <div style="flex:4;background:var(--c6);">6 · Terceira<br>4 n</div>
+  </div>
+  <div class="caltrans">
+    <span style="flex:7;">✈️</span><span style="flex:4;">🚗</span><span style="flex:4;">✈️</span><span style="flex:3;">⛴️</span><span style="flex:2;">✈️</span><span style="flex:4;">🛫</span>
+  </div>
+  <div class="caldates">
+    <span style="flex:7;">30/07</span>
+    <span style="flex:4;">6/08</span>
+    <span style="flex:4;">10/08</span>
+    <span style="flex:3;">14/08</span>
+    <span style="flex:2;">17/08</span>
+    <span style="flex:4;">19/08</span>
+    <span class="end">23/08 → Paris</span>
+  </div>
+</section>
+
+<!-- ═══════════ CARTE GLOBALE ═══════════ -->
+<section class="panel">
+  <h2>🗺️ La carte du périple</h2>
+  <div class="hint">Archipel des Açores (groupes central & oriental) + Algarve — les Açores sont à ≈ 1 450 km à l'ouest du continent</div>
+  <svg class="map-svg" viewBox="0 0 900 400" xmlns="http://www.w3.org/2000/svg" aria-label="Carte du voyage">
+    <!-- ILES ACORES -->
+    <!-- Faial -->
+    <ellipse cx="75" cy="235" rx="24" ry="17" fill="#cfe3d8" stroke="#0b3954" stroke-width="1.5"/>
+    <text x="42" y="212" font-size="11" fill="#41525a" font-weight="700">FAIAL</text>
+    <!-- Pico -->
+    <ellipse cx="170" cy="252" rx="60" ry="17" fill="#cfe3d8" stroke="#0b3954" stroke-width="1.5" transform="rotate(6 170 252)"/>
+    <path d="M126 244 L136 226 L146 244 Z" fill="#8aa7b5" stroke="#0b3954" stroke-width="1"/>
+    <text x="150" y="288" font-size="11" fill="#41525a" font-weight="700">PICO</text>
+    <text x="112" y="222" font-size="8" fill="#5b6b73">⛰ 2351 m</text>
+    <!-- Sao Jorge -->
+    <ellipse cx="245" cy="192" rx="50" ry="7" fill="#e2ece6" stroke="#7b8a92" stroke-width="1" transform="rotate(-22 245 192)"/>
+    <text x="215" y="168" font-size="9" fill="#8a9aa2" font-weight="600">São Jorge</text>
+    <!-- Graciosa -->
+    <ellipse cx="165" cy="98" rx="12" ry="9" fill="#e2ece6" stroke="#7b8a92" stroke-width="1"/>
+    <text x="140" y="82" font-size="9" fill="#8a9aa2" font-weight="600">Graciosa</text>
+    <!-- Terceira -->
+    <ellipse cx="350" cy="145" rx="34" ry="27" fill="#cfe3d8" stroke="#0b3954" stroke-width="1.5"/>
+    <text x="312" y="105" font-size="11" fill="#41525a" font-weight="700">TERCEIRA</text>
+    <!-- Sao Miguel -->
+    <ellipse cx="600" cy="300" rx="88" ry="27" fill="#cfe3d8" stroke="#0b3954" stroke-width="1.5" transform="rotate(-7 600 300)"/>
+    <text x="548" y="352" font-size="11" fill="#41525a" font-weight="700">SÃO MIGUEL</text>
+    <!-- Continent inset -->
+    <rect x="705" y="30" width="175" height="175" rx="12" fill="#eef4ef" stroke="#7b8a92" stroke-width="1" stroke-dasharray="4 3"/>
+    <text x="718" y="50" font-size="10" fill="#5b6b73" font-weight="700">PORTUGAL continental</text>
+    <path d="M810 62 C800 80 795 105 800 130 C803 148 798 165 785 175 L840 178 C852 168 856 140 850 110 C845 88 835 70 826 62 Z" fill="#cfe3d8" stroke="#0b3954" stroke-width="1.2"/>
+    <text x="795" y="120" font-size="8" fill="#5b6b73">Lisbonne</text>
+    <circle cx="790" cy="126" r="2" fill="#5b6b73"/>
+    <text x="770" y="196" font-size="9" fill="#41525a" font-weight="700">ALGARVE</text>
+    <!-- distance -->
+    <text x="545" y="150" font-size="10" fill="#5b6b73" font-style="italic">← ≈ 1 450 km d'Atlantique →</text>
+
+    <!-- ROUTES -->
+    <defs>
+      <marker id="arr" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#0b3954"/></marker>
+    </defs>
+    <!-- 1 Algarve -> 2 Vila Franca (avion) -->
+    <path d="M800 180 C720 290 690 320 655 318" fill="none" stroke="#0b3954" stroke-width="2" stroke-dasharray="6 5" marker-end="url(#arr)"/>
+    <text x="712" y="268" font-size="14">✈️</text>
+    <!-- 2 -> 3 (voiture, sur l'ile) -->
+    <path d="M645 310 C610 296 585 290 566 287" fill="none" stroke="#0f8a5f" stroke-width="2" stroke-dasharray="2 4" marker-end="url(#arr)"/>
+    <text x="596" y="282" font-size="12">🚗</text>
+    <!-- 3 -> 4 (avion) -->
+    <path d="M550 282 C420 240 300 246 205 258" fill="none" stroke="#0b3954" stroke-width="2" stroke-dasharray="6 5" marker-end="url(#arr)"/>
+    <text x="360" y="238" font-size="14">✈️</text>
+    <!-- 4 -> 5 (ferry) -->
+    <path d="M138 254 C118 248 104 242 92 238" fill="none" stroke="#087e8b" stroke-width="2.5" marker-end="url(#arr)"/>
+    <text x="98" y="266" font-size="13">⛴️</text>
+    <!-- 5 -> 6 (avion) -->
+    <path d="M85 222 C150 170 250 150 322 148" fill="none" stroke="#0b3954" stroke-width="2" stroke-dasharray="6 5" marker-end="url(#arr)"/>
+    <text x="185" y="150" font-size="14">✈️</text>
+    <!-- 6 -> Paris -->
+    <path d="M372 128 C430 80 490 55 540 45" fill="none" stroke="#8a9aa2" stroke-width="2" stroke-dasharray="6 5" marker-end="url(#arr)"/>
+    <text x="548" y="44" font-size="10" fill="#5b6b73" font-weight="700">🛫 → Paris (23/08)</text>
+
+    <!-- MARQUEURS -->
+    <g font-weight="800" font-size="12" text-anchor="middle">
+      <circle cx="800" cy="180" r="12" fill="#c9a227" stroke="#fff" stroke-width="2.5"/><text x="800" y="184" fill="#fff">1</text>
+      <text x="800" y="215" font-size="8.5" fill="#41525a" font-weight="700">Porches · Clos des Oliviers</text>
+      <circle cx="655" cy="316" r="12" fill="#087e8b" stroke="#fff" stroke-width="2.5"/><text x="655" y="320" fill="#fff">2</text>
+      <text x="705" y="336" font-size="8.5" fill="#41525a" font-weight="700">Vila Franca · Vila Miramar</text>
+      <circle cx="558" cy="286" r="12" fill="#0f8a5f" stroke="#fff" stroke-width="2.5"/><text x="558" y="290" fill="#fff">3</text>
+      <text x="512" y="268" font-size="8.5" fill="#41525a" font-weight="700">Fenais da Luz · Chestnut Garden</text>
+      <circle cx="192" cy="260" r="12" fill="#7c6fb0" stroke="#fff" stroke-width="2.5"/><text x="192" y="264" fill="#fff">4</text>
+      <text x="212" y="284" font-size="8.5" fill="#41525a" font-weight="700">Pontas Negras</text>
+      <circle cx="78" cy="232" r="12" fill="#b3541e" stroke="#fff" stroke-width="2.5"/><text x="78" y="236" fill="#fff">5</text>
+      <text x="72" y="288" font-size="8.5" fill="#41525a" font-weight="700">Horta · Casa das Marias</text>
+      <circle cx="366" cy="152" r="12" fill="#0b3954" stroke="#fff" stroke-width="2.5"/><text x="366" y="156" fill="#fff">6</text>
+      <text x="418" y="176" font-size="8.5" fill="#41525a" font-weight="700">Fonte do Bastardo · Quinta S. António</text>
+    </g>
+  </svg>
+  <div class="legend">
+    <span><i class="dot" style="background:var(--c1)"></i>1 · Algarve (7n)</span>
+    <span><i class="dot" style="background:var(--c2)"></i>2 · Vila Franca (4n)</span>
+    <span><i class="dot" style="background:var(--c3)"></i>3 · Fenais da Luz (4n)</span>
+    <span><i class="dot" style="background:var(--c4)"></i>4 · Pico (3n)</span>
+    <span><i class="dot" style="background:var(--c5)"></i>5 · Faial (2n)</span>
+    <span><i class="dot" style="background:var(--c6)"></i>6 · Terceira (4n)</span>
+  </div>
+</section>
+
+<!-- ÉTAPE 1 -->
+<section class="etape">
+  <div class="hero">
+    <img src="https://media.vrbo.com/lodging/41000000/40200000/40190400/40190318/34f13b39.jpg" onerror="this.style.display='none'" alt="Le Clos des Oliviers">
+    <div class="num" style="background:var(--c1);">Étape 1 · 30 juil → 6 août · 7 nuits</div>
+    <div class="statut">✅ RÉSERVÉ</div>
+  </div>
+  <div class="body">
+    <h2><a href="https://www.abritel.fr/location-vacances/p1738887" target="_blank">Le Clos des Oliviers</a></h2>
+    <div class="lieu">Porches · Lagoa · Algarve, Portugal</div>
+    <div class="specs">
+      <span class="note">★ 9,6/10 · 9 avis (top 10% région)</span>
+      <span>Villa 4★ · 170 m²</span>
+      <span>3 chambres · 3 SDB · 7 pers</span>
+      <span class="pool">🏊 Piscine privée chauffée + volet sécurisé</span>
+      <span>Terrain 9 000 m² d'oliviers</span>
+      <span>🏓 Ping-pong · 🏀 basket · BBQ</span>
+    </div>
+    <a class="lien" href="https://www.abritel.fr/location-vacances/p1738887" target="_blank">Voir l'annonce Abritel →</a>
+    <div class="prix"><b>3 800 €</b><i>543 €/nuit · payé</i></div>
+    <div class="incont">
+      <h3>⭐ Les incontournables</h3>
+      <p><b>Grotte de Benagil</b> en kayak ou pédalo (réserver tôt le matin) · <b>Praia da Marinha</b>, élue parmi les plus belles plages d'Europe · le sentier des <b>Sept Vallées Suspendues</b> (version courte avec les filles) · <b>Aqualand</b> à 5 min & <b>Slide and Splash</b> pour Solène · le port de pêche de <b>Ferragudo</b> et la citadelle maure de <b>Silves</b> · dîner poisson grillé à <b>Armação de Pêra</b>.</p>
+    </div>
+  </div>
+</section>
+
+<div class="transit"><span class="ico">✈️</span><div><b>6 août</b> — Vol Faro → Ponta Delgada (via Lisbonne, ~4h30 avec escale). Voiture de location à PDL, puis 30 min vers Vila Franca do Campo.</div></div>
+
+<!-- ÉTAPE 2 -->
+<section class="etape">
+  <div class="hero">
+    <img src="https://a0.muscache.com/im/pictures/a78877ee-d710-4738-89b4-f80045ba340c.jpg" onerror="this.style.display='none'" alt="Vila Miramar">
+    <div class="num" style="background:var(--c2);">Étape 2 · 6 → 10 août · 4 nuits</div>
+    <div class="statut">✅ RÉSERVÉ</div>
+  </div>
+  <div class="body">
+    <h2><a href="https://www.airbnb.fr/rooms/31818848" target="_blank">Vila Miramar</a></h2>
+    <div class="lieu">Vila Franca do Campo · São Miguel (côte sud) · Açores</div>
+    <div class="specs">
+      <span class="note">★ 4,9/5 · 41 avis · Coup de cœur voyageurs</span>
+      <span>Villa historique XXᵉ siècle</span>
+      <span>4 chambres · 2 SDB · 8 pers</span>
+      <span class="nopool">Pas de piscine — plage à 10 min à pied</span>
+      <span>2 terrasses vue mer & montagne</span>
+      <span>Immense jardin + bananeraie</span>
+    </div>
+    <a class="lien" href="https://www.airbnb.fr/rooms/31818848" target="_blank">Voir l'annonce Airbnb →</a>
+    <div class="prix"><b>1 860 €</b><i>465 €/nuit · payé</i></div>
+    <div class="incont">
+      <h3>⭐ Les incontournables</h3>
+      <p><b>Ilhéu de Vila Franca</b> — baignade dans un cratère volcanique en pleine mer, à 10 min de bateau du port (billets tôt le matin, ça part vite en août !) · <b>Furnas</b> : fumerolles, cozido cuit dans la terre et bains orange du <b>Parque Terra Nostra</b> · randonnée <b>Lagoa do Fogo</b> · baignade au village de pêcheurs de <b>Caloura</b> · plage de sable noir <b>Vinha d'Areia</b> juste en bas de la villa · les fameuses <b>queijadas</b> de Vila Franca au goûter.</p>
+    </div>
+  </div>
+</section>
+
+<div class="transit"><span class="ico">🚗</span><div><b>10 août</b> — Traversée de l'île vers la côte nord : 35 min de route, en passant par la Lagoa do Fogo si le ciel est dégagé.</div></div>
+
+<!-- ÉTAPE 3 -->
+<section class="etape">
+  <div class="hero">
+    <img src="https://a0.muscache.com/im/pictures/prohost-api/Hosting-929156918424187511/original/55c4238c-ae07-4449-93f2-815b53a39e76.jpeg" onerror="this.style.display='none'" alt="The Chestnut Garden">
+    <div class="num" style="background:var(--c3);">Étape 3 · 10 → 14 août · 4 nuits</div>
+    <div class="statut">✅ RÉSERVÉ</div>
+  </div>
+  <div class="body">
+    <h2><a href="https://www.airbnb.fr/rooms/929156918424187511" target="_blank">The Chestnut Garden — Ferme</a></h2>
+    <div class="lieu">Fenais da Luz · São Miguel (côte nord) · Açores</div>
+    <div class="specs">
+      <span class="note">★ 4,89/5 · 79 avis · Superhôte</span>
+      <span>Ferme de charme</span>
+      <span>3 chambres · 2 SDB · 6 pers</span>
+      <span class="nopool">Pas de piscine — jardin-parc extraordinaire</span>
+      <span>🐔 Animaux, balançoires, œufs frais</span>
+      <span>Climatisation · arrivée autonome</span>
+    </div>
+    <a class="lien" href="https://www.airbnb.fr/rooms/929156918424187511" target="_blank">Voir l'annonce Airbnb →</a>
+    <div class="prix"><b>1 885 €</b><i>471 €/nuit · payé</i></div>
+    <div class="incont">
+      <h3>⭐ Les incontournables</h3>
+      <p><b>Sete Cidades</b> et son lac bicolore depuis le miradouro Vista do Rei, puis baignade au lac · coucher de soleil et piscines de lave à <b>Mosteiros</b> · sortie <b>baleines & dauphins</b> avec Futurismo depuis Ponta Delgada (les cachalots pour Louise !) · <b>plantation de thé Gorreana</b>, la plus ancienne d'Europe · piscines naturelles de <b>Capelas</b> à 5 min de la maison · marché du Graça et vieille ville de <b>Ponta Delgada</b>.</p>
+    </div>
+  </div>
+</section>
+
+<div class="transit"><span class="ico">✈️</span><div><b>14 août</b> — Vol SATA Ponta Delgada → Pico (~55 min). ⚠️ Aéroport de Pico sensible à la météo : vol du matin recommandé. Puis 25 min vers la côte sud.</div></div>
+
+<!-- ÉTAPE 4 -->
+<section class="etape">
+  <div class="hero">
+    <img src="https://images.trvl-media.com/lodging/103000000/102090000/102087400/102087359/5c730e11.jpg" onerror="this.style.display='none'" alt="Alojamentos Pontas Negras — Casas dos Vinagreiros">
+    <div class="num" style="background:var(--c4);">Étape 4 · 14 → 17 août · 3 nuits</div>
+    <div class="statut">✅ RÉSERVÉ</div>
+  </div>
+  <div class="body">
+    <h2><a href="https://www.booking.com/hotel/pt/as-casas-do-vinagreiro.fr.html" target="_blank">Alojamentos Pontas Negras</a></h2>
+    <div class="lieu">Pontas Negras · Lajes do Pico · Île de Pico · Açores</div>
+    <div class="specs">
+      <span class="note">★ 9,4/10 · 37 avis</span>
+      <span>Maison entière en pierre volcanique (Casas dos Vinagreiros)</span>
+      <span>3 chambres · 1 SDB · 90 m² · 6 lits</span>
+      <span class="nopool">Pas de piscine — lagons de lave au pied de la maison</span>
+      <span>Terrasse face au volcan & à l'océan</span>
+    </div>
+    <a class="lien" href="https://www.booking.com/hotel/pt/as-casas-do-vinagreiro.fr.html" target="_blank">Voir l'annonce Booking →</a>
+    <div class="prix"><b>593 €</b><i>198 €/nuit · payé</i></div>
+    <div class="incont">
+      <h3>⭐ Les incontournables</h3>
+      <p><b>Vignobles UNESCO de Criação Velha</b> : labyrinthe de murets de lave noire face au volcan, avec dégustation (jus de raisin pour les filles) · <b>Gruta das Torres</b>, le plus long tunnel de lave du Portugal, casque sur la tête — frisson garanti pour Solène · <b>piscines naturelles</b> de Pontas Negras et Lajido · sortie <b>baleines depuis Madalena</b> (Futurismo Pico, 4,9/5) · musée des baleiniers de <b>Lajes do Pico</b> · lever de soleil sur le <b>Mont Pico</b> (2 351 m) depuis la terrasse.</p>
+    </div>
+  </div>
+</section>
+
+<div class="transit"><span class="ico">⛴️</span><div><b>17 août</b> — Ferry Atlânticoline Madalena → Horta : <b>25 min</b>, 4 à 8 rotations/jour (~8 €/pers). Vue spectaculaire sur le volcan pendant la traversée.</div></div>
+
+<!-- ÉTAPE 5 -->
+<section class="etape">
+  <div class="hero">
+    <img src="https://r-xx.bstatic.com/xdata/images/hotel/608x352/135317982.webp?k=653b1757176526f801eb82a98e3f6a6908c05e212c371bc58f686daf6744bab0&o=" onerror="this.style.display='none'" alt="Casa das Marias">
+    <div class="num" style="background:var(--c5);">Étape 5 · 17 → 19 août · 2 nuits</div>
+    <div class="statut">✅ RÉSERVÉ</div>
+  </div>
+  <div class="body">
+    <h2><a href="https://www.booking.com/hotel/pt/casa-das-marias-horta.fr.html" target="_blank">Casa das Marias</a></h2>
+    <div class="lieu">Horta (quartier Angústias) · Île de Faial · Açores</div>
+    <div class="specs">
+      <span class="note">★ 8,7/10 · 19 avis</span>
+      <span>Maison entière · 180 m²</span>
+      <span>3 chambres · 1 SDB · 5 pers</span>
+      <span class="nopool">Pas de piscine — plage de Porto Pim à 850 m</span>
+      <span>💎 150 €/nuit, l'affaire du voyage</span>
+    </div>
+    <a class="lien" href="https://www.booking.com/hotel/pt/casa-das-marias-horta.fr.html" target="_blank">Voir l'annonce Booking →</a>
+    <div class="prix"><b>300 €</b><i>150 €/nuit · payé</i></div>
+    <div class="incont">
+      <h3>⭐ Les incontournables</h3>
+      <p><b>Volcan des Capelinhos</b> : paysage lunaire né de l'éruption de 1957 et son excellent musée souterrain (les filles vont adorer le simulateur) · randonnée sur la crête de la <b>Caldeira</b> (2 km de diamètre, 400 m de profondeur) · baignade dans la baie de <b>Porto Pim</b>, l'une des rares plages de sable abritées des Açores · les milliers de <b>peintures de marins sur la marina</b> — chaque bateau qui traverse l'Atlantique laisse la sienne · un gin tonic (et des grenadines) au mythique <b>Peter Café Sport</b>.</p>
+    </div>
+  </div>
+</section>
+
+<div class="transit"><span class="ico">✈️</span><div><b>19 août</b> — Vol direct SATA Horta → Terceira (~35 min). Viser le vol du matin pour profiter de la piscine dès l'après-midi.</div></div>
+
+<!-- ÉTAPE 6 -->
+<section class="etape">
+  <div class="hero">
+    <img src="https://a0.muscache.com/im/pictures/c565af31-98f8-46bd-a989-49084131fc1e.jpg" onerror="this.style.display='none'" alt="Quinta de Santo António">
+    <div class="num" style="background:var(--c6);">Étape 6 · 19 → 23 août · 4 nuits · Grand final</div>
+    <div class="statut">✅ RÉSERVÉ</div>
+  </div>
+  <div class="body">
+    <h2><a href="https://www.booking.com/hotel/pt/quinta-de-santo-antonio-fonte-do-bastardo.fr.html" target="_blank">Quinta de Santo António</a></h2>
+    <div class="lieu">Fonte do Bastardo · Île de Terceira · Açores</div>
+    <div class="specs">
+      <span class="note">★ 9,8/10 · 13 avis · Exceptionnel</span>
+      <span>Villa · 280 m²</span>
+      <span>3 chambres · 3 SDB · 7 pers</span>
+      <span class="pool">🏊 Piscine privée d'eau salée, vue océan</span>
+      <span>Verger, jardin, panier de bienvenue açorien</span>
+      <span>Hôtesse Cláudia (parle français) · navette aéroport gratuite</span>
+    </div>
+    <a class="lien" href="https://www.booking.com/hotel/pt/quinta-de-santo-antonio-fonte-do-bastardo.fr.html" target="_blank">Voir l'annonce Booking →</a>
+    <div class="prix"><b>1 491 €</b><i>373 €/nuit · payé (virement) · caution 250 € en espèces sur place</i></div>
+    <div class="incont">
+      <h3>⭐ Les incontournables</h3>
+      <p><b>Angra do Heroísmo</b>, première ville des Açores classée UNESCO : ruelles colorées, Monte Brasil, forteresse São João Baptista · descente dans l'<b>Algar do Carvão</b>, cheminée volcanique visitable unique au monde · baignade dans les <b>piscines naturelles de Biscoitos</b> au milieu des coulées de lave, et celles de <b>Porto Martins</b> à 3 km de la villa · panorama en damier de la <b>Serra do Cume</b> · fromage et pâtisseries <b>Dona Amélia</b> · si le calendrier s'y prête, une <b>tourada à corda</b> traditionnelle (spectacle depuis les murets, ambiance garantie).</p>
+    </div>
+  </div>
+</section>
+
+<div class="transit"><span class="ico">🛫</span><div><b>23 août</b> — Vol retour Terceira → Paris (TAP via Lisbonne). Fin de l'été atlantique — 24 nuits, 4 îles, un océan de souvenirs.</div></div>
+
+</main>
+
+<footer>
+  Guide mis à jour le 18/07/2026 — les 6 hébergements sont réservés et confirmés. Total hébergements : 9 929 € pour 24 nuits (414 €/nuit pour 5 personnes). Photos issues des annonces officielles (Abritel/Vrbo, Airbnb, Expedia, Booking). Transitions : vols SATA Air Açores (Q400) + ferry Atlânticoline. Règle d'or açorienne : jamais de vol inter-îles le matin même d'un vol international — le 23/08, prévoir d'être à l'aéroport de Lajes (8 km de la villa, navette gratuite de Cláudia) avec de la marge.
+</footer>
+</body>
+</html>
