@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Noël au ski 2026 — Comparatif logements</title>
+<style>
+  :root{
+    --night:#13294b; --glacier:#2f6f9f; --ice:#e8f1f7; --snow:#f7f9fb; --card:#fff; --ink:#1f2d3a;
+    --muted:#6b7a88; --line:rgba(19,41,75,.09);
+    --ok:#0f8a5f; --okbg:#e3f4ec; --ko:#b3361e; --kobg:#fbe9e5; --warn:#a86b00; --warnbg:#fdf2dc;
+    --pool:#1f7fb8; --gold:#c9a227;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:"Avenir Next","Segoe UI",system-ui,sans-serif;background:var(--snow);color:var(--ink);padding-bottom:60px;-webkit-font-smoothing:antialiased;}
+  a{color:var(--glacier);}
+
+  .cover{background:linear-gradient(150deg,var(--night) 0%,var(--glacier) 100%);color:#fff;padding:36px 18px 28px;text-align:center;position:relative;overflow:hidden;}
+  .cover svg.peaks{position:absolute;left:0;right:0;bottom:-2px;width:100%;height:60px;opacity:.18;}
+  .cover h1{font-size:1.65rem;letter-spacing:-.02em;position:relative;}
+  .cover .dates{margin-top:8px;font-size:.9rem;opacity:.92;position:relative;}
+  .crit{display:flex;justify-content:center;flex-wrap:wrap;gap:8px;margin-top:16px;position:relative;}
+  .crit span{background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.22);padding:5px 12px;border-radius:20px;font-size:.74rem;font-weight:600;}
+  .verified{margin-top:14px;font-size:.7rem;opacity:.8;position:relative;}
+
+  main{max-width:920px;margin:0 auto;padding:22px 14px 0;display:grid;gap:22px;}
+
+  .panel{background:var(--card);border-radius:18px;box-shadow:0 3px 14px rgba(19,41,75,.08);border:1px solid var(--line);overflow:hidden;}
+  .panel h2{padding:16px 18px 4px;color:var(--night);font-size:1.05rem;}
+  .panel .hint{padding:0 18px 14px;font-size:.76rem;color:var(--muted);line-height:1.45;}
+
+  /* Reco */
+  .reco{display:grid;gap:10px;padding:0 14px 16px;}
+  @media(min-width:720px){.reco{grid-template-columns:repeat(3,1fr);}}
+  .reco div{border-radius:14px;padding:13px 14px;background:var(--ice);}
+  .reco .lbl{font-size:.64rem;text-transform:uppercase;letter-spacing:.06em;font-weight:800;color:var(--glacier);}
+  .reco b{display:block;margin-top:4px;font-size:.95rem;color:var(--night);}
+  .reco p{margin-top:4px;font-size:.76rem;color:#3d4d5c;line-height:1.4;}
+
+  /* Contrôles */
+  .controls{position:sticky;top:0;z-index:5;background:rgba(247,249,251,.94);backdrop-filter:blur(8px);padding:10px 0;margin:-6px 0 -10px;}
+  .seg{display:flex;background:#dde7ef;border-radius:14px;padding:4px;gap:4px;}
+  .seg button{flex:1;border:0;background:transparent;padding:10px 6px;border-radius:10px;font:inherit;font-size:.8rem;font-weight:700;color:var(--night);cursor:pointer;}
+  .seg button.on{background:#fff;box-shadow:0 1px 5px rgba(19,41,75,.15);}
+  .seg button small{display:block;font-weight:500;font-size:.66rem;color:var(--muted);margin-top:1px;}
+  .chips{display:flex;gap:8px;margin-top:8px;flex-wrap:wrap;}
+  .chips label{display:flex;align-items:center;gap:6px;font-size:.74rem;font-weight:600;background:#fff;border:1px solid var(--line);padding:6px 11px;border-radius:20px;cursor:pointer;}
+  .count{font-size:.74rem;color:var(--muted);margin-top:8px;}
+
+  /* Cartes */
+  .list{display:grid;gap:12px;}
+  @media(min-width:720px){.list{grid-template-columns:1fr 1fr;}}
+  .card{background:var(--card);border-radius:16px;border:1px solid var(--line);box-shadow:0 2px 10px rgba(19,41,75,.06);padding:15px 15px 13px;display:flex;flex-direction:column;gap:9px;}
+  .card.off{opacity:.62;}
+  .top{display:flex;justify-content:space-between;gap:10px;align-items:flex-start;}
+  .card h3{font-size:.98rem;color:var(--night);line-height:1.25;}
+  .where{font-size:.74rem;color:var(--muted);margin-top:3px;}
+  .price{text-align:right;flex-shrink:0;}
+  .price b{display:block;font-size:1.15rem;color:var(--night);font-variant-numeric:tabular-nums;}
+  .price span{font-size:.64rem;color:var(--muted);}
+  .badges{display:flex;gap:6px;flex-wrap:wrap;}
+  .bd{font-size:.66rem;font-weight:800;padding:4px 9px;border-radius:12px;letter-spacing:.02em;}
+  .bd.ok{background:var(--okbg);color:var(--ok);}
+  .bd.ko{background:var(--kobg);color:var(--ko);}
+  .bd.na{background:#eef1f4;color:var(--muted);}
+  .bd.pool{background:#e2f0f9;color:var(--pool);}
+  .bd.private{background:var(--pool);color:#fff;}
+  .bd.src{background:#f1eef9;color:#5a4b9a;}
+  .budget{height:6px;background:#edf1f5;border-radius:4px;overflow:hidden;}
+  .budget i{display:block;height:100%;border-radius:4px;}
+  ul.facts{list-style:none;display:grid;gap:4px;font-size:.78rem;line-height:1.4;color:#33434f;}
+  ul.facts li::before{content:"·";color:var(--glacier);font-weight:900;margin-right:6px;}
+  .note{font-size:.74rem;background:var(--warnbg);color:#6b4a00;padding:7px 10px;border-radius:10px;line-height:1.4;}
+  .foot{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-top:2px;}
+  .foot a.go{font-size:.78rem;font-weight:700;text-decoration:none;background:var(--night);color:#fff;padding:8px 13px;border-radius:10px;}
+  .rating{font-size:.74rem;color:var(--muted);}
+
+  /* Écartés */
+  table{width:100%;border-collapse:collapse;font-size:.76rem;}
+  td{padding:9px 18px;border-top:1px solid var(--line);vertical-align:top;line-height:1.4;}
+  td:first-child{font-weight:700;color:var(--night);width:42%;}
+  .empty{text-align:center;color:var(--muted);font-size:.85rem;padding:30px 10px;}
+  footer{text-align:center;font-size:.7rem;color:var(--muted);padding:26px 16px 0;line-height:1.5;}
+</style>
+</head>
+<body>
+
+<header class="cover">
+  <h1>Noël au ski 2026</h1>
+  <div class="dates">Vacances zone C · samedi 19 déc. 2026 → lundi 4 janv. 2027</div>
+  <div class="crit">
+    <span>5 voyageurs</span><span>Piscine</span><span>≤ 30 min des pistes</span><span>≤ 5 000 € / semaine</span><span>De l'espace (3 ch.)</span>
+  </div>
+  <div class="verified">Disponibilités et prix vérifiés le 8 octobre 2026 · Ski-Planet, Travelski, Airbnb, Booking.com — ils évoluent vite</div>
+  <svg class="peaks" viewBox="0 0 400 60" preserveAspectRatio="none" aria-hidden="true"><path d="M0 60 L60 22 L95 40 L150 6 L210 44 L250 20 L300 38 L345 12 L400 34 L400 60 Z" fill="#fff"/></svg>
+</header>
+
+<main>
+  <section class="panel">
+    <h2>Les 3 options à retenir</h2>
+    <p class="hint">Ma sélection après vérification des disponibilités.</p>
+    <div class="reco">
+      <div><span class="lbl">Piscine privée</span><b>Chalet Taninges</b><p>130 m², 4 chambres, piscine intérieure chauffée rien qu'à vous. Disponible les deux semaines.</p></div>
+      <div><span class="lbl">Meilleur rapport qualité-prix</span><b>Chalet Booboo, Morillon</b><p>3 chambres, piscine et sauna de résidence, Grand Massif. Annulation gratuite jusqu'au 19 nov.</p></div>
+      <div><span class="lbl">Résidence avec services</span><b>La Reine des Prés, Samoëns</b><p>CGH 4*, 4 pièces, piscine, sauna et jacuzzi, à 5 min à pied des remontées.</p></div>
+    </div>
+  </section>
+
+  <div class="controls">
+    <div class="seg" role="tablist" aria-label="Semaine">
+      <button class="on" data-w="w1" role="tab">19 → 26 déc.<small>Semaine de Noël</small></button>
+      <button data-w="w2" role="tab">26 déc. → 2 janv.<small>Nouvel An</small></button>
+    </div>
+    <div class="chips">
+      <label><input type="checkbox" id="onlyAvail" checked> Disponibles uniquement</label>
+      <label><input type="checkbox" id="onlyBudget"> ≤ 5 000 €</label>
+      <label><input type="checkbox" id="onlyPrivate"> Piscine privée</label>
+    </div>
+    <div class="count" id="count"></div>
+  </div>
+
+  <section class="list" id="list"></section>
+
+  <section class="panel">
+    <h2>Écartés</h2>
+    <p class="hint">Complets, hors budget ou trop petits.</p>
+    <table id="out"></table>
+  </section>
+</main>
+
+<footer>
+  Prix pour la semaine (7 nuits), hors taxe de séjour sauf mention. Les temps de trajet vers les pistes sont indicatifs.<br>
+  Page préparée avec Claude · <a href="../">Retour au guide Açores</a>
+</footer>
+
+<script>
+const BUDGET = 5000;
+// w1 = 19→26 déc. · w2 = 26 déc.→2 janv. · null = complet · undefined = non vérifié
+const LODGINGS = [
+  {name:"Chalet Taninges — piscine privée", where:"Taninges · env. 20 min de Praz-de-Lys et des Gets (estimation)", src:"Airbnb",
+   private:true, w1:4695, w2:4845, rating:"4,71 (14 avis)", url:"https://www.airbnb.fr/rooms/641683846827813656",
+   facts:["130 m², 4 chambres, jusqu'à 8 personnes","Piscine intérieure chauffée privée","Terrasse de 77 m² avec vue panoramique","Linge et ménage inclus"]},
+  {name:"Chalet Booboo", where:"Morillon · domaine du Grand Massif", src:"Airbnb",
+   w1:2999, w2:null, rating:"Superhôte · 5,0 (2 avis)", url:"https://www.airbnb.fr/rooms/1468834047328772164",
+   facts:["3 chambres, 2 salles de bain, 8 personnes","Piscine intérieure chauffée, sauna, salle de sport (résidence, partagés)","Garage privé avec sèche-chaussures de ski","Annulation gratuite avant le 19 novembre"]},
+  {name:"CGH La Reine des Prés 4*", where:"Samoëns · 5 min à pied des remontées", src:"Ski-Planet",
+   w1:2835, w2:4517, rating:"Résidence CGH", url:"https://www.ski-planet.com/fr/location-ski/la-reine-des-pres_samoens.html",
+   facts:["Appartement 4 pièces 8 personnes (3 chambres)","Piscine intérieure, sauna, bain à remous","Prix Ski-Planet avec −10 %"],
+   note:"Annulation : 30 % retenus à plus de 30 jours, 100 % ensuite."},
+  {name:"Chalet Morillon — piscine & sauna", where:"Morillon · 265 km de pistes (Grand Massif)", src:"Airbnb",
+   w1:3329, w2:3805, rating:"Nouvelle annonce, sans avis", url:"https://www.airbnb.fr/rooms/1785538496002057199",
+   facts:["3 chambres (1 lit double, 2 × 2 lits simples)","Piscine intérieure chauffée, sauna, fitness","Balcon privé vue montagne"]},
+  {name:"Duplex T4, résidence 3*", where:"Samoëns", src:"Airbnb",
+   w1:2282, w2:2604, rating:"5,0 (3 avis)", url:"https://www.airbnb.fr/rooms/1205793715318151210",
+   facts:["Duplex 3 chambres, 6–8 personnes, plein sud","Piscine intérieure chauffée + piscine extérieure, sauna","Draps et serviettes en location"]},
+  {name:"Résidence La Renardière", where:"Samoëns · 0,7 km du centre", src:"Booking",
+   w1:2324, w2:null, rating:"Booking 9,0", url:"https://www.booking.com/hotel/fr/residence-ha-telia-re-la-renardiere.fr.html",
+   facts:["Appartement 3 chambres, 2 salles de bain","Piscine intérieure chauffée","Petit-déjeuner, boulangerie et bar sur place","Hammam, sauna et massages en supplément"]},
+  {name:"Sherpa — 10 pers.", where:"Saint-Jean-d'Aulps · route de la télécabine, 7 km de Morzine", src:"Booking",
+   w1:3628, w2:null, rating:"Booking 10", url:"https://www.booking.com/hotel/fr/sherpa-10-pers.fr.html",
+   facts:["Appartement 3 chambres, 2 salles de bain","Piscine intérieure","Vue montagne"],
+   note:"Tarif partiellement remboursable seulement."},
+  {name:"Résidence luxe et spa", where:"Chamonix · vue Mont-Blanc", src:"Airbnb",
+   w1:2713, w2:null, rating:"4,86 (74 avis)", url:"https://www.airbnb.fr/rooms/29640849",
+   facts:["3/4 pièces, 3 chambres, 2 salles de bain","Piscine et espace spa de la résidence","Annulation gratuite"]},
+  {name:"Duplex familial — piscine intérieure", where:"Saint-Gervais · navette au pied du logement", src:"Airbnb",
+   w1:2252, w2:null, rating:"4,78 (18 avis)", url:"https://www.airbnb.fr/rooms/1253324765664826270",
+   facts:["3 chambres, 2 salles de bain","Piscine intérieure de la résidence (ouverte dès le 15 déc.)","Parking en garage, casier à ski"]},
+  {name:"Chalet cosy 6/8 p.", where:"Morillon · navette gratuite à 1 min, Lac Bleu", src:"Airbnb",
+   w1:3343, w2:null, rating:"Superhôte · 4,74 (23 avis)", url:"https://www.airbnb.fr/rooms/1541840057216773054",
+   facts:["3 chambres, 2 salles de bain","Piscine, sauna et salle de sport dans les parties communes","Annulation gratuite"]},
+  {name:"CGH Les Chalets de Layssia 5*", where:"Samoëns · centre village", src:"Ski-Planet",
+   w1:2495, w2:3610, rating:"Résidence CGH 5*", url:"https://www.ski-planet.com/fr/location-ski/les-chalets-de-layssia_samoens.html",
+   facts:["Reste seulement le 3 pièces 6 personnes (2 chambres, 50 m²)","Piscine, sauna, hammam, jacuzzi gratuits"],
+   note:"Le 4 pièces est complet à Noël — moins d'espace que souhaité."},
+  {name:"CGH Les Cimes Blanches 4*", where:"La Rosière · 1 850 m, skis aux pieds", src:"Ski-Planet",
+   w1:3011, w2:4949, rating:"8,4/10", url:"https://www.ski-planet.com/fr/location-ski/les-cimes-blanches_la-rosiere.html",
+   facts:["Reste seulement le 3 pièces 6 personnes","Piscine couverte chauffée, jacuzzi, sauna, hammam","Enneigement le plus sûr de la sélection"],
+   note:"4 et 5 pièces complets à Noël."},
+  {name:"Les Fermes de Samoëns 3*", where:"Samoëns · 1 km de la télécabine (navettes)", src:"Ski-Planet",
+   w1:1558, w2:undefined, rating:"Option économique", url:"https://www.ski-planet.com/fr/location-ski/residence-les-fermes-de-samoens_samoens.html",
+   facts:["3 pièces cabine 8 personnes","Piscine couverte de la résidence"],
+   note:"Des avis signalent une piscine petite et pas toujours chauffée."},
+];
+const EXCLUDED = [
+  ["Chalet Nosefosa, Morzine","Complet du 19 déc. au 9 janv. · dès 7 275 €/sem., hors budget"],
+  ["Chalet La Moutellette, Morzine","Annonce retirée des sites de l'office de tourisme"],
+  ["Chalet L'Etoile, Les Gets (Airbnb)","5 039 € la 1re semaine, complet la 2e"],
+  ["P&V Premium Les Fermes du Soleil, Les Carroz","Disponible (2 478 € / 3 566 €) mais seulement 35 m²"],
+  ["Club Med Grand Massif","Tout compris très au-delà du budget à Noël"],
+];
+
+const fmt = n => n.toLocaleString('fr-FR') + ' €';
+let week = 'w1';
+const $ = id => document.getElementById(id);
+
+function render(){
+  const onlyAvail = $('onlyAvail').checked, onlyBudget = $('onlyBudget').checked, onlyPrivate = $('onlyPrivate').checked;
+  const rows = LODGINGS.map(l => ({...l, p:l[week]}))
+    .filter(l => !onlyAvail || typeof l.p === 'number')
+    .filter(l => !onlyBudget || (typeof l.p === 'number' && l.p <= BUDGET))
+    .filter(l => !onlyPrivate || l.private)
+    .sort((a,b) => {
+      const ra = typeof a.p === 'number' ? 0 : 1, rb = typeof b.p === 'number' ? 0 : 1;
+      if (ra !== rb) return ra - rb;
+      if (!!b.private !== !!a.private) return b.private ? 1 : -1;
+      return (a.p||9e9) - (b.p||9e9);
+    });
+
+  $('count').textContent = rows.length + ' logement' + (rows.length > 1 ? 's' : '') + ' affiché' + (rows.length > 1 ? 's' : '');
+  $('list').innerHTML = rows.length ? rows.map(l => {
+    const avail = typeof l.p === 'number';
+    const status = avail ? '<span class="bd ok">Disponible</span>'
+      : l.p === null ? '<span class="bd ko">Complet</span>' : '<span class="bd na">Non vérifié</span>';
+    const pct = avail ? Math.min(100, l.p / BUDGET * 100) : 0;
+    const barColor = avail ? (l.p <= BUDGET ? 'var(--ok)' : 'var(--ko)') : 'transparent';
+    return `<article class="card${avail ? '' : ' off'}">
+      <div class="top">
+        <div><h3>${l.name}</h3><div class="where">${l.where}</div></div>
+        <div class="price"><b>${avail ? fmt(l.p) : '—'}</b><span>${avail ? 'la semaine' : ''}</span></div>
+      </div>
+      <div class="badges">${status}${l.private ? '<span class="bd private">Piscine privée</span>' : '<span class="bd pool">Piscine</span>'}<span class="bd src">${l.src}</span></div>
+      ${avail ? `<div class="budget" title="Part du budget de 5 000 €"><i style="width:${pct}%;background:${barColor}"></i></div>` : ''}
+      <ul class="facts">${l.facts.map(f => `<li>${f}</li>`).join('')}</ul>
+      ${l.note ? `<div class="note">${l.note}</div>` : ''}
+      <div class="foot"><span class="rating">${l.rating}</span><a class="go" href="${l.url}" target="_blank" rel="noopener">Voir l'annonce →</a></div>
+    </article>`;
+  }).join('') : '<div class="empty">Aucun logement ne correspond à ces filtres.</div>';
+}
+
+document.querySelectorAll('.seg button').forEach(b => b.addEventListener('click', () => {
+  document.querySelectorAll('.seg button').forEach(x => x.classList.toggle('on', x === b));
+  week = b.dataset.w; render();
+}));
+['onlyAvail','onlyBudget','onlyPrivate'].forEach(id => $(id).addEventListener('change', render));
+$('out').innerHTML = EXCLUDED.map(([n,r]) => `<tr><td>${n}</td><td>${r}</td></tr>`).join('');
+render();
+</script>
+</body>
+</html>
