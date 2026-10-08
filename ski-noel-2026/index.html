@@ -51,6 +51,16 @@
   .list{display:grid;gap:12px;}
   @media(min-width:720px){.list{grid-template-columns:1fr 1fr;}}
   .card{background:var(--card);border-radius:16px;border:1px solid var(--line);box-shadow:0 2px 10px rgba(19,41,75,.06);padding:15px 15px 13px;display:flex;flex-direction:column;gap:9px;}
+  .card{padding:0 0 13px;overflow:hidden;}
+  .card > :not(.thumb){margin-left:15px;margin-right:15px;}
+  .thumb{position:relative;aspect-ratio:16/9;background:linear-gradient(150deg,var(--night),var(--glacier));overflow:hidden;}
+  .thumb{display:block;}
+  .thumb img{position:relative;z-index:1;width:100%;height:100%;object-fit:cover;display:block;transition:transform .4s;}
+  .card:hover .thumb img{transform:scale(1.04);}
+  .thumb .ph{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;color:#fff;font-size:.74rem;font-weight:700;text-decoration:none;opacity:.92;}
+  .thumb .ph svg{width:46px;height:30px;opacity:.8;}
+  .thumb .tag{position:absolute;left:10px;top:10px;}
+  .card.off .thumb img{filter:grayscale(.8);}
   .card.off{opacity:.62;}
   .top{display:flex;justify-content:space-between;gap:10px;align-items:flex-start;}
   .card h3{font-size:.98rem;color:var(--night);line-height:1.25;}
@@ -138,20 +148,20 @@ const BUDGET = 5000;
 // w1 = 19→26 déc. · w2 = 26 déc.→2 janv. · null = complet · undefined = non vérifié
 const LODGINGS = [
   {name:"Chalet Taninges — piscine privée", where:"Taninges · env. 20 min de Praz-de-Lys et des Gets (estimation)", src:"Airbnb",
-   private:true, w1:4695, w2:4845, rating:"4,71 (14 avis)", url:"https://www.airbnb.fr/rooms/641683846827813656",
+   private:true, w1:4695, w2:4845, rating:"4,71 (14 avis)", url:"https://www.airbnb.fr/rooms/641683846827813656", img:"https://a0.muscache.com/im/pictures/hosting/Hosting-U3RheVN1cHBseUxpc3Rpbmc6NjQxNjgzODQ2ODI3ODEzNjU2/original/fe55eb27-d066-4eb7-93df-7664d3a224eb.jpeg?im_w=720",
    facts:["130 m², 4 chambres, jusqu'à 8 personnes","Piscine intérieure chauffée privée","Terrasse de 77 m² avec vue panoramique","Linge et ménage inclus"]},
   {name:"Chalet Booboo", where:"Morillon · domaine du Grand Massif", src:"Airbnb",
-   w1:2999, w2:null, rating:"Superhôte · 5,0 (2 avis)", url:"https://www.airbnb.fr/rooms/1468834047328772164",
+   w1:2999, w2:null, rating:"Superhôte · 5,0 (2 avis)", url:"https://www.airbnb.fr/rooms/1468834047328772164", img:"https://a0.muscache.com/im/pictures/hosting/Hosting-U3RheVN1cHBseUxpc3Rpbmc6MTQ2ODgzNDA0NzMyODc3MjE2NA==/original/2b0ea3a1-b6dc-447f-90d6-0d6e666b7eae.jpeg?im_w=720",
    facts:["3 chambres, 2 salles de bain, 8 personnes","Piscine intérieure chauffée, sauna, salle de sport (résidence, partagés)","Garage privé avec sèche-chaussures de ski","Annulation gratuite avant le 19 novembre"]},
   {name:"CGH La Reine des Prés 4*", where:"Samoëns · 5 min à pied des remontées", src:"Ski-Planet",
-   w1:2835, w2:4517, rating:"Résidence CGH", url:"https://www.ski-planet.com/fr/location-ski/la-reine-des-pres_samoens.html",
+   w1:2835, w2:4517, rating:"Résidence CGH", url:"https://www.ski-planet.com/fr/location-ski/la-reine-des-pres_samoens.html", img:"https://docs.ski-planet.com/photo/samoens/medium/la-reine-des-pres-435937.jpg",
    facts:["Appartement 4 pièces 8 personnes (3 chambres)","Piscine intérieure, sauna, bain à remous","Prix Ski-Planet avec −10 %"],
    note:"Annulation : 30 % retenus à plus de 30 jours, 100 % ensuite."},
   {name:"Chalet Morillon — piscine & sauna", where:"Morillon · 265 km de pistes (Grand Massif)", src:"Airbnb",
-   w1:3329, w2:3805, rating:"Nouvelle annonce, sans avis", url:"https://www.airbnb.fr/rooms/1785538496002057199",
+   w1:3329, w2:3805, rating:"Nouvelle annonce, sans avis", url:"https://www.airbnb.fr/rooms/1785538496002057199", img:"https://a0.muscache.com/im/pictures/hosting/Hosting-1785538496002057199/original/15d4b710-200c-4ec7-9b3c-c7a4300fb4b1.jpeg?im_w=720",
    facts:["3 chambres (1 lit double, 2 × 2 lits simples)","Piscine intérieure chauffée, sauna, fitness","Balcon privé vue montagne"]},
   {name:"Duplex T4, résidence 3*", where:"Samoëns", src:"Airbnb",
-   w1:2282, w2:2604, rating:"5,0 (3 avis)", url:"https://www.airbnb.fr/rooms/1205793715318151210",
+   w1:2282, w2:2604, rating:"5,0 (3 avis)", url:"https://www.airbnb.fr/rooms/1205793715318151210", img:"https://a0.muscache.com/im/pictures/hosting/Hosting-1205793715318151210/original/876660f4-5a0d-417e-ab64-07ab08964380.jpeg?im_w=720",
    facts:["Duplex 3 chambres, 6–8 personnes, plein sud","Piscine intérieure chauffée + piscine extérieure, sauna","Draps et serviettes en location"]},
   {name:"Résidence La Renardière", where:"Samoëns · 0,7 km du centre", src:"Booking",
    w1:2324, w2:null, rating:"Booking 9,0", url:"https://www.booking.com/hotel/fr/residence-ha-telia-re-la-renardiere.fr.html",
@@ -161,24 +171,24 @@ const LODGINGS = [
    facts:["Appartement 3 chambres, 2 salles de bain","Piscine intérieure","Vue montagne"],
    note:"Tarif partiellement remboursable seulement."},
   {name:"Résidence luxe et spa", where:"Chamonix · vue Mont-Blanc", src:"Airbnb",
-   w1:2713, w2:null, rating:"4,86 (74 avis)", url:"https://www.airbnb.fr/rooms/29640849",
+   w1:2713, w2:null, rating:"4,86 (74 avis)", url:"https://www.airbnb.fr/rooms/29640849", img:"https://a0.muscache.com/im/pictures/35823030-e377-4c40-a750-7cf0a01952fd.jpg?im_w=720",
    facts:["3/4 pièces, 3 chambres, 2 salles de bain","Piscine et espace spa de la résidence","Annulation gratuite"]},
   {name:"Duplex familial — piscine intérieure", where:"Saint-Gervais · navette au pied du logement", src:"Airbnb",
-   w1:2252, w2:null, rating:"4,78 (18 avis)", url:"https://www.airbnb.fr/rooms/1253324765664826270",
+   w1:2252, w2:null, rating:"4,78 (18 avis)", url:"https://www.airbnb.fr/rooms/1253324765664826270", img:"https://a0.muscache.com/im/pictures/hosting/Hosting-U3RheVN1cHBseUxpc3Rpbmc6MTI1MzMyNDc2NTY2NDgyNjI3MA==/original/fa035843-b678-4ead-a35d-579a68a5a9e2.jpeg?im_w=720",
    facts:["3 chambres, 2 salles de bain","Piscine intérieure de la résidence (ouverte dès le 15 déc.)","Parking en garage, casier à ski"]},
   {name:"Chalet cosy 6/8 p.", where:"Morillon · navette gratuite à 1 min, Lac Bleu", src:"Airbnb",
-   w1:3343, w2:null, rating:"Superhôte · 4,74 (23 avis)", url:"https://www.airbnb.fr/rooms/1541840057216773054",
+   w1:3343, w2:null, rating:"Superhôte · 4,74 (23 avis)", url:"https://www.airbnb.fr/rooms/1541840057216773054", img:"https://a0.muscache.com/im/pictures/hosting/Hosting-1541840057216773054/original/7e0d3667-f527-410e-ad61-230da80d73e3.jpeg?im_w=720",
    facts:["3 chambres, 2 salles de bain","Piscine, sauna et salle de sport dans les parties communes","Annulation gratuite"]},
   {name:"CGH Les Chalets de Layssia 5*", where:"Samoëns · centre village", src:"Ski-Planet",
-   w1:2495, w2:3610, rating:"Résidence CGH 5*", url:"https://www.ski-planet.com/fr/location-ski/les-chalets-de-layssia_samoens.html",
+   w1:2495, w2:3610, rating:"Résidence CGH 5*", url:"https://www.ski-planet.com/fr/location-ski/les-chalets-de-layssia_samoens.html", img:"https://docs.ski-planet.com/photo/samoens/medium/les-chalets-de-layssia-437651.jpg",
    facts:["Reste seulement le 3 pièces 6 personnes (2 chambres, 50 m²)","Piscine, sauna, hammam, jacuzzi gratuits"],
    note:"Le 4 pièces est complet à Noël — moins d'espace que souhaité."},
   {name:"CGH Les Cimes Blanches 4*", where:"La Rosière · 1 850 m, skis aux pieds", src:"Ski-Planet",
-   w1:3011, w2:4949, rating:"8,4/10", url:"https://www.ski-planet.com/fr/location-ski/les-cimes-blanches_la-rosiere.html",
+   w1:3011, w2:4949, rating:"8,4/10", url:"https://www.ski-planet.com/fr/location-ski/les-cimes-blanches_la-rosiere.html", img:"https://docs.ski-planet.com/photo/la-rosiere/medium/les-cimes-blanches-484649.jpg",
    facts:["Reste seulement le 3 pièces 6 personnes","Piscine couverte chauffée, jacuzzi, sauna, hammam","Enneigement le plus sûr de la sélection"],
    note:"4 et 5 pièces complets à Noël."},
   {name:"Les Fermes de Samoëns 3*", where:"Samoëns · 1 km de la télécabine (navettes)", src:"Ski-Planet",
-   w1:1558, w2:undefined, rating:"Option économique", url:"https://www.ski-planet.com/fr/location-ski/residence-les-fermes-de-samoens_samoens.html",
+   w1:1558, w2:undefined, rating:"Option économique", url:"https://www.ski-planet.com/fr/location-ski/residence-les-fermes-de-samoens_samoens.html", img:"https://docs.ski-planet.com/photo/samoens/medium/residence-les-fermes-de-samoens-435120.jpg",
    facts:["3 pièces cabine 8 personnes","Piscine couverte de la résidence"],
    note:"Des avis signalent une piscine petite et pas toujours chauffée."},
 ];
@@ -214,7 +224,13 @@ function render(){
       : l.p === null ? '<span class="bd ko">Complet</span>' : '<span class="bd na">Non vérifié</span>';
     const pct = avail ? Math.min(100, l.p / BUDGET * 100) : 0;
     const barColor = avail ? (l.p <= BUDGET ? 'var(--ok)' : 'var(--ko)') : 'transparent';
+    // La vignette est un lien vers l'annonce ; le libellé derrière l'image s'affiche si la photo manque ou ne charge pas.
+    const thumb = `<a class="thumb" href="${l.url}" target="_blank" rel="noopener" aria-label="Photos de ${l.name}">
+        <span class="ph"><svg viewBox="0 0 46 30" aria-hidden="true"><path d="M0 30 L14 10 L22 20 L31 4 L46 30 Z" fill="#fff"/></svg>Photos sur ${l.src} →</span>
+        ${l.img ? `<img src="${l.img}" alt="${l.name}" loading="lazy" referrerpolicy="no-referrer" onerror="this.remove()">` : ''}
+      </a>`;
     return `<article class="card${avail ? '' : ' off'}">
+      ${thumb}
       <div class="top">
         <div><h3>${l.name}</h3><div class="where">${l.where}</div></div>
         <div class="price"><b>${avail ? fmt(l.p) : '—'}</b><span>${avail ? 'la semaine' : ''}</span></div>
