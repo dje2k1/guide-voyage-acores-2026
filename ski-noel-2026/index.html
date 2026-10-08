@@ -42,6 +42,8 @@
   .seg{display:flex;background:#dde7ef;border-radius:14px;padding:4px;gap:4px;}
   .seg button{flex:1;border:0;background:transparent;padding:10px 6px;border-radius:10px;font:inherit;font-size:.8rem;font-weight:700;color:var(--night);cursor:pointer;}
   .seg button.on{background:#fff;box-shadow:0 1px 5px rgba(19,41,75,.15);}
+  .seg.zones{margin-top:8px;}
+  .seg.zones button{padding:7px 4px;font-size:.72rem;}
   .seg button small{display:block;font-weight:500;font-size:.66rem;color:var(--muted);margin-top:1px;}
   .chips{display:flex;gap:8px;margin-top:8px;flex-wrap:wrap;}
   .chips label{display:flex;align-items:center;gap:6px;font-size:.74rem;font-weight:600;background:#fff;border:1px solid var(--line);padding:6px 11px;border-radius:20px;cursor:pointer;}
@@ -101,18 +103,21 @@
   <div class="crit">
     <span>5 voyageurs</span><span>Piscine</span><span>≤ 30 min des pistes</span><span>≤ 5 000 € / semaine</span><span>De l'espace (3 ch.)</span>
   </div>
-  <div class="verified">Disponibilités et prix vérifiés le 8 octobre 2026 · Ski-Planet, Travelski, Airbnb, Booking.com — ils évoluent vite</div>
+  <div class="verified">Disponibilités et prix vérifiés le 8 octobre 2026 (Chamonix, Megève : le soir) · Ski-Planet, Travelski, Airbnb, Booking.com — ils évoluent vite</div>
   <svg class="peaks" viewBox="0 0 400 60" preserveAspectRatio="none" aria-hidden="true"><path d="M0 60 L60 22 L95 40 L150 6 L210 44 L250 20 L300 38 L345 12 L400 34 L400 60 Z" fill="#fff"/></svg>
 </header>
 
 <main>
   <section class="panel">
-    <h2>Les 3 options à retenir</h2>
+    <h2>Les options à retenir</h2>
     <p class="hint">Ma sélection après vérification des disponibilités.</p>
     <div class="reco">
       <div><span class="lbl">Piscine privée</span><b>Chalet Taninges</b><p>130 m², 4 chambres, piscine intérieure chauffée rien qu'à vous. Disponible les deux semaines.</p></div>
       <div><span class="lbl">Meilleur rapport qualité-prix</span><b>Chalet Booboo, Morillon</b><p>3 chambres, piscine et sauna de résidence, Grand Massif. Annulation gratuite jusqu'au 19 nov.</p></div>
       <div><span class="lbl">Résidence avec services</span><b>La Reine des Prés, Samoëns</b><p>CGH 4*, 4 pièces, piscine, sauna et jacuzzi, à 5 min à pied des remontées.</p></div>
+      <div><span class="lbl">Vallée de Chamonix · piscine privée</span><b>Chalet Vaudagne, Les Houches</b><p>4 chambres, 4 salles de bain, spa privé avec piscine chauffée et sauna. Semaine de Noël uniquement.</p></div>
+      <div><span class="lbl">Vallée de Chamonix · résidence</span><b>CGH Pierre Blanche, Les Houches</b><p>3 chambres, 90 m², piscine intérieure, spa. Semaine de Noël.</p></div>
+      <div><span class="lbl">Megève · les deux semaines</span><b>Appartement au pied du Jaillet</b><p>3 chambres, 2 piscines chauffées dont une intérieure, au centre. Seule option Megève dispo les deux semaines.</p></div>
     </div>
   </section>
 
@@ -120,6 +125,12 @@
     <div class="seg" role="tablist" aria-label="Semaine">
       <button class="on" data-w="w1" role="tab">19 → 26 déc.<small>Semaine de Noël</small></button>
       <button data-w="w2" role="tab">26 déc. → 2 janv.<small>Nouvel An</small></button>
+    </div>
+    <div class="seg zones" role="tablist" aria-label="Secteur">
+      <button class="on" data-z="all">Tous</button>
+      <button data-z="cham">Vallée de Chamonix</button>
+      <button data-z="meg">Megève</button>
+      <button data-z="other">Autres stations</button>
     </div>
     <div class="chips">
       <label><input type="checkbox" id="onlyAvail" checked> Disponibles uniquement</label>
@@ -191,6 +202,39 @@ const LODGINGS = [
    w1:1558, w2:undefined, rating:"Option économique", url:"https://www.ski-planet.com/fr/location-ski/residence-les-fermes-de-samoens_samoens.html", img:"https://docs.ski-planet.com/photo/samoens/medium/residence-les-fermes-de-samoens-435120.jpg",
    facts:["3 pièces cabine 8 personnes","Piscine couverte de la résidence"],
    note:"Des avis signalent une piscine petite et pas toujours chauffée."},
+  {name:"Chalet Vaudagne — piscine privée", where:"Les Houches · voiture nécessaire, remontées du Prarion", src:"Airbnb",
+   private:true, w1:4532, w2:null, rating:"5,0", url:"https://www.airbnb.fr/rooms/1502040626825909187", img:"https://a0.muscache.com/im/pictures/hosting/Hosting-1502040626825909187/original/9b0ab20d-1ef6-4c2c-b721-138f06e65f13.jpeg?im_w=720",
+   facts:["Chalet entier, 4 chambres, 4 salles de bain, 8 personnes","Espace spa privé : piscine chauffée 3 × 3 m et sauna","Salon avec cheminée, sur 3 niveaux"],
+   note:"Isolé : il faut la voiture pour les commerces et les pistes."},
+  {name:"CGH Le Hameau de Pierre Blanche", where:"Les Houches · vue Mont-Blanc", src:"Booking",
+   w1:4411, w2:6945, rating:"Booking 9,2", url:"https://www.booking.com/hotel/fr/le-hameau-de-pierre-blanche.fr.html",
+   facts:["Appartement 3 chambres, 90 m², accès spa inclus","Piscine intérieure chauffée, bains à remous, sauna","Services hôteliers CGH"],
+   note:"2e semaine : 6 945 €, hors budget."},
+  {name:"Aubretia — résidence avec spa", where:"Les Houches · à quelques pas des téléphériques Bellevue et Prarion", src:"Airbnb",
+   w1:4640, w2:null, rating:"5,0 · Booking 9,8", url:"https://www.airbnb.fr/rooms/1391864190939210115", img:"https://a0.muscache.com/im/pictures/prohost-api/Hosting-1391864190939210115/original/9b6ac907-cd75-43d3-b50c-46ad4130a4a2.jpeg?im_w=720",
+   facts:["77 m², 3 chambres avec balcon, 2 salles de bain","Piscine intérieure, jacuzzi et sauna (résidence Les Mazots de Kayla)","Accès direct aux Houches – Saint-Gervais"]},
+  {name:"Ours Bleu B13 — ski aux pieds", where:"Vallorcine · 10 min d'Argentière, domaine Balme-Vallorcine", src:"Airbnb",
+   w1:2827, w2:null, rating:"5,0 (9 avis)", url:"https://www.airbnb.fr/rooms/1522435280389428245", img:"https://a0.muscache.com/im/pictures/hosting/Hosting-1522435280389428245/original/0a9c3294-9f31-4636-a15a-a65136c5a349.jpeg?im_w=720",
+   facts:["3 chambres, 3 salles de bain, 6 personnes","Piscine, jacuzzi intérieur, sauna, aires de jeux enfants (résidence)","Accès direct aux pistes"],
+   note:"Équipements communs ouverts à partir de mi-décembre."},
+  {name:"Dormio Resort Les Portes du Mont-Blanc", where:"Vallorcine · même résidence que l'Ours Bleu", src:"Booking",
+   w1:4199, w2:4839, rating:"Booking 8,2", url:"https://www.booking.com/hotel/fr/ours-bleu.fr.html",
+   facts:["Appartement 3 chambres, 80 m² (duplex la 2e semaine)","Piscine intérieure, spa, sauna, hammam","Ski aux pieds"],
+   note:"Tarif non remboursable. Version annulable : 4 738 € / 5 462 €."},
+  {name:"Ski aux pieds Tête Rousse", where:"Les Houches · vrai ski-in / ski-out", src:"Airbnb",
+   w1:3519, w2:null, rating:"Superhôte · 4,43 (44 avis)", url:"https://www.airbnb.fr/rooms/3753695", img:"https://a0.muscache.com/im/pictures/hosting/Hosting-3753695/original/411e148a-89c9-4326-8f94-d9c05c6c8347.jpeg?im_w=720",
+   facts:["Rez-de-chaussée, 3 chambres, 8 personnes","Piscine intérieure chauffée de la résidence","Garage souterrain"]},
+  {name:"Appartement au pied du Jaillet", where:"Megève · 200 m du centre, pied des télécabines du Jaillet", src:"Airbnb",
+   w1:4429, w2:4429, rating:"Nouvelle annonce, sans avis", url:"https://www.airbnb.fr/rooms/1788112373236328667", img:"https://a0.muscache.com/im/pictures/hosting/Hosting-1788112373236328667/original/3b3e0df0-e9ae-4b10-8447-02b7c0fb8533.jpeg?im_w=720",
+   facts:["4 pièces, 3 chambres, 6 personnes","2 piscines chauffées de résidence, dont une intérieure","Baby-foot et ping-pong"],
+   note:"Une seule salle de bain pour 5."},
+  {name:"L'Écrin de Rochebrune", where:"Megève · 700 m du téléphérique de Rochebrune, navettes gratuites", src:"Airbnb",
+   w1:4743, w2:7026, rating:"Nouvelle annonce · conciergerie Welkeys", url:"https://www.airbnb.fr/rooms/1785365241612244572", img:"https://a0.muscache.com/im/pictures/hosting/Hosting-1785365241612244572/original/640a8048-0ced-4c1d-99c4-614de80db752.jpeg?im_w=720",
+   facts:["3 chambres, 2 salles de bain, terrasse et jardin","Piscine intérieure chauffée, sauna, hammam, fitness","Garage couvert privé, ménage et linge hôteliers"],
+   note:"2e semaine : 7 026 €, hors budget."},
+  {name:"TERRESENS Les Fermes du Mont-Blanc", where:"Combloux · 13 min à pied du Bouchet, domaine Évasion (Megève)", src:"Booking",
+   w1:2828, w2:null, rating:"Booking 8,6", url:"https://www.booking.com/hotel/fr/les-fermes-du-mont-blanc.fr.html",
+   facts:["Appartement 3 chambres, 8 personnes","Piscine intérieure","Annulation gratuite avant le 19 novembre"]},
 ];
 const EXCLUDED = [
   ["Chalet Nosefosa, Morzine","Complet du 19 déc. au 9 janv. · dès 7 275 €/sem., hors budget"],
@@ -198,10 +242,18 @@ const EXCLUDED = [
   ["Chalet L'Etoile, Les Gets (Airbnb)","5 039 € la 1re semaine, complet la 2e"],
   ["P&V Premium Les Fermes du Soleil, Les Carroz","Disponible (2 478 € / 3 566 €) mais seulement 35 m²"],
   ["Club Med Grand Massif","Tout compris très au-delà du budget à Noël"],
+  ["Androsace 31, Argentière (Airbnb / Booking)","Piscine extérieure accessible l'été seulement"],
+  ["Chalet à la montagne, Les Houches","Piscine privée chauffée l'été seulement"],
+  ["Chalet Kandahar et Barberine, Les Houches","Annoncés « piscine », mais extérieure selon Booking"],
+  ["Megève : Duplex Rochebrune, Family Cocoon, appartements en parc","Piscines extérieures ou d'été uniquement"],
+  ["TERRESENS L'Éclat des Veriaz, Megève","Piscine intérieure, mais seulement 2 chambres (dès 3 885 €)"],
+  ["Chamonix centre : Douglas, Bel appartement central","Pas de piscine"],
+  ["Chalets de luxe à Chamonix (Booking)","De 10 000 à 27 000 € la semaine"],
 ];
 
 const fmt = n => n.toLocaleString('fr-FR') + ' €';
-let week = 'w1';
+let week = 'w1', zone = 'all';
+const zoneOf = l => /Chamonix|Houches|Argenti|Vallorcine/.test(l.where) ? 'cham' : /Meg[eè]ve|Combloux|Saint-Gervais/.test(l.where) ? 'meg' : 'other';
 const $ = id => document.getElementById(id);
 
 function render(){
@@ -210,6 +262,7 @@ function render(){
     .filter(l => !onlyAvail || typeof l.p === 'number')
     .filter(l => !onlyBudget || (typeof l.p === 'number' && l.p <= BUDGET))
     .filter(l => !onlyPrivate || l.private)
+    .filter(l => zone === 'all' || zoneOf(l) === zone)
     .sort((a,b) => {
       const ra = typeof a.p === 'number' ? 0 : 1, rb = typeof b.p === 'number' ? 0 : 1;
       if (ra !== rb) return ra - rb;
@@ -244,9 +297,13 @@ function render(){
   }).join('') : '<div class="empty">Aucun logement ne correspond à ces filtres.</div>';
 }
 
-document.querySelectorAll('.seg button').forEach(b => b.addEventListener('click', () => {
-  document.querySelectorAll('.seg button').forEach(x => x.classList.toggle('on', x === b));
+document.querySelectorAll('.seg button[data-w]').forEach(b => b.addEventListener('click', () => {
+  document.querySelectorAll('.seg button[data-w]').forEach(x => x.classList.toggle('on', x === b));
   week = b.dataset.w; render();
+}));
+document.querySelectorAll('.seg button[data-z]').forEach(b => b.addEventListener('click', () => {
+  document.querySelectorAll('.seg button[data-z]').forEach(x => x.classList.toggle('on', x === b));
+  zone = b.dataset.z; render();
 }));
 ['onlyAvail','onlyBudget','onlyPrivate'].forEach(id => $(id).addEventListener('change', render));
 $('out').innerHTML = EXCLUDED.map(([n,r]) => `<tr><td>${n}</td><td>${r}</td></tr>`).join('');
