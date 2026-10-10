@@ -3,155 +3,256 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Noël au ski 2026 — Comparatif logements</title>
+<title>Noël au ski 2026</title>
+<meta name="description" content="Comparatif des logements avec piscine pour une semaine de ski en famille à Noël 2026.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;800;900&family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-  :root{
-    --night:#13294b; --glacier:#2f6f9f; --ice:#e8f1f7; --snow:#f7f9fb; --card:#fff; --ink:#1f2d3a;
-    --muted:#6b7a88; --line:rgba(19,41,75,.09);
-    --ok:#0f8a5f; --okbg:#e3f4ec; --ko:#b3361e; --kobg:#fbe9e5; --warn:#a86b00; --warnbg:#fdf2dc;
-    --pool:#1f7fb8; --gold:#c9a227;
-  }
-  *{box-sizing:border-box;margin:0;padding:0;}
-  body{font-family:"Avenir Next","Segoe UI",system-ui,sans-serif;background:var(--snow);color:var(--ink);padding-bottom:60px;-webkit-font-smoothing:antialiased;}
-  a{color:var(--glacier);}
+:root{
+  --night:#0F1E33; --dusk:#2B4A6F; --ice:#DCE8F2; --snow:#F5F8FB; --white:#fff;
+  --pine:#1F5A44; --pine-bg:#E2EFE8; --ember:#B83A27; --ember-bg:#F8E6E2;
+  --glow:#E8B04B; --glow-bg:#FBF0D9; --ink:#16243A; --muted:#5D6B7E; --line:#D5DFEA;
+  --display:"Big Shoulders Display", "Arial Narrow", sans-serif;
+  --text:"Figtree", system-ui, sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{font-family:var(--text);background:var(--snow);color:var(--ink);font-size:16px;line-height:1.5;-webkit-font-smoothing:antialiased;}
+img{display:block;max-width:100%;}
+a{color:inherit;}
+:focus-visible{outline:3px solid var(--glow);outline-offset:3px;border-radius:6px;}
+.wrap{max-width:1180px;margin:0 auto;padding:0 20px;}
 
-  .cover{background:linear-gradient(150deg,var(--night) 0%,var(--glacier) 100%);color:#fff;padding:36px 18px 28px;text-align:center;position:relative;overflow:hidden;}
-  .cover svg.peaks{position:absolute;left:0;right:0;bottom:-2px;width:100%;height:60px;opacity:.18;}
-  .cover h1{font-size:1.65rem;letter-spacing:-.02em;position:relative;}
-  .cover .dates{margin-top:8px;font-size:.9rem;opacity:.92;position:relative;}
-  .crit{display:flex;justify-content:center;flex-wrap:wrap;gap:8px;margin-top:16px;position:relative;}
-  .crit span{background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.22);padding:5px 12px;border-radius:20px;font-size:.74rem;font-weight:600;}
-  .verified{margin-top:14px;font-size:.7rem;opacity:.8;position:relative;}
+/* ---------- Hero ---------- */
+.hero{position:relative;background:linear-gradient(180deg,#0B1729 0%,var(--night) 30%,var(--dusk) 78%,#5A6F8C 100%);color:var(--snow);overflow:hidden;}
+.hero svg.land{position:relative;z-index:1;display:block;width:100%;height:31.25vw;min-height:170px;margin-top:-1vw;margin-bottom:-1px;}
+.hero::after{content:"";position:absolute;inset:-200px 0 0 0;pointer-events:none;opacity:.55;
+  background-image:radial-gradient(2px 2px at 20px 30px,#fff 50%,transparent 51%),radial-gradient(1.5px 1.5px at 90px 120px,#fff 50%,transparent 51%),radial-gradient(2.5px 2.5px at 160px 60px,#fff 50%,transparent 51%),radial-gradient(1.5px 1.5px at 230px 170px,#fff 50%,transparent 51%),radial-gradient(2px 2px at 300px 90px,#fff 50%,transparent 51%);
+  background-size:320px 220px;animation:snow 22s linear infinite;}
+@keyframes snow{to{transform:translateY(220px);}}
+@media (prefers-reduced-motion:reduce){.hero::after{animation:none;}html{scroll-behavior:auto;}}
+.hero-inner{position:relative;z-index:2;padding-top:64px;}
+.hero h1{font-family:var(--display);font-weight:900;font-size:clamp(4.4rem,12vw,9.5rem);line-height:.86;letter-spacing:-.01em;}
+.hero .when{margin-top:18px;font-family:var(--display);font-weight:600;font-size:clamp(1.3rem,3vw,1.9rem);color:var(--glow);letter-spacing:.01em;}
+.hero .brief{margin-top:10px;max-width:34em;font-size:1.02rem;color:#D6E1EE;}
+.hero .checked{margin-top:10px;font-size:.82rem;color:#A9BAD0;}
 
-  main{max-width:920px;margin:0 auto;padding:22px 14px 0;display:grid;gap:22px;}
+/* ---------- Forfaits (week switch) ---------- */
+.passes{position:relative;z-index:3;margin-top:-90px;display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+.pass{--notch:14px;position:relative;text-align:left;border:0;cursor:pointer;font:inherit;color:var(--ink);background:var(--white);
+  padding:20px 24px 20px calc(24px + 10px);border-radius:16px;box-shadow:0 18px 40px -22px rgba(15,30,51,.55);
+  -webkit-mask:radial-gradient(circle var(--notch) at 0 50%,transparent 98%,#000) left/51% 100% no-repeat,radial-gradient(circle var(--notch) at 100% 50%,transparent 98%,#000) right/51% 100% no-repeat;
+          mask:radial-gradient(circle var(--notch) at 0 50%,transparent 98%,#000) left/51% 100% no-repeat,radial-gradient(circle var(--notch) at 100% 50%,transparent 98%,#000) right/51% 100% no-repeat;
+  transition:background .25s,color .25s,transform .25s;}
+.pass::before{content:"";position:absolute;left:12px;top:18px;bottom:18px;border-left:2px dashed var(--line);}
+.pass .tname{font-size:.9rem;font-weight:600;color:var(--muted);}
+.pass .tdates{display:block;font-family:var(--display);font-weight:800;font-size:clamp(2rem,5.4vw,3.1rem);line-height:1;margin:4px 0 8px;}
+.pass .tcount{font-size:.9rem;}
+.pass .tcount b{font-weight:700;}
+.pass[aria-pressed="true"]{background:var(--night);color:var(--snow);}
+.pass[aria-pressed="true"] .tname{color:var(--glow);}
+.pass[aria-pressed="true"]::before{border-color:rgba(255,255,255,.25);}
+.pass:hover{transform:translateY(-2px);}
+@media (prefers-reduced-motion:reduce){.pass{transition:none;}.pass:hover{transform:none;}}
 
-  .panel{background:var(--card);border-radius:18px;box-shadow:0 3px 14px rgba(19,41,75,.08);border:1px solid var(--line);overflow:hidden;}
-  .panel h2{padding:16px 18px 4px;color:var(--night);font-size:1.05rem;}
-  .panel .hint{padding:0 18px 14px;font-size:.76rem;color:var(--muted);line-height:1.45;}
+/* ---------- Sections ---------- */
+section{margin-top:72px;}
+.sh{margin-bottom:22px;}
+h2{font-family:var(--display);font-weight:800;font-size:clamp(2rem,4.4vw,2.9rem);line-height:1;color:var(--night);}
+.sh p{margin-top:8px;color:var(--muted);font-size:1rem;max-width:40em;}
 
-  /* Reco */
-  .reco{display:grid;gap:10px;padding:0 14px 16px;}
-  @media(min-width:720px){.reco{grid-template-columns:repeat(3,1fr);}}
-  .reco div{border-radius:14px;padding:13px 14px;background:var(--ice);}
-  .reco .lbl{font-size:.64rem;text-transform:uppercase;letter-spacing:.06em;font-weight:800;color:var(--glacier);}
-  .reco b{display:block;margin-top:4px;font-size:.95rem;color:var(--night);}
-  .reco p{margin-top:4px;font-size:.76rem;color:#3d4d5c;line-height:1.4;}
+/* Picks */
+.picks{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;}
+.pick{position:relative;display:block;min-height:360px;border-radius:18px;overflow:hidden;background:var(--dusk);text-decoration:none;color:var(--snow);isolation:isolate;}
+.pick img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:-2;transition:transform .6s cubic-bezier(.2,.7,.2,1);}
+.pick::after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(180deg,rgba(15,30,51,0) 30%,rgba(15,30,51,.92) 100%);}
+.pick:hover img{transform:scale(1.05);}
+.pick .in{position:absolute;left:18px;right:18px;bottom:18px;}
+.pick .why{display:inline-block;background:var(--glow);color:var(--night);font-weight:700;font-size:.78rem;padding:4px 10px;border-radius:999px;}
+.pick h3{font-family:var(--display);font-weight:800;font-size:1.75rem;line-height:1;margin:10px 0 4px;}
+.pick .town{font-size:.88rem;color:#C9D6E6;}
+.pick .pp{margin-top:10px;font-family:var(--display);font-weight:800;font-size:1.6rem;}
+.pick .pp small{font-family:var(--text);font-weight:500;font-size:.8rem;color:#C9D6E6;margin-left:6px;}
+.pick.off .pp{color:#F2B8AD;font-size:1.2rem;}
+.pick.off img{filter:grayscale(.7);}
+@media (prefers-reduced-motion:reduce){.pick img{transition:none;}.pick:hover img{transform:none;}}
 
-  /* Contrôles */
-  .controls{position:sticky;top:0;z-index:5;background:rgba(247,249,251,.94);backdrop-filter:blur(8px);padding:10px 0;margin:-6px 0 -10px;}
-  .seg{display:flex;background:#dde7ef;border-radius:14px;padding:4px;gap:4px;}
-  .seg button{flex:1;border:0;background:transparent;padding:10px 6px;border-radius:10px;font:inherit;font-size:.8rem;font-weight:700;color:var(--night);cursor:pointer;}
-  .seg button.on{background:#fff;box-shadow:0 1px 5px rgba(19,41,75,.15);}
-  .seg.zones{margin-top:8px;}
-  .seg.zones button{padding:7px 4px;font-size:.72rem;}
-  .seg button small{display:block;font-weight:500;font-size:.66rem;color:var(--muted);margin-top:1px;}
-  .chips{display:flex;gap:8px;margin-top:8px;flex-wrap:wrap;}
-  .chips label{display:flex;align-items:center;gap:6px;font-size:.74rem;font-weight:600;background:#fff;border:1px solid var(--line);padding:6px 11px;border-radius:20px;cursor:pointer;}
-  .count{font-size:.74rem;color:var(--muted);margin-top:8px;}
+/* Filters */
+.filters{position:sticky;top:0;z-index:5;background:rgba(245,248,251,.92);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);padding:12px 0;border-bottom:1px solid var(--line);margin-bottom:22px;}
+.frow{display:flex;gap:10px;flex-wrap:wrap;align-items:center;}
+.zones{display:flex;gap:6px;flex-wrap:wrap;}
+.zones button{font:inherit;font-size:.88rem;font-weight:600;border:1px solid var(--line);background:var(--white);color:var(--ink);padding:8px 14px;border-radius:999px;cursor:pointer;}
+.zones button[aria-pressed="true"]{background:var(--night);border-color:var(--night);color:var(--snow);}
+.toggles{display:flex;gap:14px;flex-wrap:wrap;margin-left:auto;font-size:.88rem;}
+.toggles label{display:flex;align-items:center;gap:7px;cursor:pointer;}
+.toggles input{width:17px;height:17px;accent-color:var(--pine);}
+.count{font-size:.86rem;color:var(--muted);margin-top:8px;}
 
-  /* Cartes */
-  .list{display:grid;gap:12px;}
-  @media(min-width:720px){.list{grid-template-columns:1fr 1fr;}}
-  .card{background:var(--card);border-radius:16px;border:1px solid var(--line);box-shadow:0 2px 10px rgba(19,41,75,.06);padding:15px 15px 13px;display:flex;flex-direction:column;gap:9px;}
-  .card{padding:0 0 13px;overflow:hidden;}
-  .card > :not(.thumb){margin-left:15px;margin-right:15px;}
-  .thumb{position:relative;aspect-ratio:16/9;background:linear-gradient(150deg,var(--night),var(--glacier));overflow:hidden;}
-  .thumb{display:block;}
-  .thumb img{position:relative;z-index:1;width:100%;height:100%;object-fit:cover;display:block;transition:transform .4s;}
-  .card:hover .thumb img{transform:scale(1.04);}
-  .thumb .ph{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;color:#fff;font-size:.74rem;font-weight:700;text-decoration:none;opacity:.92;}
-  .thumb .ph svg{width:46px;height:30px;opacity:.8;}
-  .thumb .tag{position:absolute;left:10px;top:10px;}
-  .card.off .thumb img{filter:grayscale(.8);}
-  .card.off{opacity:.62;}
-  .top{display:flex;justify-content:space-between;gap:10px;align-items:flex-start;}
-  .card h3{font-size:.98rem;color:var(--night);line-height:1.25;}
-  .where{font-size:.74rem;color:var(--muted);margin-top:3px;}
-  .price{text-align:right;flex-shrink:0;}
-  .price b{display:block;font-size:1.15rem;color:var(--night);font-variant-numeric:tabular-nums;}
-  .price span{font-size:.64rem;color:var(--muted);}
-  .badges{display:flex;gap:6px;flex-wrap:wrap;}
-  .bd{font-size:.66rem;font-weight:800;padding:4px 9px;border-radius:12px;letter-spacing:.02em;}
-  .bd.ok{background:var(--okbg);color:var(--ok);}
-  .bd.ko{background:var(--kobg);color:var(--ko);}
-  .bd.na{background:#eef1f4;color:var(--muted);}
-  .bd.pool{background:#e2f0f9;color:var(--pool);}
-  .bd.private{background:var(--pool);color:#fff;}
-  .bd.src{background:#f1eef9;color:#5a4b9a;}
-  .budget{height:6px;background:#edf1f5;border-radius:4px;overflow:hidden;}
-  .budget i{display:block;height:100%;border-radius:4px;}
-  ul.facts{list-style:none;display:grid;gap:4px;font-size:.78rem;line-height:1.4;color:#33434f;}
-  ul.facts li::before{content:"·";color:var(--glacier);font-weight:900;margin-right:6px;}
-  .note{font-size:.74rem;background:var(--warnbg);color:#6b4a00;padding:7px 10px;border-radius:10px;line-height:1.4;}
-  .foot{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-top:2px;}
-  .foot a.go{font-size:.78rem;font-weight:700;text-decoration:none;background:var(--night);color:#fff;padding:8px 13px;border-radius:10px;}
-  .rating{font-size:.74rem;color:var(--muted);}
+/* Cards */
+.list{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;}
+.card{display:flex;flex-direction:column;background:var(--white);border:1px solid var(--line);border-radius:16px;overflow:hidden;}
+.card .ph{position:relative;display:block;aspect-ratio:3/2;background:linear-gradient(160deg,var(--night),var(--dusk));overflow:hidden;}
+.card .ph img{position:relative;z-index:1;width:100%;height:100%;object-fit:cover;transition:transform .5s cubic-bezier(.2,.7,.2,1);}
+.card .ph:hover img{transform:scale(1.04);}
+.card .ph .fb{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;color:var(--ice);font-weight:600;font-size:.88rem;}
+.card .ph .fb svg{width:54px;height:34px;}
+.card.off .ph img{filter:grayscale(.85);opacity:.75;}
+.card .body{display:flex;flex-direction:column;gap:12px;padding:18px 18px 16px;flex:1;}
+.head{display:flex;justify-content:space-between;gap:12px;align-items:flex-start;}
+.card h3{font-size:1.08rem;font-weight:700;line-height:1.25;color:var(--night);}
+.loc{font-size:.86rem;color:var(--muted);margin-top:3px;}
+.loc b{color:var(--ink);font-weight:600;}
+.price{text-align:right;flex-shrink:0;}
+.price b{display:block;font-family:var(--display);font-weight:800;font-size:1.9rem;line-height:1;color:var(--night);font-variant-numeric:tabular-nums;}
+.price span{font-size:.75rem;color:var(--muted);}
+.price.over b{color:var(--ember);}
+.price.none b{font-size:1.2rem;color:var(--muted);}
+.tags{display:flex;gap:6px;flex-wrap:wrap;}
+.tag{font-size:.76rem;font-weight:600;padding:4px 10px;border-radius:999px;background:var(--ice);color:var(--dusk);}
+.tag.free{background:var(--pine-bg);color:var(--pine);}
+.tag.full{background:var(--ember-bg);color:var(--ember);}
+.tag.priv{background:var(--glow);color:var(--night);}
+.tag.src{background:transparent;border:1px solid var(--line);color:var(--muted);}
+.facts{list-style:none;display:grid;gap:5px;font-size:.88rem;color:#33445A;}
+.facts li{padding-left:16px;position:relative;}
+.facts li::before{content:"";position:absolute;left:2px;top:.62em;width:6px;height:6px;border-radius:50%;background:var(--dusk);opacity:.5;}
+.note{font-size:.84rem;background:var(--glow-bg);color:#6B4A0E;padding:9px 12px;border-radius:10px;}
+.foot{margin-top:auto;display:flex;justify-content:space-between;align-items:center;gap:10px;padding-top:4px;}
+.rating{font-size:.82rem;color:var(--muted);}
+.go{font-size:.86rem;font-weight:700;text-decoration:none;background:var(--night);color:var(--snow);padding:9px 14px;border-radius:10px;white-space:nowrap;}
+.go:hover{background:var(--dusk);}
+@media (prefers-reduced-motion:reduce){.card .ph img{transition:none;}.card .ph:hover img{transform:none;}}
+.empty{grid-column:1/-1;text-align:center;padding:48px 16px;color:var(--muted);background:var(--white);border:1px dashed var(--line);border-radius:16px;}
+.empty button{margin-top:12px;font:inherit;font-weight:700;border:0;background:var(--night);color:var(--snow);padding:9px 16px;border-radius:10px;cursor:pointer;}
 
-  /* Écartés */
-  table{width:100%;border-collapse:collapse;font-size:.76rem;}
-  td{padding:9px 18px;border-top:1px solid var(--line);vertical-align:top;line-height:1.4;}
-  td:first-child{font-weight:700;color:var(--night);width:42%;}
-  .empty{text-align:center;color:var(--muted);font-size:.85rem;padding:30px 10px;}
-  footer{text-align:center;font-size:.7rem;color:var(--muted);padding:26px 16px 0;line-height:1.5;}
+/* Excluded */
+.out{display:grid;grid-template-columns:1fr 1fr;gap:0 32px;background:var(--white);border:1px solid var(--line);border-radius:16px;padding:8px 24px;}
+.out div{padding:14px 0;border-bottom:1px solid var(--line);}
+.out div:nth-last-child(-n+2){border-bottom:0;}
+.out b{display:block;font-weight:600;color:var(--night);font-size:.95rem;}
+.out span{font-size:.88rem;color:var(--muted);}
+
+footer{margin-top:80px;background:var(--night);color:#A9BAD0;font-size:.88rem;}
+footer .wrap{padding-top:36px;padding-bottom:44px;display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;}
+footer a{color:var(--snow);font-weight:600;}
+
+@media (max-width:1000px){.picks{grid-template-columns:1fr 1fr;}.list{grid-template-columns:1fr 1fr;}}
+@media (max-width:640px){
+  .wrap{padding:0 16px;}
+  .hero-inner{padding-top:44px;}
+  .hero svg.land{margin-top:0;}
+  .passes{grid-template-columns:1fr;margin-top:-56px;gap:12px;}
+  .picks{grid-template-columns:1fr;}
+  .pick{min-height:300px;}
+  .list{grid-template-columns:1fr;}
+  .toggles{margin-left:0;}
+  .filters{position:static;}
+  .out{grid-template-columns:1fr;}
+  .out div:nth-last-child(2){border-bottom:1px solid var(--line);}
+  section{margin-top:56px;}
+}
 </style>
 </head>
 <body>
 
-<header class="cover">
-  <h1>Noël au ski 2026</h1>
-  <div class="dates">Vacances zone C · samedi 19 déc. 2026 → lundi 4 janv. 2027</div>
-  <div class="crit">
-    <span>5 voyageurs</span><span>Piscine</span><span>≤ 30 min des pistes</span><span>≤ 5 000 € / semaine</span><span>De l'espace (3 ch.)</span>
+<header class="hero">
+  <div class="wrap hero-inner">
+    <h1>Noël<br>au ski</h1>
+    <p class="when">19 décembre 2026 au 4 janvier 2027</p>
+    <p class="brief">Une semaine pour nous cinq, avec une piscine pour se détendre, à moins de 30 minutes des pistes et pas plus de 5 000 € la semaine.</p>
+    <p class="checked">Disponibilités et prix relevés sur Airbnb, Booking, Ski-Planet et Travelski les 8 et 10 octobre 2026. Ils bougent vite.</p>
   </div>
-  <div class="verified">Disponibilités et prix vérifiés le 8 octobre 2026 (Chamonix, Megève : le soir) · Ski-Planet, Travelski, Airbnb, Booking.com — ils évoluent vite</div>
-  <svg class="peaks" viewBox="0 0 400 60" preserveAspectRatio="none" aria-hidden="true"><path d="M0 60 L60 22 L95 40 L150 6 L210 44 L250 20 L300 38 L345 12 L400 34 L400 60 Z" fill="#fff"/></svg>
+  <svg class="land" viewBox="0 70 1440 450" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
+    <defs>
+      <linearGradient id="far" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#4E6E93"/><stop offset="1" stop-color="#3A5878"/></linearGradient>
+      <linearGradient id="mid" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#28466A"/><stop offset="1" stop-color="#1D3757"/></linearGradient>
+      <radialGradient id="halo" cx="0.5" cy="0.5" r="0.5"><stop offset="0" stop-color="#E8B04B" stop-opacity=".55"/><stop offset="1" stop-color="#E8B04B" stop-opacity="0"/></radialGradient>
+    </defs>
+    <!-- massif du Mont-Blanc -->
+    <path fill="url(#far)" d="M0 330 L120 260 L190 290 L300 190 L370 235 L470 150 L540 200 L640 92 L720 160 L790 120 L880 205 L960 165 L1060 240 L1150 185 L1250 255 L1340 215 L1440 270 L1440 520 L0 520Z"/>
+    <path fill="#EAF1F8" opacity=".9" d="M640 92 L690 148 L668 140 L652 156 L634 132 L612 150 L600 140 Z M470 150 L505 186 L488 180 L470 192 L456 176 L440 182 Z M790 120 L828 160 L808 154 L792 166 L776 150 L760 156 Z M300 190 L330 222 L314 216 L298 226 L284 214 Z M1150 185 L1180 214 L1164 210 L1150 220 L1136 208 Z"/>
+    <!-- crête intermédiaire -->
+    <path fill="url(#mid)" d="M0 390 L90 350 L170 372 L260 318 L350 360 L430 330 L520 372 L610 336 L700 380 L820 330 L910 368 L1010 322 L1110 362 L1210 334 L1320 372 L1440 340 L1440 520 L0 520Z"/>
+    <!-- forêt -->
+    <path fill="#14283F" d="M0 440 Q240 405 480 430 T960 422 T1440 432 L1440 520 L0 520Z"/>
+    <g fill="#0F2035">
+      <path d="M70 438 l14 -38 l14 38z M100 442 l11 -30 l11 30z M180 432 l16 -44 l16 44z M214 436 l12 -32 l12 32z M330 428 l15 -40 l15 40z M362 432 l11 -30 l11 30z M560 430 l14 -38 l14 38z M820 424 l15 -42 l15 42z M852 428 l11 -30 l11 30z M1090 430 l16 -44 l16 44z M1124 434 l12 -32 l12 32z M1310 432 l14 -38 l14 38z M1340 436 l11 -30 l11 30z"/>
+    </g>
+    <!-- chalet éclairé -->
+    <g transform="translate(985 300)">
+      <circle cx="40" cy="26" r="70" fill="url(#halo)"/>
+      <path fill="#0B192B" d="M0 30 L40 2 L80 30 L74 30 L74 56 L6 56 L6 30Z"/>
+      <path fill="#E9F0F7" d="M-4 32 L40 0 L84 32 L78 34 L40 7 L2 34Z"/>
+      <rect x="18" y="34" width="14" height="12" rx="1.5" fill="#F3C063"/>
+      <rect x="48" y="34" width="14" height="12" rx="1.5" fill="#F3C063"/>
+      <rect x="61" y="6" width="7" height="14" fill="#0B192B"/>
+    </g>
+    <!-- neige -->
+    <path fill="#F5F8FB" d="M0 470 Q360 440 720 462 T1440 456 L1440 520 L0 520Z"/>
+  </svg>
 </header>
 
-<main>
-  <section class="panel">
-    <h2>Les options à retenir</h2>
-    <p class="hint">Ma sélection après vérification des disponibilités.</p>
-    <div class="reco">
-      <div><span class="lbl">Piscine privée</span><b>Chalet Taninges</b><p>130 m², 4 chambres, piscine intérieure chauffée rien qu'à vous. Disponible les deux semaines.</p></div>
-      <div><span class="lbl">Meilleur rapport qualité-prix</span><b>Chalet Booboo, Morillon</b><p>3 chambres, piscine et sauna de résidence, Grand Massif. Annulation gratuite jusqu'au 19 nov.</p></div>
-      <div><span class="lbl">Résidence avec services</span><b>La Reine des Prés, Samoëns</b><p>CGH 4*, 4 pièces, piscine, sauna et jacuzzi, à 5 min à pied des remontées.</p></div>
-      <div><span class="lbl">Vallée de Chamonix · piscine privée</span><b>Chalet Vaudagne, Les Houches</b><p>4 chambres, 4 salles de bain, spa privé avec piscine chauffée et sauna. Semaine de Noël uniquement.</p></div>
-      <div><span class="lbl">Vallée de Chamonix · résidence</span><b>CGH Pierre Blanche, Les Houches</b><p>3 chambres, 90 m², piscine intérieure, spa. Semaine de Noël.</p></div>
-      <div><span class="lbl">Megève · les deux semaines</span><b>Appartement au pied du Jaillet</b><p>3 chambres, 2 piscines chauffées dont une intérieure, au centre. Seule option Megève dispo les deux semaines.</p></div>
-    </div>
-  </section>
-
-  <div class="controls">
-    <div class="seg" role="tablist" aria-label="Semaine">
-      <button class="on" data-w="w1" role="tab">19 → 26 déc.<small>Semaine de Noël</small></button>
-      <button data-w="w2" role="tab">26 déc. → 2 janv.<small>Nouvel An</small></button>
-    </div>
-    <div class="seg zones" role="tablist" aria-label="Secteur">
-      <button class="on" data-z="all">Tous</button>
-      <button data-z="cham">Vallée de Chamonix</button>
-      <button data-z="meg">Megève</button>
-      <button data-z="other">Autres stations</button>
-    </div>
-    <div class="chips">
-      <label><input type="checkbox" id="onlyAvail" checked> Disponibles uniquement</label>
-      <label><input type="checkbox" id="onlyBudget"> ≤ 5 000 €</label>
-      <label><input type="checkbox" id="onlyPrivate"> Piscine privée</label>
-    </div>
-    <div class="count" id="count"></div>
+<main class="wrap">
+  <div class="passes" role="group" aria-label="Choisir la semaine">
+    <button class="pass" data-w="w1" aria-pressed="true">
+      <span class="tname">Semaine de Noël</span>
+      <span class="tdates">19 – 26 déc.</span>
+      <span class="tcount" id="c-w1"></span>
+    </button>
+    <button class="pass" data-w="w2" aria-pressed="false">
+      <span class="tname">Semaine du Nouvel An</span>
+      <span class="tdates">26 déc. – 2 janv.</span>
+      <span class="tcount" id="c-w2"></span>
+    </button>
   </div>
 
-  <section class="list" id="list"></section>
+  <section aria-labelledby="t-picks">
+    <div class="sh">
+      <h2 id="t-picks">Nos coups de cœur</h2>
+      <p>Les quatre logements qui collent le mieux à la demande. Le prix suit la semaine choisie.</p>
+    </div>
+    <div class="picks" id="picks"></div>
+  </section>
 
-  <section class="panel">
-    <h2>Écartés</h2>
-    <p class="hint">Complets, hors budget ou trop petits.</p>
-    <table id="out"></table>
+  <section aria-labelledby="t-all">
+    <div class="sh">
+      <h2 id="t-all">Tous les logements</h2>
+      <p>Chaque logement a été vérifié pour les deux semaines, avec une piscine utilisable en hiver.</p>
+    </div>
+    <div class="filters">
+      <div class="frow">
+        <div class="zones" role="group" aria-label="Secteur">
+          <button data-z="all" aria-pressed="true">Tous les secteurs</button>
+          <button data-z="cham" aria-pressed="false">Vallée de Chamonix</button>
+          <button data-z="meg" aria-pressed="false">Megève et Saint-Gervais</button>
+          <button data-z="other" aria-pressed="false">Grand Massif et ailleurs</button>
+        </div>
+        <div class="toggles">
+          <label><input type="checkbox" id="onlyAvail" checked> Masquer les complets</label>
+          <label><input type="checkbox" id="onlyBudget"> Dans le budget</label>
+          <label><input type="checkbox" id="onlyPrivate"> Piscine privée</label>
+        </div>
+      </div>
+      <p class="count" id="count" aria-live="polite"></p>
+    </div>
+    <div class="list" id="list"></div>
+  </section>
+
+  <section aria-labelledby="t-out">
+    <div class="sh">
+      <h2 id="t-out">Écartés</h2>
+      <p>Regardés, puis laissés de côté pour une raison précise.</p>
+    </div>
+    <div class="out" id="out"></div>
   </section>
 </main>
 
 <footer>
-  Prix pour la semaine (7 nuits), hors taxe de séjour sauf mention. Les temps de trajet vers les pistes sont indicatifs.<br>
-  Page préparée avec Claude · <a href="../">Retour au guide Açores</a>
+  <div class="wrap">
+    <p>Prix pour 7 nuits, hors taxe de séjour. Temps de trajet vers les pistes indicatifs.</p>
+    <p><a href="../">Retour au guide des Açores</a></p>
+  </div>
 </footer>
 
 <script>
@@ -237,7 +338,7 @@ const LODGINGS = [
    facts:["Appartement 3 chambres, 8 personnes","Piscine intérieure","Annulation gratuite avant le 19 novembre"]},
 ];
 const EXCLUDED = [
-  ["Chalet Nosefosa, Morzine","Complet du 19 déc. au 9 janv. · dès 7 275 €/sem., hors budget"],
+  ["Chalet Nosefosa, Morzine","Complet du 19 déc. au 9 janv., et dès 7 275 € la semaine"],
   ["Chalet La Moutellette, Morzine","Annonce retirée des sites de l'office de tourisme"],
   ["Chalet L'Etoile, Les Gets (Airbnb)","5 039 € la 1re semaine, complet la 2e"],
   ["P&V Premium Les Fermes du Soleil, Les Carroz","Disponible (2 478 € / 3 566 €) mais seulement 35 m²"],
@@ -251,63 +352,92 @@ const EXCLUDED = [
   ["Chalets de luxe à Chamonix (Booking)","De 10 000 à 27 000 € la semaine"],
 ];
 
-const fmt = n => n.toLocaleString('fr-FR') + ' €';
-let week = 'w1', zone = 'all';
-const zoneOf = l => /Chamonix|Houches|Argenti|Vallorcine/.test(l.where) ? 'cham' : /Meg[eè]ve|Combloux|Saint-Gervais/.test(l.where) ? 'meg' : 'other';
+const PICKS = [
+  {id:"641683846827813656", why:"Piscine privée"},
+  {id:"1502040626825909187", why:"Piscine privée, vallée de Chamonix"},
+  {id:"1468834047328772164", why:"Meilleur rapport qualité-prix"},
+  {id:"1788112373236328667", why:"Megève, libre les deux semaines"},
+];
+
 const $ = id => document.getElementById(id);
+const fmt = n => n.toLocaleString('fr-FR') + ' €';
+const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const zoneOf = l => /Chamonix|Houches|Argenti|Vallorcine/.test(l.where) ? 'cham' : /Meg[eè]ve|Combloux|Saint-Gervais/.test(l.where) ? 'meg' : 'other';
+const splitWhere = w => { const i = w.indexOf(' · '); return i < 0 ? [w, ''] : [w.slice(0, i), w.slice(i + 3)]; };
+const isNum = v => typeof v === 'number';
+let week = 'w1', zone = 'all';
 
-function render(){
-  const onlyAvail = $('onlyAvail').checked, onlyBudget = $('onlyBudget').checked, onlyPrivate = $('onlyPrivate').checked;
-  const rows = LODGINGS.map(l => ({...l, p:l[week]}))
-    .filter(l => !onlyAvail || typeof l.p === 'number')
-    .filter(l => !onlyBudget || (typeof l.p === 'number' && l.p <= BUDGET))
-    .filter(l => !onlyPrivate || l.private)
-    .filter(l => zone === 'all' || zoneOf(l) === zone)
-    .sort((a,b) => {
-      const ra = typeof a.p === 'number' ? 0 : 1, rb = typeof b.p === 'number' ? 0 : 1;
-      if (ra !== rb) return ra - rb;
-      if (!!b.private !== !!a.private) return b.private ? 1 : -1;
-      return (a.p||9e9) - (b.p||9e9);
-    });
+const mountain = '<svg viewBox="0 0 54 34" aria-hidden="true"><path d="M0 34 L17 10 L26 22 L37 4 L54 34Z" fill="currentColor" opacity=".7"/></svg>';
 
-  $('count').textContent = rows.length + ' logement' + (rows.length > 1 ? 's' : '') + ' affiché' + (rows.length > 1 ? 's' : '');
-  $('list').innerHTML = rows.length ? rows.map(l => {
-    const avail = typeof l.p === 'number';
-    const status = avail ? '<span class="bd ok">Disponible</span>'
-      : l.p === null ? '<span class="bd ko">Complet</span>' : '<span class="bd na">Non vérifié</span>';
-    const pct = avail ? Math.min(100, l.p / BUDGET * 100) : 0;
-    const barColor = avail ? (l.p <= BUDGET ? 'var(--ok)' : 'var(--ko)') : 'transparent';
-    // La vignette est un lien vers l'annonce ; le libellé derrière l'image s'affiche si la photo manque ou ne charge pas.
-    const thumb = `<a class="thumb" href="${l.url}" target="_blank" rel="noopener" aria-label="Photos de ${l.name}">
-        <span class="ph"><svg viewBox="0 0 46 30" aria-hidden="true"><path d="M0 30 L14 10 L22 20 L31 4 L46 30 Z" fill="#fff"/></svg>Photos sur ${l.src} →</span>
-        ${l.img ? `<img src="${l.img}" alt="${l.name}" loading="lazy" referrerpolicy="no-referrer" onerror="this.remove()">` : ''}
-      </a>`;
-    return `<article class="card${avail ? '' : ' off'}">
-      ${thumb}
-      <div class="top">
-        <div><h3>${l.name}</h3><div class="where">${l.where}</div></div>
-        <div class="price"><b>${avail ? fmt(l.p) : '—'}</b><span>${avail ? 'la semaine' : ''}</span></div>
-      </div>
-      <div class="badges">${status}${l.private ? '<span class="bd private">Piscine privée</span>' : '<span class="bd pool">Piscine</span>'}<span class="bd src">${l.src}</span></div>
-      ${avail ? `<div class="budget" title="Part du budget de 5 000 €"><i style="width:${pct}%;background:${barColor}"></i></div>` : ''}
-      <ul class="facts">${l.facts.map(f => `<li>${f}</li>`).join('')}</ul>
-      ${l.note ? `<div class="note">${l.note}</div>` : ''}
-      <div class="foot"><span class="rating">${l.rating}</span><a class="go" href="${l.url}" target="_blank" rel="noopener">Voir l'annonce →</a></div>
-    </article>`;
-  }).join('') : '<div class="empty">Aucun logement ne correspond à ces filtres.</div>';
+function photo(l, cls){
+  return `<a class="${cls}" href="${l.url}" target="_blank" rel="noopener" aria-label="Voir les photos de ${esc(l.name)}">
+    <span class="fb">${mountain}Photos sur ${l.src}</span>
+    ${l.img ? `<img src="${l.img}" alt="" loading="lazy" referrerpolicy="no-referrer" onerror="this.remove()">` : ''}
+  </a>`;
 }
 
-document.querySelectorAll('.seg button[data-w]').forEach(b => b.addEventListener('click', () => {
-  document.querySelectorAll('.seg button[data-w]').forEach(x => x.classList.toggle('on', x === b));
-  week = b.dataset.w; render();
+function renderCounts(){
+  for (const w of ['w1','w2']) {
+    const free = LODGINGS.filter(l => isNum(l[w]) && l[w] <= BUDGET).length;
+    $('c-' + w).innerHTML = `<b>${free} logements</b> libres dans le budget`;
+  }
+}
+
+function renderPicks(){
+  $('picks').innerHTML = PICKS.map(p => {
+    const l = LODGINGS.find(x => x.url.includes(p.id)); if (!l) return '';
+    const v = l[week], [town] = splitWhere(l.where);
+    const price = isNum(v) ? `${fmt(v)}<small>la semaine</small>` : 'Complet cette semaine';
+    return `<a class="pick${isNum(v) ? '' : ' off'}" href="${l.url}" target="_blank" rel="noopener">
+      ${l.img ? `<img src="${l.img}" alt="" referrerpolicy="no-referrer" onerror="this.remove()">` : ''}
+      <span class="in"><span class="why">${p.why}</span><h3>${esc(l.name.replace(/ — .*/, ''))}</h3><span class="town">${esc(town)}</span><p class="pp">${price}</p></span>
+    </a>`;
+  }).join('');
+}
+
+function renderList(){
+  const onlyAvail = $('onlyAvail').checked, onlyBudget = $('onlyBudget').checked, onlyPrivate = $('onlyPrivate').checked;
+  const rows = LODGINGS.map(l => ({...l, p: l[week]}))
+    .filter(l => !onlyAvail || isNum(l.p))
+    .filter(l => !onlyBudget || (isNum(l.p) && l.p <= BUDGET))
+    .filter(l => !onlyPrivate || l.private)
+    .filter(l => zone === 'all' || zoneOf(l) === zone)
+    .sort((a, b) => (isNum(a.p) ? 0 : 1) - (isNum(b.p) ? 0 : 1) || (!!b.private - !!a.private) || ((a.p || 9e9) - (b.p || 9e9)));
+
+  $('count').textContent = rows.length ? `${rows.length} logement${rows.length > 1 ? 's' : ''}` : '';
+  $('list').innerHTML = rows.length ? rows.map(l => {
+    const avail = isNum(l.p), over = avail && l.p > BUDGET, [town, detail] = splitWhere(l.where);
+    const status = avail ? '<span class="tag free">Libre</span>' : l.p === null ? '<span class="tag full">Complet</span>' : '<span class="tag">Non vérifié</span>';
+    const pool = l.private ? '<span class="tag priv">Piscine privée</span>' : '<span class="tag">Piscine de résidence</span>';
+    return `<article class="card${avail ? '' : ' off'}">
+      ${photo(l, 'ph')}
+      <div class="body">
+        <div class="head">
+          <div><h3>${esc(/ — .*piscine/i.test(l.name) ? l.name.replace(/ — .*/, '') : l.name)}</h3><p class="loc"><b>${esc(town)}</b>${detail ? ', ' + esc(detail) : ''}</p></div>
+          <div class="price${over ? ' over' : ''}${avail ? '' : ' none'}"><b>${avail ? fmt(l.p) : '—'}</b><span>${over ? 'au-dessus du budget' : avail ? 'la semaine' : ''}</span></div>
+        </div>
+        <div class="tags">${status}${pool}<span class="tag src">${l.src}</span></div>
+        <ul class="facts">${l.facts.map(f => `<li>${esc(f)}</li>`).join('')}</ul>
+        ${l.note ? `<p class="note">${esc(l.note)}</p>` : ''}
+        <div class="foot"><span class="rating">${esc(l.rating)}</span><a class="go" href="${l.url}" target="_blank" rel="noopener">Voir l'annonce</a></div>
+      </div>
+    </article>`;
+  }).join('') : `<div class="empty">Aucun logement ne correspond à ces filtres pour cette semaine.<br><button type="button" id="reset">Afficher tous les logements</button></div>`;
+  const r = $('reset'); if (r) r.onclick = () => { ['onlyBudget','onlyPrivate'].forEach(id => $(id).checked = false); setZone('all'); };
+}
+
+function render(){ renderPicks(); renderList(); }
+function setZone(z){ zone = z; document.querySelectorAll('.zones button').forEach(b => b.setAttribute('aria-pressed', b.dataset.z === z)); renderList(); }
+
+document.querySelectorAll('.pass').forEach(b => b.addEventListener('click', () => {
+  week = b.dataset.w;
+  document.querySelectorAll('.pass').forEach(x => x.setAttribute('aria-pressed', x === b));
+  render();
 }));
-document.querySelectorAll('.seg button[data-z]').forEach(b => b.addEventListener('click', () => {
-  document.querySelectorAll('.seg button[data-z]').forEach(x => x.classList.toggle('on', x === b));
-  zone = b.dataset.z; render();
-}));
-['onlyAvail','onlyBudget','onlyPrivate'].forEach(id => $(id).addEventListener('change', render));
-$('out').innerHTML = EXCLUDED.map(([n,r]) => `<tr><td>${n}</td><td>${r}</td></tr>`).join('');
-render();
+document.querySelectorAll('.zones button').forEach(b => b.addEventListener('click', () => setZone(b.dataset.z)));
+['onlyAvail','onlyBudget','onlyPrivate'].forEach(id => $(id).addEventListener('change', renderList));
+$('out').innerHTML = EXCLUDED.map(([n, r]) => `<div><b>${esc(n)}</b><span>${esc(r)}</span></div>`).join('');
+renderCounts(); render();
 </script>
 </body>
 </html>
