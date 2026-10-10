@@ -482,7 +482,8 @@ function drawBase(){
 }
 
 function drawPins(){
-  const visible = new Set(filtered().map(l => l.n));
+  // dim pins hidden by sector / budget / private filters; full ones stay visible as hollow pins
+  const visible = new Set(filtered(true).map(l => l.n));
   $('pins').innerHTML = LODGINGS.map(l => {
     const st = state(l), cls = ['pin', st, hot === l.n ? 'hot' : '', visible.has(l.n) ? '' : 'dim'].join(' ');
     return `<g class="${cls}" data-n="${l.n}" tabindex="-1">
@@ -511,8 +512,8 @@ function drawPicks(){
   }).join('');
 }
 
-function filtered(){
-  const a = $('onlyAvail').checked, b = $('onlyBudget').checked, pv = $('onlyPrivate').checked;
+function filtered(keepFull){
+  const a = !keepFull && $('onlyAvail').checked, b = $('onlyBudget').checked, pv = $('onlyPrivate').checked;
   return LODGINGS.filter(l => (!a || isNum(l[week])) && (!b || state(l) === 'free') && (!pv || l.private) && (zone === 'all' || l.zone === zone));
 }
 
