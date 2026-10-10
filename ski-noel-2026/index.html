@@ -4,253 +4,269 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Noël au ski 2026</title>
-<meta name="description" content="Comparatif des logements avec piscine pour une semaine de ski en famille à Noël 2026.">
+<meta name="description" content="Comparatif des logements avec piscine pour une semaine de ski en famille à Noël 2026, en Haute-Savoie.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;800;900&family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wdth,wght@0,62..125,400..800;1,62..125,400..800&display=swap" rel="stylesheet">
+<!--
+  DESIGN CONTRACT
+  Thesis: a family's ski-week decision, laid out like a topo map and a comparison sheet, not a travel ad.
+  World: daylight snow paper, ink, glacier blue, map red for the selected pin, gold for private pools. Archivo only: wide for titles, condensed for map lettering.
+  Story: where is each place (map) → which ones we'd pick (short-list) → every option side by side for both weeks (table) → what we ruled out.
+  First viewport: title, week switch, the map with numbered pins and the short-list.
+  Form: rules and whitespace instead of boxes; photos are the only colour-rich element. Motion only answers clicks.
+-->
 <style>
 :root{
-  --night:#0F1E33; --dusk:#2B4A6F; --ice:#DCE8F2; --snow:#F5F8FB; --white:#fff;
-  --pine:#1F5A44; --pine-bg:#E2EFE8; --ember:#B83A27; --ember-bg:#F8E6E2;
-  --glow:#E8B04B; --glow-bg:#FBF0D9; --ink:#16243A; --muted:#5D6B7E; --line:#D5DFEA;
-  --display:"Big Shoulders Display", "Arial Narrow", sans-serif;
-  --text:"Figtree", system-ui, sans-serif;
+  --paper:#F7F9FA; --white:#fff; --ink:#1C2A32; --ink-2:#4B5B64; --ink-3:#74838B;
+  --rule:#DCE3E7; --rule-2:#EDF1F3; --sel:#EAF2F7;
+  --glacier:#E1EEF5; --lake:#C9DEEA; --river:#7FAFCB; --contour:#C3D3DC; --wood:#E9F0E6;
+  --pin:#C2361F; --gold:#C8952C; --gold-bg:#FAF1DC; --ok:#2C7650; --ko:#A3402E;
+  --font:"Archivo", "Helvetica Neue", sans-serif;
 }
 *{box-sizing:border-box;margin:0;padding:0;}
-html{scroll-behavior:smooth;}
-body{font-family:var(--text);background:var(--snow);color:var(--ink);font-size:16px;line-height:1.5;-webkit-font-smoothing:antialiased;}
+html{-webkit-text-size-adjust:100%;}
+body{font-family:var(--font);font-variation-settings:"wdth" 100;background:var(--paper);color:var(--ink);font-size:1rem;line-height:1.5;-webkit-font-smoothing:antialiased;}
 img{display:block;max-width:100%;}
 a{color:inherit;}
-:focus-visible{outline:3px solid var(--glow);outline-offset:3px;border-radius:6px;}
-.wrap{max-width:1180px;margin:0 auto;padding:0 20px;}
+button{font:inherit;color:inherit;}
+:focus-visible{outline:2px solid var(--pin);outline-offset:2px;border-radius:4px;}
+.wrap{max-width:1240px;margin:0 auto;padding:0 32px;}
+.num{font-variant-numeric:tabular-nums;}
 
-/* ---------- Hero ---------- */
-.hero{position:relative;background:linear-gradient(180deg,#0B1729 0%,var(--night) 30%,var(--dusk) 78%,#5A6F8C 100%);color:var(--snow);overflow:hidden;}
-.hero svg.land{position:relative;z-index:1;display:block;width:100%;height:31.25vw;min-height:170px;margin-top:-1vw;margin-bottom:-1px;}
-.hero::after{content:"";position:absolute;inset:-200px 0 0 0;pointer-events:none;opacity:.55;
-  background-image:radial-gradient(2px 2px at 20px 30px,#fff 50%,transparent 51%),radial-gradient(1.5px 1.5px at 90px 120px,#fff 50%,transparent 51%),radial-gradient(2.5px 2.5px at 160px 60px,#fff 50%,transparent 51%),radial-gradient(1.5px 1.5px at 230px 170px,#fff 50%,transparent 51%),radial-gradient(2px 2px at 300px 90px,#fff 50%,transparent 51%);
-  background-size:320px 220px;animation:snow 22s linear infinite;}
-@keyframes snow{to{transform:translateY(220px);}}
-@media (prefers-reduced-motion:reduce){.hero::after{animation:none;}html{scroll-behavior:auto;}}
-.hero-inner{position:relative;z-index:2;padding-top:64px;}
-.hero h1{font-family:var(--display);font-weight:900;font-size:clamp(4.4rem,12vw,9.5rem);line-height:.86;letter-spacing:-.01em;}
-.hero .when{margin-top:18px;font-family:var(--display);font-weight:600;font-size:clamp(1.3rem,3vw,1.9rem);color:var(--glow);letter-spacing:.01em;}
-.hero .brief{margin-top:10px;max-width:34em;font-size:1.02rem;color:#D6E1EE;}
-.hero .checked{margin-top:10px;font-size:.82rem;color:#A9BAD0;}
+/* ---------- Header ---------- */
+.top{padding-top:40px;padding-bottom:28px;display:grid;grid-template-columns:1fr auto;gap:24px 48px;align-items:end;}
+h1{font-size:3.25rem;line-height:1;font-weight:760;font-variation-settings:"wdth" 118;letter-spacing:-.025em;}
+.lede{margin-top:12px;max-width:56ch;color:var(--ink-2);font-size:1.05rem;}
+.weeks{display:flex;border:1px solid var(--rule);border-radius:12px;background:var(--white);padding:4px;gap:4px;}
+.weeks button{border:0;background:transparent;text-align:left;padding:10px 16px;border-radius:9px;cursor:pointer;min-width:180px;transition:background .18s ease-out,color .18s ease-out;}
+.weeks button:hover{background:var(--rule-2);}
+.weeks .w-name{display:block;font-weight:650;font-size:.95rem;}
+.weeks .w-sub{display:block;font-size:.82rem;color:var(--ink-3);}
+.weeks button[aria-pressed="true"]{background:var(--ink);color:var(--white);}
+.weeks button[aria-pressed="true"] .w-sub{color:#B9C6CD;}
 
-/* ---------- Forfaits (week switch) ---------- */
-.passes{position:relative;z-index:3;margin-top:-90px;display:grid;grid-template-columns:1fr 1fr;gap:16px;}
-.pass{--notch:14px;position:relative;text-align:left;border:0;cursor:pointer;font:inherit;color:var(--ink);background:var(--white);
-  padding:20px 24px 20px calc(24px + 10px);border-radius:16px;box-shadow:0 18px 40px -22px rgba(15,30,51,.55);
-  -webkit-mask:radial-gradient(circle var(--notch) at 0 50%,transparent 98%,#000) left/51% 100% no-repeat,radial-gradient(circle var(--notch) at 100% 50%,transparent 98%,#000) right/51% 100% no-repeat;
-          mask:radial-gradient(circle var(--notch) at 0 50%,transparent 98%,#000) left/51% 100% no-repeat,radial-gradient(circle var(--notch) at 100% 50%,transparent 98%,#000) right/51% 100% no-repeat;
-  transition:background .25s,color .25s,transform .25s;}
-.pass::before{content:"";position:absolute;left:12px;top:18px;bottom:18px;border-left:2px dashed var(--line);}
-.pass .tname{font-size:.9rem;font-weight:600;color:var(--muted);}
-.pass .tdates{display:block;font-family:var(--display);font-weight:800;font-size:clamp(2rem,5.4vw,3.1rem);line-height:1;margin:4px 0 8px;}
-.pass .tcount{font-size:.9rem;}
-.pass .tcount b{font-weight:700;}
-.pass[aria-pressed="true"]{background:var(--night);color:var(--snow);}
-.pass[aria-pressed="true"] .tname{color:var(--glow);}
-.pass[aria-pressed="true"]::before{border-color:rgba(255,255,255,.25);}
-.pass:hover{transform:translateY(-2px);}
-@media (prefers-reduced-motion:reduce){.pass{transition:none;}.pass:hover{transform:none;}}
+/* ---------- Map + short-list ---------- */
+.atlas{display:grid;grid-template-columns:minmax(0,7fr) minmax(0,5fr);gap:48px;padding:36px 0 8px;border-top:1px solid var(--rule);}
+.map{position:relative;}
+.map svg{display:block;width:100%;height:auto;background:var(--white);border:1px solid var(--rule);border-radius:14px;}
+.map .lbl-town{font-size:calc(13px * var(--u,1));font-weight:600;font-variation-settings:"wdth" 75;fill:var(--ink-2);}
+.map .lbl-ref{font-size:calc(12px * var(--u,1));font-weight:500;font-variation-settings:"wdth" 75;fill:var(--ink-3);}
+.map .lbl-nat{font-size:calc(13px * var(--u,1));font-style:italic;font-weight:500;font-variation-settings:"wdth" 85;fill:#5E8FAE;}
+.map .lbl-peak{font-size:calc(12px * var(--u,1));font-weight:650;font-variation-settings:"wdth" 80;fill:var(--ink-2);}
+.map .lbl-country{font-size:calc(12px * var(--u,1));letter-spacing:.3em;font-weight:600;fill:#A7B5BD;}
+.pin{cursor:pointer;}
+.pin circle.dot{stroke:var(--white);stroke-width:2;transition:fill .2s ease-out,r .15s ease-out;}
+.pin text{font-size:calc(11.5px * var(--u,1));font-weight:700;font-variation-settings:"wdth" 80;text-anchor:middle;dominant-baseline:central;pointer-events:none;}
+.pin.free circle.dot{fill:var(--ink);} .pin.free text{fill:var(--white);}
+.pin.full circle.dot{fill:var(--white);stroke:#AEBBC2;stroke-width:1.5;} .pin.full text{fill:#8E9CA4;}
+.pin.over circle.dot{fill:#7E8D95;} .pin.over text{fill:var(--white);}
+.pin circle.ring{fill:none;stroke:var(--gold);stroke-width:2.5;}
+.pin.hot circle.dot{fill:var(--pin);stroke:var(--white);} .pin.hot text{fill:var(--white);}
+.pin.dim{opacity:.18;}
+.legend{display:flex;flex-wrap:wrap;gap:8px 20px;margin-top:12px;font-size:.85rem;color:var(--ink-2);}
+.legend span{display:inline-flex;align-items:center;gap:7px;}
+.legend i{width:14px;height:14px;border-radius:50%;display:inline-block;}
+.legend .k-free{background:var(--ink);} .legend .k-over{background:#7E8D95;}
+.legend .k-full{background:var(--white);border:1.5px solid #AEBBC2;}
+.legend .k-priv{border:2.5px solid var(--gold);}
+.legend small{color:var(--ink-3);font-size:.8rem;}
+.tip{position:absolute;pointer-events:none;background:var(--ink);color:var(--white);padding:8px 11px;border-radius:8px;font-size:.85rem;line-height:1.35;white-space:nowrap;transform:translate(-50%,calc(-100% - 14px));box-shadow:0 6px 18px -6px rgba(28,42,50,.45);opacity:0;transition:opacity .12s ease-out;}
+.tip.on{opacity:1;}
+.tip b{font-weight:650;}
+.tip span{color:#B9C6CD;}
 
-/* ---------- Sections ---------- */
-section{margin-top:72px;}
-.sh{margin-bottom:22px;}
-h2{font-family:var(--display);font-weight:800;font-size:clamp(2rem,4.4vw,2.9rem);line-height:1;color:var(--night);}
-.sh p{margin-top:8px;color:var(--muted);font-size:1rem;max-width:40em;}
+.short h2{font-size:1.35rem;font-weight:700;font-variation-settings:"wdth" 112;letter-spacing:-.01em;}
+.short > p{color:var(--ink-2);font-size:.95rem;margin-top:4px;}
+.short ol{list-style:none;margin-top:18px;border-top:1px solid var(--rule);}
+.short li{border-bottom:1px solid var(--rule);}
+.pick{display:grid;grid-template-columns:120px 1fr;gap:16px;align-items:center;width:100%;padding:14px 0;border:0;background:none;text-align:left;cursor:pointer;}
+.pick .ph{position:relative;aspect-ratio:4/3;border-radius:10px;overflow:hidden;background:var(--glacier);}
+.pick .ph img{width:100%;height:100%;object-fit:cover;transition:transform .35s cubic-bezier(.16,1,.3,1);}
+.pick:hover .ph img{transform:scale(1.04);}
+.pick .tag{position:absolute;left:6px;top:6px;min-width:22px;height:22px;padding:0 6px;border-radius:11px;background:var(--ink);color:var(--white);font-size:.75rem;font-weight:700;display:flex;align-items:center;justify-content:center;}
+.pick .why{font-size:.82rem;color:var(--ink-3);}
+.pick h3{font-size:1.05rem;font-weight:680;line-height:1.25;margin-top:2px;}
+.pick .town{font-size:.88rem;color:var(--ink-2);}
+.pick .pp{margin-top:6px;font-size:.95rem;font-weight:650;}
+.pick .pp.full{color:var(--ko);font-weight:600;}
+.pick .pp small{font-weight:400;color:var(--ink-3);}
 
-/* Picks */
-.picks{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;}
-.pick{position:relative;display:block;min-height:360px;border-radius:18px;overflow:hidden;background:var(--dusk);text-decoration:none;color:var(--snow);isolation:isolate;}
-.pick img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:-2;transition:transform .6s cubic-bezier(.2,.7,.2,1);}
-.pick::after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(180deg,rgba(15,30,51,0) 30%,rgba(15,30,51,.92) 100%);}
-.pick:hover img{transform:scale(1.05);}
-.pick .in{position:absolute;left:18px;right:18px;bottom:18px;}
-.pick .why{display:inline-block;background:var(--glow);color:var(--night);font-weight:700;font-size:.78rem;padding:4px 10px;border-radius:999px;}
-.pick h3{font-family:var(--display);font-weight:800;font-size:1.75rem;line-height:1;margin:10px 0 4px;}
-.pick .town{font-size:.88rem;color:#C9D6E6;}
-.pick .pp{margin-top:10px;font-family:var(--display);font-weight:800;font-size:1.6rem;}
-.pick .pp small{font-family:var(--text);font-weight:500;font-size:.8rem;color:#C9D6E6;margin-left:6px;}
-.pick.off .pp{color:#F2B8AD;font-size:1.2rem;}
-.pick.off img{filter:grayscale(.7);}
-@media (prefers-reduced-motion:reduce){.pick img{transition:none;}.pick:hover img{transform:none;}}
+/* ---------- Comparison ---------- */
+.compare{padding-top:64px;}
+.sec-head{display:flex;justify-content:space-between;align-items:end;gap:24px;flex-wrap:wrap;}
+h2.big{font-size:2rem;line-height:1.1;font-weight:740;font-variation-settings:"wdth" 116;letter-spacing:-.02em;}
+.sec-head p{color:var(--ink-2);max-width:60ch;margin-top:6px;}
+.tools{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;margin-top:22px;padding:12px 0;border-top:1px solid var(--rule);border-bottom:1px solid var(--rule);position:sticky;top:0;background:rgba(247,249,250,.96);z-index:4;}
+.zones{display:flex;gap:4px;flex-wrap:wrap;}
+.zones button{border:1px solid transparent;background:none;padding:7px 12px;border-radius:8px;font-size:.9rem;font-weight:550;color:var(--ink-2);cursor:pointer;transition:background .15s ease-out;}
+.zones button:hover{background:var(--rule-2);}
+.zones button[aria-pressed="true"]{background:var(--white);border-color:var(--rule);color:var(--ink);font-weight:650;}
+.checks{display:flex;gap:18px;flex-wrap:wrap;font-size:.9rem;color:var(--ink-2);}
+.checks label{display:inline-flex;align-items:center;gap:7px;cursor:pointer;}
+.checks input{width:16px;height:16px;accent-color:var(--ink);}
+.count{font-size:.86rem;color:var(--ink-3);margin:14px 0 4px;}
 
-/* Filters */
-.filters{position:sticky;top:0;z-index:5;background:rgba(245,248,251,.92);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);padding:12px 0;border-bottom:1px solid var(--line);margin-bottom:22px;}
-.frow{display:flex;gap:10px;flex-wrap:wrap;align-items:center;}
-.zones{display:flex;gap:6px;flex-wrap:wrap;}
-.zones button{font:inherit;font-size:.88rem;font-weight:600;border:1px solid var(--line);background:var(--white);color:var(--ink);padding:8px 14px;border-radius:999px;cursor:pointer;}
-.zones button[aria-pressed="true"]{background:var(--night);border-color:var(--night);color:var(--snow);}
-.toggles{display:flex;gap:14px;flex-wrap:wrap;margin-left:auto;font-size:.88rem;}
-.toggles label{display:flex;align-items:center;gap:7px;cursor:pointer;}
-.toggles input{width:17px;height:17px;accent-color:var(--pine);}
-.count{font-size:.86rem;color:var(--muted);margin-top:8px;}
+.grid{--cols:40px 112px minmax(0,1fr) 116px 136px 136px 132px;}
+.thead,.row{display:grid;grid-template-columns:var(--cols);gap:0 18px;align-items:center;}
+.thead{padding:10px 0;font-size:.8rem;font-weight:600;color:var(--ink-3);border-bottom:1px solid var(--rule);}
+.thead .c-w{padding:6px 10px;border-radius:6px;font-weight:650;color:var(--ink-2);}
+.thead .c-w small{display:block;font-weight:500;color:var(--ink-3);}
+.thead .c-w.on{background:var(--sel);color:var(--ink);}
+.row{position:relative;padding:14px 0;border-bottom:1px solid var(--rule);cursor:pointer;transition:background .15s ease-out;}
+.row:hover{background:linear-gradient(90deg,transparent,var(--white) 2%,var(--white) 98%,transparent);}
+.row.flash{animation:flash 1.4s ease-out;}
+@keyframes flash{0%{background:#FBE6E1;}100%{background:transparent;}}
+.c-n{font-weight:700;font-size:.9rem;color:var(--ink-3);text-align:center;}
+.row.is-free .c-n{color:var(--ink);}
+.c-ph{aspect-ratio:3/2;border-radius:8px;overflow:hidden;background:var(--glacier);display:flex;align-items:center;justify-content:center;color:#8AA7B8;font-size:.72rem;font-weight:600;text-align:center;line-height:1.2;padding:4px;}
+.c-ph img{width:100%;height:100%;object-fit:cover;}
+.c-name h3{font-size:1.02rem;font-weight:650;line-height:1.3;}
+.c-name h3 button{border:0;background:none;padding:0;text-align:left;cursor:pointer;}
+.c-name .where{font-size:.88rem;color:var(--ink-2);margin-top:1px;}
+.c-pool{font-size:.88rem;color:var(--ink-2);}
+.c-pool.priv{color:#8A6418;font-weight:650;}
+.c-pool.priv::before{content:"";display:inline-block;width:9px;height:9px;border-radius:50%;border:2px solid var(--gold);margin-right:6px;vertical-align:1px;}
+.c-w{font-size:.98rem;}
+.price{font-weight:680;}
+.price.over{color:var(--ko);}
+.price small,.full small{display:block;font-size:.75rem;font-weight:500;color:var(--ink-3);}
+.price.over small{color:var(--ko);opacity:.8;}
+.full{color:var(--ink-3);}
+.c-w.on{background:var(--sel);margin:-14px 0;padding:14px 10px;align-self:stretch;display:flex;flex-direction:column;justify-content:center;}
+.thead .c-w{margin:0;}
+.c-go{display:flex;justify-content:flex-end;}
+.go{display:inline-block;text-decoration:none;font-size:.88rem;font-weight:650;padding:8px 12px;border-radius:8px;border:1px solid var(--rule);background:var(--white);white-space:nowrap;transition:border-color .15s ease-out,background .15s ease-out;}
+.go:hover{border-color:var(--ink);}
+.more{grid-column:3 / -1;display:grid;grid-template-rows:0fr;transition:grid-template-rows .22s cubic-bezier(.16,1,.3,1);}
+.more > div{overflow:hidden;}
+.row.open .more{grid-template-rows:1fr;}
+.more-in{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px 32px;padding-top:12px;}
+.more ul{list-style:none;display:grid;gap:4px;font-size:.92rem;color:var(--ink-2);}
+.more li::before{content:"–";color:var(--ink-3);margin-right:8px;}
+.more .meta{font-size:.85rem;color:var(--ink-3);text-align:right;}
+.more .meta .go{display:none;}
+.more .note{grid-column:1/-1;font-size:.88rem;color:#7A5714;background:var(--gold-bg);padding:8px 12px;border-radius:8px;justify-self:start;}
+.empty{padding:48px 0;text-align:center;color:var(--ink-2);border-bottom:1px solid var(--rule);}
+.empty button{margin-top:12px;border:1px solid var(--ink);background:var(--ink);color:var(--white);padding:9px 16px;border-radius:8px;font-weight:650;cursor:pointer;}
 
-/* Cards */
-.list{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;}
-.card{display:flex;flex-direction:column;background:var(--white);border:1px solid var(--line);border-radius:16px;overflow:hidden;}
-.card .ph{position:relative;display:block;aspect-ratio:3/2;background:linear-gradient(160deg,var(--night),var(--dusk));overflow:hidden;}
-.card .ph img{position:relative;z-index:1;width:100%;height:100%;object-fit:cover;transition:transform .5s cubic-bezier(.2,.7,.2,1);}
-.card .ph:hover img{transform:scale(1.04);}
-.card .ph .fb{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;color:var(--ice);font-weight:600;font-size:.88rem;}
-.card .ph .fb svg{width:54px;height:34px;}
-.card.off .ph img{filter:grayscale(.85);opacity:.75;}
-.card .body{display:flex;flex-direction:column;gap:12px;padding:18px 18px 16px;flex:1;}
-.head{display:flex;justify-content:space-between;gap:12px;align-items:flex-start;}
-.card h3{font-size:1.08rem;font-weight:700;line-height:1.25;color:var(--night);}
-.loc{font-size:.86rem;color:var(--muted);margin-top:3px;}
-.loc b{color:var(--ink);font-weight:600;}
-.price{text-align:right;flex-shrink:0;}
-.price b{display:block;font-family:var(--display);font-weight:800;font-size:1.9rem;line-height:1;color:var(--night);font-variant-numeric:tabular-nums;}
-.price span{font-size:.75rem;color:var(--muted);}
-.price.over b{color:var(--ember);}
-.price.none b{font-size:1.2rem;color:var(--muted);}
-.tags{display:flex;gap:6px;flex-wrap:wrap;}
-.tag{font-size:.76rem;font-weight:600;padding:4px 10px;border-radius:999px;background:var(--ice);color:var(--dusk);}
-.tag.free{background:var(--pine-bg);color:var(--pine);}
-.tag.full{background:var(--ember-bg);color:var(--ember);}
-.tag.priv{background:var(--glow);color:var(--night);}
-.tag.src{background:transparent;border:1px solid var(--line);color:var(--muted);}
-.facts{list-style:none;display:grid;gap:5px;font-size:.88rem;color:#33445A;}
-.facts li{padding-left:16px;position:relative;}
-.facts li::before{content:"";position:absolute;left:2px;top:.62em;width:6px;height:6px;border-radius:50%;background:var(--dusk);opacity:.5;}
-.note{font-size:.84rem;background:var(--glow-bg);color:#6B4A0E;padding:9px 12px;border-radius:10px;}
-.foot{margin-top:auto;display:flex;justify-content:space-between;align-items:center;gap:10px;padding-top:4px;}
-.rating{font-size:.82rem;color:var(--muted);}
-.go{font-size:.86rem;font-weight:700;text-decoration:none;background:var(--night);color:var(--snow);padding:9px 14px;border-radius:10px;white-space:nowrap;}
-.go:hover{background:var(--dusk);}
-@media (prefers-reduced-motion:reduce){.card .ph img{transition:none;}.card .ph:hover img{transform:none;}}
-.empty{grid-column:1/-1;text-align:center;padding:48px 16px;color:var(--muted);background:var(--white);border:1px dashed var(--line);border-radius:16px;}
-.empty button{margin-top:12px;font:inherit;font-weight:700;border:0;background:var(--night);color:var(--snow);padding:9px 16px;border-radius:10px;cursor:pointer;}
+/* ---------- Ruled out ---------- */
+.out{padding-top:72px;}
+.out dl{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 48px;margin-top:18px;border-top:1px solid var(--rule);}
+.out dl div{padding:14px 0;border-bottom:1px solid var(--rule);}
+.out dt{font-weight:650;font-size:.98rem;}
+.out dd{color:var(--ink-2);font-size:.92rem;}
 
-/* Excluded */
-.out{display:grid;grid-template-columns:1fr 1fr;gap:0 32px;background:var(--white);border:1px solid var(--line);border-radius:16px;padding:8px 24px;}
-.out div{padding:14px 0;border-bottom:1px solid var(--line);}
-.out div:nth-last-child(-n+2){border-bottom:0;}
-.out b{display:block;font-weight:600;color:var(--night);font-size:.95rem;}
-.out span{font-size:.88rem;color:var(--muted);}
+footer{margin-top:80px;border-top:1px solid var(--rule);}
+footer .wrap{padding-top:24px;padding-bottom:40px;display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;font-size:.88rem;color:var(--ink-3);}
+footer a{color:var(--ink);font-weight:600;}
 
-footer{margin-top:80px;background:var(--night);color:#A9BAD0;font-size:.88rem;}
-footer .wrap{padding-top:36px;padding-bottom:44px;display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;}
-footer a{color:var(--snow);font-weight:600;}
+@media (prefers-reduced-motion:reduce){*{transition:none !important;animation:none !important;}}
 
-@media (max-width:1000px){.picks{grid-template-columns:1fr 1fr;}.list{grid-template-columns:1fr 1fr;}}
-@media (max-width:640px){
-  .wrap{padding:0 16px;}
-  .hero-inner{padding-top:44px;}
-  .hero svg.land{margin-top:0;}
-  .passes{grid-template-columns:1fr;margin-top:-56px;gap:12px;}
-  .picks{grid-template-columns:1fr;}
-  .pick{min-height:300px;}
-  .list{grid-template-columns:1fr;}
-  .toggles{margin-left:0;}
-  .filters{position:static;}
-  .out{grid-template-columns:1fr;}
-  .out div:nth-last-child(2){border-bottom:1px solid var(--line);}
-  section{margin-top:56px;}
+/* ---------- Responsive ---------- */
+@media (max-width:1080px){
+  .atlas{grid-template-columns:1fr;gap:32px;}
+  .short ol{display:grid;grid-template-columns:1fr 1fr;gap:0 24px;}
+  .grid{--cols:32px 96px minmax(0,1fr) 104px 112px 112px;}
+  .c-go,.thead span:last-child{display:none;}
+  .more .meta a.go{display:inline-block;margin-top:6px;}
 }
+@media (max-width:760px){
+  .wrap{padding:0 18px;}
+  .top{grid-template-columns:1fr;padding-top:28px;padding-bottom:22px;}
+  h1{font-size:2.4rem;}
+  .weeks{width:100%;} .weeks button{flex:1;min-width:0;padding:9px 10px;}
+  .short ol{grid-template-columns:1fr;}
+  .pick{grid-template-columns:96px 1fr;}
+  .tools{position:static;}
+  .thead{display:none;}
+  .row{grid-template-columns:28px 88px minmax(0,1fr);grid-template-areas:"n ph name" "n ph pool" ". w w";row-gap:6px;align-items:start;}
+  .c-n{grid-area:n;padding-top:2px;} .c-ph{grid-area:ph;} .c-name{grid-area:name;} .c-pool{grid-area:pool;}
+  .wk{grid-area:w;display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:6px;}
+  .c-w,.c-w.on{margin:0;padding:8px 10px;border-radius:8px;background:var(--rule-2);display:block;align-self:auto;}
+  .c-w.on{background:var(--sel);}
+  .c-w::before{content:attr(data-label);display:block;font-size:.74rem;color:var(--ink-3);font-weight:600;}
+  .more{grid-column:1 / -1;}
+  .more-in{grid-template-columns:1fr;}
+  .more .meta{text-align:left;}
+  .out dl{grid-template-columns:1fr;}
+  h2.big{font-size:1.6rem;}
+}
+@media (min-width:761px){ .wk{display:contents;} }
 </style>
 </head>
 <body>
 
-<header class="hero">
-  <div class="wrap hero-inner">
-    <h1>Noël<br>au ski</h1>
-    <p class="when">19 décembre 2026 au 4 janvier 2027</p>
-    <p class="brief">Une semaine pour nous cinq, avec une piscine pour se détendre, à moins de 30 minutes des pistes et pas plus de 5 000 € la semaine.</p>
-    <p class="checked">Disponibilités et prix relevés sur Airbnb, Booking, Ski-Planet et Travelski les 8 et 10 octobre 2026. Ils bougent vite.</p>
+<header class="wrap top">
+  <div>
+    <h1>Noël au ski 2026</h1>
+    <p class="lede">Une semaine à cinq, avec une piscine pour souffler, à moins de 30 minutes des pistes et pas plus de 5 000 € la semaine.</p>
   </div>
-  <svg class="land" viewBox="0 70 1440 450" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
-    <defs>
-      <linearGradient id="far" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#4E6E93"/><stop offset="1" stop-color="#3A5878"/></linearGradient>
-      <linearGradient id="mid" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#28466A"/><stop offset="1" stop-color="#1D3757"/></linearGradient>
-      <radialGradient id="halo" cx="0.5" cy="0.5" r="0.5"><stop offset="0" stop-color="#E8B04B" stop-opacity=".55"/><stop offset="1" stop-color="#E8B04B" stop-opacity="0"/></radialGradient>
-    </defs>
-    <!-- massif du Mont-Blanc -->
-    <path fill="url(#far)" d="M0 330 L120 260 L190 290 L300 190 L370 235 L470 150 L540 200 L640 92 L720 160 L790 120 L880 205 L960 165 L1060 240 L1150 185 L1250 255 L1340 215 L1440 270 L1440 520 L0 520Z"/>
-    <path fill="#EAF1F8" opacity=".9" d="M640 92 L690 148 L668 140 L652 156 L634 132 L612 150 L600 140 Z M470 150 L505 186 L488 180 L470 192 L456 176 L440 182 Z M790 120 L828 160 L808 154 L792 166 L776 150 L760 156 Z M300 190 L330 222 L314 216 L298 226 L284 214 Z M1150 185 L1180 214 L1164 210 L1150 220 L1136 208 Z"/>
-    <!-- crête intermédiaire -->
-    <path fill="url(#mid)" d="M0 390 L90 350 L170 372 L260 318 L350 360 L430 330 L520 372 L610 336 L700 380 L820 330 L910 368 L1010 322 L1110 362 L1210 334 L1320 372 L1440 340 L1440 520 L0 520Z"/>
-    <!-- forêt -->
-    <path fill="#14283F" d="M0 440 Q240 405 480 430 T960 422 T1440 432 L1440 520 L0 520Z"/>
-    <g fill="#0F2035">
-      <path d="M70 438 l14 -38 l14 38z M100 442 l11 -30 l11 30z M180 432 l16 -44 l16 44z M214 436 l12 -32 l12 32z M330 428 l15 -40 l15 40z M362 432 l11 -30 l11 30z M560 430 l14 -38 l14 38z M820 424 l15 -42 l15 42z M852 428 l11 -30 l11 30z M1090 430 l16 -44 l16 44z M1124 434 l12 -32 l12 32z M1310 432 l14 -38 l14 38z M1340 436 l11 -30 l11 30z"/>
-    </g>
-    <!-- chalet éclairé -->
-    <g transform="translate(985 300)">
-      <circle cx="40" cy="26" r="70" fill="url(#halo)"/>
-      <path fill="#0B192B" d="M0 30 L40 2 L80 30 L74 30 L74 56 L6 56 L6 30Z"/>
-      <path fill="#E9F0F7" d="M-4 32 L40 0 L84 32 L78 34 L40 7 L2 34Z"/>
-      <rect x="18" y="34" width="14" height="12" rx="1.5" fill="#F3C063"/>
-      <rect x="48" y="34" width="14" height="12" rx="1.5" fill="#F3C063"/>
-      <rect x="61" y="6" width="7" height="14" fill="#0B192B"/>
-    </g>
-    <!-- neige -->
-    <path fill="#F5F8FB" d="M0 470 Q360 440 720 462 T1440 456 L1440 520 L0 520Z"/>
-  </svg>
+  <div class="weeks" role="group" aria-label="Semaine">
+    <button data-w="w1" aria-pressed="true"><span class="w-name">Semaine de Noël</span><span class="w-sub num" id="s-w1">19 – 26 déc.</span></button>
+    <button data-w="w2" aria-pressed="false"><span class="w-name">Nouvel An</span><span class="w-sub num" id="s-w2">26 déc. – 2 janv.</span></button>
+  </div>
 </header>
 
 <main class="wrap">
-  <div class="passes" role="group" aria-label="Choisir la semaine">
-    <button class="pass" data-w="w1" aria-pressed="true">
-      <span class="tname">Semaine de Noël</span>
-      <span class="tdates">19 – 26 déc.</span>
-      <span class="tcount" id="c-w1"></span>
-    </button>
-    <button class="pass" data-w="w2" aria-pressed="false">
-      <span class="tname">Semaine du Nouvel An</span>
-      <span class="tdates">26 déc. – 2 janv.</span>
-      <span class="tcount" id="c-w2"></span>
-    </button>
-  </div>
-
-  <section aria-labelledby="t-picks">
-    <div class="sh">
-      <h2 id="t-picks">Nos coups de cœur</h2>
-      <p>Les quatre logements qui collent le mieux à la demande. Le prix suit la semaine choisie.</p>
-    </div>
-    <div class="picks" id="picks"></div>
-  </section>
-
-  <section aria-labelledby="t-all">
-    <div class="sh">
-      <h2 id="t-all">Tous les logements</h2>
-      <p>Chaque logement a été vérifié pour les deux semaines, avec une piscine utilisable en hiver.</p>
-    </div>
-    <div class="filters">
-      <div class="frow">
-        <div class="zones" role="group" aria-label="Secteur">
-          <button data-z="all" aria-pressed="true">Tous les secteurs</button>
-          <button data-z="cham" aria-pressed="false">Vallée de Chamonix</button>
-          <button data-z="meg" aria-pressed="false">Megève et Saint-Gervais</button>
-          <button data-z="other" aria-pressed="false">Grand Massif et ailleurs</button>
-        </div>
-        <div class="toggles">
-          <label><input type="checkbox" id="onlyAvail" checked> Masquer les complets</label>
-          <label><input type="checkbox" id="onlyBudget"> Dans le budget</label>
-          <label><input type="checkbox" id="onlyPrivate"> Piscine privée</label>
-        </div>
+  <section class="atlas" aria-label="Carte et short-list">
+    <div class="map" id="map">
+      <svg id="mapsvg" viewBox="0 0 800 780" role="img" aria-label="Carte de la Haute-Savoie avec les logements numérotés"></svg>
+      <div class="tip" id="tip" role="status"></div>
+      <div class="legend" aria-hidden="true">
+        <span><i class="k-free"></i>Libre dans le budget</span>
+        <span><i class="k-over"></i>Libre, au-dessus du budget</span>
+        <span><i class="k-full"></i>Complet</span>
+        <span><i class="k-priv"></i>Piscine privée</span>
+        <small>Carte indicative, positions à l'échelle de la commune.</small>
       </div>
-      <p class="count" id="count" aria-live="polite"></p>
     </div>
-    <div class="list" id="list"></div>
+    <aside class="short">
+      <h2>Notre short-list</h2>
+      <p id="short-sub"></p>
+      <ol id="picks"></ol>
+    </aside>
   </section>
 
-  <section aria-labelledby="t-out">
-    <div class="sh">
-      <h2 id="t-out">Écartés</h2>
-      <p>Regardés, puis laissés de côté pour une raison précise.</p>
+  <section class="compare" aria-labelledby="t-cmp">
+    <div class="sec-head">
+      <div>
+        <h2 class="big" id="t-cmp">Tous les logements, semaine par semaine</h2>
+        <p>Chaque logement a une piscine utilisable en hiver. Cliquez une ligne pour le détail. Les lignes sont triées selon la semaine choisie.</p>
+      </div>
     </div>
-    <div class="out" id="out"></div>
+    <div class="tools">
+      <div class="zones" role="group" aria-label="Secteur">
+        <button data-z="all" aria-pressed="true">Tous les secteurs</button>
+        <button data-z="cham" aria-pressed="false">Vallée de Chamonix</button>
+        <button data-z="meg" aria-pressed="false">Megève, Saint-Gervais</button>
+        <button data-z="other" aria-pressed="false">Grand Massif et ailleurs</button>
+      </div>
+      <div class="checks">
+        <label><input type="checkbox" id="onlyAvail" checked> Masquer les complets</label>
+        <label><input type="checkbox" id="onlyBudget"> Dans le budget</label>
+        <label><input type="checkbox" id="onlyPrivate"> Piscine privée</label>
+      </div>
+    </div>
+    <p class="count num" id="count" aria-live="polite"></p>
+    <div class="grid">
+      <div class="thead" aria-hidden="true">
+        <span class="c-n">N°</span><span></span><span>Logement</span><span>Piscine</span>
+        <span class="c-w" data-w="w1">Noël<small class="num">19 – 26 déc.</small></span><span class="c-w" data-w="w2">Nouvel An<small class="num">26 déc. – 2 janv.</small></span><span></span>
+      </div>
+      <div id="rows"></div>
+    </div>
+  </section>
+
+  <section class="out" aria-labelledby="t-out">
+    <h2 class="big" id="t-out">Écartés</h2>
+    <dl id="out"></dl>
   </section>
 </main>
 
 <footer>
   <div class="wrap">
-    <p>Prix pour 7 nuits, hors taxe de séjour. Temps de trajet vers les pistes indicatifs.</p>
+    <p>Prix pour 7 nuits, hors taxe de séjour. Relevés sur Airbnb, Booking, Ski-Planet et Travelski les 8 et 10 octobre 2026 ; ils changent vite.</p>
     <p><a href="../">Retour au guide des Açores</a></p>
   </div>
 </footer>
@@ -353,91 +369,244 @@ const EXCLUDED = [
 ];
 
 const PICKS = [
-  {id:"641683846827813656", why:"Piscine privée"},
-  {id:"1502040626825909187", why:"Piscine privée, vallée de Chamonix"},
-  {id:"1468834047328772164", why:"Meilleur rapport qualité-prix"},
+  {id:"641683846827813656", why:"Piscine privée, 4 chambres"},
+  {id:"1502040626825909187", why:"Piscine privée dans la vallée de Chamonix"},
+  {id:"1468834047328772164", why:"Le meilleur rapport qualité-prix"},
   {id:"1788112373236328667", why:"Megève, libre les deux semaines"},
 ];
 
-const $ = id => document.getElementById(id);
-const fmt = n => n.toLocaleString('fr-FR') + ' €';
-const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
-const zoneOf = l => /Chamonix|Houches|Argenti|Vallorcine/.test(l.where) ? 'cham' : /Meg[eè]ve|Combloux|Saint-Gervais/.test(l.where) ? 'meg' : 'other';
-const splitWhere = w => { const i = w.indexOf(' · '); return i < 0 ? [w, ''] : [w.slice(0, i), w.slice(i + 3)]; };
-const isNum = v => typeof v === 'number';
-let week = 'w1', zone = 'all';
-
-const mountain = '<svg viewBox="0 0 54 34" aria-hidden="true"><path d="M0 34 L17 10 L26 22 L37 4 L54 34Z" fill="currentColor" opacity=".7"/></svg>';
-
-function photo(l, cls){
-  return `<a class="${cls}" href="${l.url}" target="_blank" rel="noopener" aria-label="Voir les photos de ${esc(l.name)}">
-    <span class="fb">${mountain}Photos sur ${l.src}</span>
-    ${l.img ? `<img src="${l.img}" alt="" loading="lazy" referrerpolicy="no-referrer" onerror="this.remove()">` : ''}
-  </a>`;
+/* ---------- Geography ---------- */
+const TOWNS = {
+  "Taninges":[46.108,6.589], "Morillon":[46.084,6.677], "Samoëns":[46.081,6.727], "Saint-Jean-d'Aulps":[46.234,6.651],
+  "Les Houches":[45.891,6.799], "Chamonix":[45.924,6.869], "Vallorcine":[46.033,6.933], "Megève":[45.857,6.617],
+  "Combloux":[45.897,6.642], "Saint-Gervais":[45.892,6.712], "La Rosière":[45.627,6.851]
+};
+const EXT = {n:46.27, s:45.79, w:6.40, e:7.06}, VW = 800, VH = 780;
+let U = 1;                                  // pin & label scale (bigger on phones, where the map is zoomed)
+const isPhone = () => matchMedia('(max-width:760px)').matches;
+const proj = ([lat, lon]) => [ (lon - EXT.w) / (EXT.e - EXT.w) * VW, (EXT.n - lat) / (EXT.n - EXT.s) * VH ];
+const path = pts => pts.map((p, i) => (i ? 'L' : 'M') + proj(p).map(v => v.toFixed(1)).join(' ')).join(' ');
+function smooth(pts, closed){                // Catmull-Rom through geographic points
+  const P = pts.map(proj), n = P.length, f = v => v.toFixed(1);
+  const at = i => closed ? P[(i + n) % n] : P[Math.max(0, Math.min(n - 1, i))];
+  let d = `M${f(P[0][0])} ${f(P[0][1])}`;
+  for (let i = 0; i < (closed ? n : n - 1); i++) {
+    const p0 = at(i - 1), p1 = at(i), p2 = at(i + 1), p3 = at(i + 2);
+    d += ` C${f(p1[0] + (p2[0] - p0[0]) / 6)} ${f(p1[1] + (p2[1] - p0[1]) / 6)} ${f(p2[0] - (p3[0] - p1[0]) / 6)} ${f(p2[1] - (p3[1] - p1[1]) / 6)} ${f(p2[0])} ${f(p2[1])}`;
+  }
+  return d + (closed ? 'Z' : '');
 }
+const LABEL = { Morillon:'below', "Saint-Gervais":'above', Combloux:'left', Taninges:'above' };
 
-function renderCounts(){
-  for (const w of ['w1','w2']) {
-    const free = LODGINGS.filter(l => isNum(l[w]) && l[w] <= BUDGET).length;
-    $('c-' + w).innerHTML = `<b>${free} logements</b> libres dans le budget`;
+const $ = id => document.getElementById(id);
+const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const fmt = n => n.toLocaleString('fr-FR') + ' €';
+const isNum = v => typeof v === 'number';
+const WEEK = {w1:'Semaine de Noël', w2:'Nouvel An'};
+let week = 'w1', zone = 'all', hot = null;
+
+LODGINGS.forEach((l, i) => {
+  l.n = i + 1;
+  const k = l.where.indexOf(' · ');
+  l.town = k < 0 ? l.where : l.where.slice(0, k);
+  l.detail = k < 0 ? '' : l.where.slice(k + 3);
+  l.zone = /Chamonix|Houches|Argenti|Vallorcine/.test(l.town) ? 'cham' : /Meg[eè]ve|Combloux|Saint-Gervais/.test(l.town) ? 'meg' : 'other';
+  l.title = / — .*piscine/i.test(l.name) ? l.name.replace(/ — .*/, '') : l.name;
+  l.id = (l.url.match(/(\d{6,})/) || [, ''])[1];
+});
+const state = (l, w = week) => !isNum(l[w]) ? 'full' : l[w] > BUDGET ? 'over' : 'free';
+
+/* pin positions: cluster around the town point */
+function place(){
+  const groups = {};
+  LODGINGS.forEach(l => (groups[l.town] = groups[l.town] || []).push(l));
+  for (const [town, ls] of Object.entries(groups)) {
+    let [x, y] = proj(TOWNS[town] || [45.8, 6.85]);
+    if (y > VH - 40) y = VH - 40;                       // La Rosière sits south of the frame
+    const r = ls.length === 1 ? 0 : (15 + ls.length * 3.2) * U;
+    ls.forEach((l, i) => {
+      const a = -Math.PI / 2 + i * 2 * Math.PI / ls.length;
+      l.px = x + r * Math.cos(a); l.py = y + r * Math.sin(a); l.cr = r; l.cx = x; l.cy = y;
+    });
   }
 }
 
-function renderPicks(){
-  $('picks').innerHTML = PICKS.map(p => {
-    const l = LODGINGS.find(x => x.url.includes(p.id)); if (!l) return '';
-    const v = l[week], [town] = splitWhere(l.where);
-    const price = isNum(v) ? `${fmt(v)}<small>la semaine</small>` : 'Complet cette semaine';
-    return `<a class="pick${isNum(v) ? '' : ' off'}" href="${l.url}" target="_blank" rel="noopener">
-      ${l.img ? `<img src="${l.img}" alt="" referrerpolicy="no-referrer" onerror="this.remove()">` : ''}
-      <span class="in"><span class="why">${p.why}</span><h3>${esc(l.name.replace(/ — .*/, ''))}</h3><span class="town">${esc(town)}</span><p class="pp">${price}</p></span>
-    </a>`;
+function drawBase(){
+  const lake = [[46.27,6.40],[46.27,6.46]];
+  const arve = [[46.0,6.965],[45.98,6.925],[45.924,6.869],[45.891,6.80],[45.905,6.735],[45.915,6.70],[45.936,6.632],[46.0,6.60],[46.06,6.578],[46.075,6.50],[46.08,6.40]];
+  const giffre = [[46.06,6.80],[46.081,6.727],[46.084,6.677],[46.108,6.589],[46.095,6.52],[46.085,6.47]];
+  const dranse = [[46.179,6.709],[46.21,6.67],[46.25,6.64],[46.27,6.62]];
+  const border = [[46.27,6.865],[46.20,6.84],[46.15,6.85],[46.08,6.93],[46.035,6.965],[45.97,7.0],[45.92,7.04]];
+  const italy = [[45.92,7.04],[45.87,6.97],[45.833,6.865],[45.80,6.81]];
+  const massif = [[45.79,6.75],[45.815,6.79],[45.85,6.835],[45.885,6.88],[45.925,6.935],[45.965,6.985],[45.955,7.03],[45.92,7.05],[45.875,7.02],[45.835,6.965],[45.80,6.905],[45.785,6.83]];
+  const ar = [[45.925,6.79],[45.95,6.825],[45.98,6.865],[46.01,6.9],[46.005,6.925],[45.975,6.895],[45.945,6.855],[45.915,6.815]]; // Aiguilles Rouges
+  const giffreMass = [[45.975,6.70],[46.0,6.725],[46.03,6.775],[46.05,6.835],[46.03,6.86],[46.0,6.815],[45.98,6.76],[45.965,6.72]]; // Haut-Giffre
+  const scale = (pts, c, f) => pts.map(([a, b]) => [c[0] + (a - c[0]) * f, c[1] + (b - c[1]) * f]);
+  const mb = [45.86, 6.90];
+  let s = '';
+  s += `<rect width="${VW}" height="${VH}" fill="var(--white)"/>`;
+  // relief tints
+  s += `<path d="${smooth(massif, true)}" fill="var(--glacier)"/>`;
+  [0.78, 0.56, 0.34].forEach(f => s += `<path d="${smooth(scale(massif, mb, f), true)}" fill="none" stroke="var(--contour)" stroke-width="1"/>`);
+  s += `<path d="${smooth(ar, true)}" fill="#EEF4F7"/><path d="${smooth(scale(ar,[45.965,6.86],.55), true)}" fill="none" stroke="var(--contour)"/>`;
+  s += `<path d="${smooth(giffreMass, true)}" fill="#EEF4F7"/><path d="${smooth(scale(giffreMass,[46.01,6.78],.55), true)}" fill="none" stroke="var(--contour)"/>`;
+  // borders
+  s += `<path d="${path(border)}" fill="none" stroke="#B9C5CC" stroke-width="1.4" stroke-dasharray="6 4"/>`;
+  s += `<path d="${path(italy)}" fill="none" stroke="#B9C5CC" stroke-width="1.4" stroke-dasharray="6 4"/>`;
+  // rivers
+  [arve, giffre, dranse].forEach(r => s += `<path d="${smooth(r, false)}" fill="none" stroke="var(--river)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>`);
+  // labels: nature + countries
+  const t = (ll, txt, cls, dx = 0, dy = 0, extra = '') => { const [x, y] = proj(ll); return `<text x="${(x+dx).toFixed(1)}" y="${(y+dy).toFixed(1)}" class="${cls}" ${extra}>${txt}</text>`; };
+  s += t([46.06,6.545], 'Arve', 'lbl-nat');
+  s += t([46.04,6.80], 'Giffre', 'lbl-nat');
+  s += t([45.87,6.93], 'Massif du Mont-Blanc', 'lbl-nat', 0, 0, 'text-anchor="middle"');
+  s += t([46.19,6.96], 'SUISSE', 'lbl-country');
+  s += t([45.82,6.985], 'ITALIE', 'lbl-country');
+  // Mont Blanc summit
+  const [mx, my] = proj([45.8326, 6.8652]);
+  s += `<path d="M${mx} ${my-8} L${mx+7} ${my+5} L${mx-7} ${my+5}Z" fill="var(--ink-2)"/>`;
+  s += `<text x="${mx+11}" y="${my+5}" class="lbl-peak">Mont Blanc 4 806 m</text>`;
+  // reference towns (no lodgings)
+  [["Morzine",[46.179,6.709]],["Les Gets",[46.158,6.669]],["Cluses",[46.06,6.578]],["Sallanches",[45.936,6.632]],["Flaine",[46.006,6.69]],["Argentière",[45.983,6.927]]]
+    .forEach(([n, ll]) => { const [x, y] = proj(ll); s += `<circle cx="${x}" cy="${y}" r="2.5" fill="#A7B5BD"/><text x="${x+6}" y="${y+4}" class="lbl-ref">${n}</text>`; });
+  // lodging towns
+  const placed = {};
+  LODGINGS.forEach(l => { if (placed[l.town]) return; placed[l.town] = 1;
+    const x = l.cx, y = l.cy, off = l.cr + 18 * U, pos = LABEL[l.town] || 'right';
+    const label = proj(TOWNS[l.town] || [0,0])[1] > VH - 40 ? 'La Rosière, 1 h 45 au sud' : l.town;
+    const [lx, ly, anchor] = pos === 'below' ? [x, y + off + 6 * U, 'middle'] : pos === 'above' ? [x, y - off - 2 * U, 'middle'] : pos === 'left' ? [x - off, y + 4 * U, 'end'] : [x + off, y + 4 * U, 'start'];
+    s += `<text x="${lx.toFixed(1)}" y="${ly.toFixed(1)}" text-anchor="${anchor}" class="lbl-town">${label}</text>`;
+  });
+  s += `<g id="pins"></g>`;
+  $('mapsvg').innerHTML = s;
+}
+
+function drawPins(){
+  const visible = new Set(filtered().map(l => l.n));
+  $('pins').innerHTML = LODGINGS.map(l => {
+    const st = state(l), cls = ['pin', st, hot === l.n ? 'hot' : '', visible.has(l.n) ? '' : 'dim'].join(' ');
+    return `<g class="${cls}" data-n="${l.n}" tabindex="-1">
+      ${l.private ? `<circle class="ring" cx="${l.px}" cy="${l.py}" r="${15.5 * U}"/>` : ''}
+      <circle class="dot" cx="${l.px}" cy="${l.py}" r="${11.5 * U}"/>
+      <text x="${l.px}" y="${l.py + .5}">${l.n}</text></g>`;
   }).join('');
 }
 
-function renderList(){
-  const onlyAvail = $('onlyAvail').checked, onlyBudget = $('onlyBudget').checked, onlyPrivate = $('onlyPrivate').checked;
-  const rows = LODGINGS.map(l => ({...l, p: l[week]}))
-    .filter(l => !onlyAvail || isNum(l.p))
-    .filter(l => !onlyBudget || (isNum(l.p) && l.p <= BUDGET))
-    .filter(l => !onlyPrivate || l.private)
-    .filter(l => zone === 'all' || zoneOf(l) === zone)
-    .sort((a, b) => (isNum(a.p) ? 0 : 1) - (isNum(b.p) ? 0 : 1) || (!!b.private - !!a.private) || ((a.p || 9e9) - (b.p || 9e9)));
-
-  $('count').textContent = rows.length ? `${rows.length} logement${rows.length > 1 ? 's' : ''}` : '';
-  $('list').innerHTML = rows.length ? rows.map(l => {
-    const avail = isNum(l.p), over = avail && l.p > BUDGET, [town, detail] = splitWhere(l.where);
-    const status = avail ? '<span class="tag free">Libre</span>' : l.p === null ? '<span class="tag full">Complet</span>' : '<span class="tag">Non vérifié</span>';
-    const pool = l.private ? '<span class="tag priv">Piscine privée</span>' : '<span class="tag">Piscine de résidence</span>';
-    return `<article class="card${avail ? '' : ' off'}">
-      ${photo(l, 'ph')}
-      <div class="body">
-        <div class="head">
-          <div><h3>${esc(/ — .*piscine/i.test(l.name) ? l.name.replace(/ — .*/, '') : l.name)}</h3><p class="loc"><b>${esc(town)}</b>${detail ? ', ' + esc(detail) : ''}</p></div>
-          <div class="price${over ? ' over' : ''}${avail ? '' : ' none'}"><b>${avail ? fmt(l.p) : '—'}</b><span>${over ? 'au-dessus du budget' : avail ? 'la semaine' : ''}</span></div>
-        </div>
-        <div class="tags">${status}${pool}<span class="tag src">${l.src}</span></div>
-        <ul class="facts">${l.facts.map(f => `<li>${esc(f)}</li>`).join('')}</ul>
-        ${l.note ? `<p class="note">${esc(l.note)}</p>` : ''}
-        <div class="foot"><span class="rating">${esc(l.rating)}</span><a class="go" href="${l.url}" target="_blank" rel="noopener">Voir l'annonce</a></div>
-      </div>
-    </article>`;
-  }).join('') : `<div class="empty">Aucun logement ne correspond à ces filtres pour cette semaine.<br><button type="button" id="reset">Afficher tous les logements</button></div>`;
-  const r = $('reset'); if (r) r.onclick = () => { ['onlyBudget','onlyPrivate'].forEach(id => $(id).checked = false); setZone('all'); };
+function priceText(l, w){
+  const v = l[w];
+  return isNum(v) ? fmt(v) : (v === null ? 'Complet' : 'Non vérifié');
 }
 
-function render(){ renderPicks(); renderList(); }
-function setZone(z){ zone = z; document.querySelectorAll('.zones button').forEach(b => b.setAttribute('aria-pressed', b.dataset.z === z)); renderList(); }
+function drawPicks(){
+  const free = LODGINGS.filter(l => state(l) === 'free').length;
+  $('short-sub').textContent = `${WEEK[week]} : ${free} logements sur ${LODGINGS.length} sont libres dans le budget.`;
+  $('picks').innerHTML = PICKS.map(p => {
+    const l = LODGINGS.find(x => x.id === p.id); if (!l) return '';
+    const v = l[week];
+    return `<li><button class="pick" data-n="${l.n}">
+      <span class="ph">${l.img ? `<img src="${l.img}" alt="" loading="lazy" referrerpolicy="no-referrer" onerror="this.remove()">` : ''}<span class="tag num">${l.n}</span></span>
+      <span><span class="why">${esc(p.why)}</span><h3>${esc(l.title)}</h3><span class="town">${esc(l.town)}</span>
+      <p class="pp num ${isNum(v) ? '' : 'full'}">${isNum(v) ? `${fmt(v)} <small>la semaine</small>` : 'Complet cette semaine'}</p></span>
+    </button></li>`;
+  }).join('');
+}
 
-document.querySelectorAll('.pass').forEach(b => b.addEventListener('click', () => {
-  week = b.dataset.w;
-  document.querySelectorAll('.pass').forEach(x => x.setAttribute('aria-pressed', x === b));
-  render();
+function filtered(){
+  const a = $('onlyAvail').checked, b = $('onlyBudget').checked, pv = $('onlyPrivate').checked;
+  return LODGINGS.filter(l => (!a || isNum(l[week])) && (!b || state(l) === 'free') && (!pv || l.private) && (zone === 'all' || l.zone === zone));
+}
+
+function cell(l, w){
+  const v = l[w], on = w === week ? ' on' : '', label = w === 'w1' ? 'Noël' : 'Nouvel An';
+  if (!isNum(v)) return `<div class="c-w${on}" data-label="${label}"><span class="full">${v === null ? 'Complet' : 'Non vérifié'}</span></div>`;
+  const over = v > BUDGET;
+  return `<div class="c-w${on}" data-label="${label}"><span class="price num${over ? ' over' : ''}">${fmt(v)}${over ? '<small>au-dessus du budget</small>' : ''}</span></div>`;
+}
+
+function drawRows(){
+  const rows = filtered().sort((x, y) => (isNum(x[week]) ? 0 : 1) - (isNum(y[week]) ? 0 : 1) || ((x[week] || 9e9) - (y[week] || 9e9)));
+  $('count').textContent = rows.length ? `${rows.length} logement${rows.length > 1 ? 's' : ''} affiché${rows.length > 1 ? 's' : ''} sur ${LODGINGS.length}` : '';
+  document.querySelectorAll('.thead .c-w').forEach(h => h.classList.toggle('on', h.dataset.w === week));
+  $('rows').innerHTML = rows.length ? rows.map(l => `
+    <article class="row is-${state(l)}" id="l${l.n}" data-n="${l.n}">
+      <span class="c-n num">${l.n}</span>
+      <div class="c-ph">${l.img ? `<img src="${l.img}" alt="" loading="lazy" referrerpolicy="no-referrer" onerror="this.remove()">` : `Photos sur ${l.src}`}</div>
+      <div class="c-name"><h3><button aria-expanded="false" aria-controls="m${l.n}">${esc(l.title)}</button></h3><p class="where">${esc(l.town)}${l.detail ? ', ' + esc(l.detail) : ''}</p></div>
+      <span class="c-pool${l.private ? ' priv' : ''}">${l.private ? 'Privée' : 'De résidence'}</span>
+      <div class="wk">${cell(l, 'w1')}${cell(l, 'w2')}</div>
+      <div class="c-go"><a class="go" href="${l.url}" target="_blank" rel="noopener">Voir l'annonce</a></div>
+      <div class="more" id="m${l.n}"><div><div class="more-in">
+        <ul>${l.facts.map(f => `<li>${esc(f)}</li>`).join('')}</ul>
+        <p class="meta">${esc(l.rating)}<br>Source : ${l.src}<br><a class="go" href="${l.url}" target="_blank" rel="noopener">Voir l'annonce</a></p>
+        ${l.note ? `<p class="note">${esc(l.note)}</p>` : ''}
+      </div></div></div>
+    </article>`).join('')
+  : `<div class="empty">Aucun logement ne correspond à ces filtres pour la ${WEEK[week].toLowerCase()}.<br><button type="button" id="reset">Retirer les filtres</button></div>`;
+  const r = $('reset'); if (r) r.onclick = () => { $('onlyBudget').checked = false; $('onlyPrivate').checked = false; setZone('all'); };
+}
+
+function toggleRow(row, force){
+  const open = force ?? !row.classList.contains('open');
+  row.classList.toggle('open', open);
+  row.querySelector('.c-name button').setAttribute('aria-expanded', open);
+}
+
+function focusLodging(n){
+  let row = $('l' + n);
+  if (!row) { $('onlyAvail').checked = false; $('onlyBudget').checked = false; $('onlyPrivate').checked = false; zone = 'all'; syncZones(); drawRows(); drawPins(); row = $('l' + n); }
+  if (!row) return;
+  toggleRow(row, true);
+  row.scrollIntoView({behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'center'});
+  row.classList.remove('flash'); void row.offsetWidth; row.classList.add('flash');
+}
+
+function setHot(n){ hot = n; document.querySelectorAll('.pin').forEach(p => p.classList.toggle('hot', +p.dataset.n === n)); }
+function syncZones(){ document.querySelectorAll('.zones button').forEach(b => b.setAttribute('aria-pressed', b.dataset.z === zone)); }
+function setZone(z){ zone = z; syncZones(); drawRows(); drawPins(); }
+function render(){ drawPicks(); drawRows(); drawPins(); }
+
+/* ---------- Events ---------- */
+document.querySelectorAll('.weeks button').forEach(b => b.addEventListener('click', () => {
+  week = b.dataset.w; document.querySelectorAll('.weeks button').forEach(x => x.setAttribute('aria-pressed', x === b)); render();
 }));
 document.querySelectorAll('.zones button').forEach(b => b.addEventListener('click', () => setZone(b.dataset.z)));
-['onlyAvail','onlyBudget','onlyPrivate'].forEach(id => $(id).addEventListener('change', renderList));
-$('out').innerHTML = EXCLUDED.map(([n, r]) => `<div><b>${esc(n)}</b><span>${esc(r)}</span></div>`).join('');
-renderCounts(); render();
+['onlyAvail','onlyBudget','onlyPrivate'].forEach(id => $(id).addEventListener('change', () => { drawRows(); drawPins(); }));
+
+$('rows').addEventListener('click', e => {
+  if (e.target.closest('a')) return;
+  const row = e.target.closest('.row'); if (row) toggleRow(row);
+});
+$('rows').addEventListener('mouseover', e => { const row = e.target.closest('.row'); setHot(row ? +row.dataset.n : null); });
+$('rows').addEventListener('mouseleave', () => setHot(null));
+$('picks').addEventListener('click', e => { const b = e.target.closest('.pick'); if (b) focusLodging(+b.dataset.n); });
+$('picks').addEventListener('mouseover', e => { const b = e.target.closest('.pick'); setHot(b ? +b.dataset.n : null); });
+$('picks').addEventListener('mouseleave', () => setHot(null));
+
+const tip = $('tip');
+$('mapsvg').addEventListener('mousemove', e => {
+  const g = e.target.closest('.pin');
+  if (!g) { tip.classList.remove('on'); setHot(null); return; }
+  const l = LODGINGS[+g.dataset.n - 1], box = $('map').getBoundingClientRect(), svgBox = $('mapsvg').getBoundingClientRect();
+  const vb = $('mapsvg').viewBox.baseVal, k = svgBox.width / vb.width;
+  tip.style.left = ((l.px - vb.x) * k + svgBox.left - box.left) + 'px';
+  tip.style.top = ((l.py - vb.y) * k + svgBox.top - box.top) + 'px';
+  tip.innerHTML = `<b>${l.n}. ${esc(l.title)}</b><br><span>${esc(l.town)}, ${priceText(l, week)}</span>`;
+  tip.classList.add('on'); setHot(l.n);
+});
+$('mapsvg').addEventListener('mouseleave', () => { tip.classList.remove('on'); setHot(null); });
+$('mapsvg').addEventListener('click', e => { const g = e.target.closest('.pin'); if (g) focusLodging(+g.dataset.n); });
+
+$('out').innerHTML = EXCLUDED.map(([n, r]) => `<div><dt>${esc(n)}</dt><dd>${esc(r)}</dd></div>`).join('');
+function layout(){
+  const phone = isPhone();
+  U = phone ? 1.45 : 1;
+  $('mapsvg').setAttribute('viewBox', phone ? '110 40 690 720' : `0 0 ${VW} ${VH}`);
+  $('map').style.setProperty('--u', U);
+  place(); drawBase(); drawPins();
+}
+let lastPhone = isPhone();
+addEventListener('resize', () => { if (isPhone() !== lastPhone) { lastPhone = isPhone(); layout(); } });
+layout(); render();
 </script>
 </body>
 </html>
