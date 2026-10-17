@@ -3,25 +3,25 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Noël au ski 2026</title>
-<meta name="description" content="Comparatif des logements avec piscine pour une semaine de ski en famille à Noël 2026, en Haute-Savoie.">
+<title>Ski en famille, février 2027</title>
+<meta name="description" content="Classement de 56 logements vérifiés autour de Chamonix et Megève pour une semaine de ski à cinq, en février ou en avril 2027.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wdth,wght@0,62..125,400..800;1,62..125,400..800&display=swap" rel="stylesheet">
 <!--
   DESIGN CONTRACT
-  Thesis: a family's ski-week decision, laid out like a topo map and a comparison sheet, not a travel ad.
-  World: daylight snow paper, ink, glacier blue, map red for the selected pin, gold for private pools. Archivo only: wide for titles, condensed for map lettering.
-  Story: where is each place (map) → which ones we'd pick (short-list) → every option side by side for both weeks (table) → what we ruled out.
-  First viewport: title, week switch, the map with numbered pins and the short-list.
+  Thesis: a family's ski-week decision, laid out like a topo map and a ranked comparison sheet, not a travel ad.
+  World: daylight snow paper, ink, glacier blue, map red for the selected pin, gold for pool access. Archivo only: wide for titles, condensed for map lettering.
+  Story: where is each place (map) → our top five and the no-review finds (short-list) → the full ranking, both weeks side by side (table) → how we scored → what we ruled out.
+  First viewport: title, week switch, the map with ranked pins and the top five.
   Form: rules and whitespace instead of boxes; photos are the only colour-rich element. Motion only answers clicks.
 -->
 <style>
 :root{
   --paper:#F7F9FA; --white:#fff; --ink:#1C2A32; --ink-2:#4B5B64; --ink-3:#74838B;
   --rule:#DCE3E7; --rule-2:#EDF1F3; --sel:#EAF2F7;
-  --glacier:#E1EEF5; --lake:#C9DEEA; --river:#7FAFCB; --contour:#C3D3DC; --wood:#E9F0E6;
-  --pin:#C2361F; --gold:#C8952C; --gold-bg:#FAF1DC; --ok:#2C7650; --ko:#A3402E;
+  --glacier:#E1EEF5; --river:#7FAFCB; --contour:#C3D3DC; --ridge:#EEF4F7;
+  --pin:#C2361F; --gold:#C8952C; --gold-ink:#8A6418; --gold-bg:#FAF1DC; --ko:#A3402E;
   --font:"Archivo", "Helvetica Neue", sans-serif;
 }
 *{box-sizing:border-box;margin:0;padding:0;}
@@ -37,40 +37,49 @@ button{font:inherit;color:inherit;}
 /* ---------- Header ---------- */
 .top{padding-top:40px;padding-bottom:28px;display:grid;grid-template-columns:1fr auto;gap:24px 48px;align-items:end;}
 h1{font-size:3.25rem;line-height:1;font-weight:760;font-variation-settings:"wdth" 118;letter-spacing:-.025em;}
-.lede{margin-top:12px;max-width:56ch;color:var(--ink-2);font-size:1.05rem;}
+.lede{margin-top:12px;max-width:58ch;color:var(--ink-2);font-size:1.05rem;}
 .weeks{display:flex;border:1px solid var(--rule);border-radius:12px;background:var(--white);padding:4px;gap:4px;}
-.weeks button{border:0;background:transparent;text-align:left;padding:10px 16px;border-radius:9px;cursor:pointer;min-width:180px;transition:background .18s ease-out,color .18s ease-out;}
+.weeks button{border:0;background:transparent;text-align:left;padding:10px 16px;border-radius:9px;cursor:pointer;min-width:190px;transition:background .18s ease-out,color .18s ease-out;}
 .weeks button:hover{background:var(--rule-2);}
 .weeks .w-name{display:block;font-weight:650;font-size:.95rem;}
 .weeks .w-sub{display:block;font-size:.82rem;color:var(--ink-3);}
 .weeks button[aria-pressed="true"]{background:var(--ink);color:var(--white);}
 .weeks button[aria-pressed="true"] .w-sub{color:#B9C6CD;}
+.week-note{grid-column:1 / -1;font-size:.9rem;color:var(--ink-2);max-width:92ch;margin-top:-6px;}
+.week-note b{font-weight:650;color:var(--ink);}
 
 /* ---------- Map + short-list ---------- */
 .atlas{display:grid;grid-template-columns:minmax(0,7fr) minmax(0,5fr);gap:48px;padding:36px 0 8px;border-top:1px solid var(--rule);}
 .map{position:relative;}
 .map svg{display:block;width:100%;height:auto;background:var(--white);border:1px solid var(--rule);border-radius:14px;}
-.map .lbl-town{font-size:calc(13px * var(--u,1));font-weight:600;font-variation-settings:"wdth" 75;fill:var(--ink-2);}
-.map .lbl-ref{font-size:calc(12px * var(--u,1));font-weight:500;font-variation-settings:"wdth" 75;fill:var(--ink-3);}
-.map .lbl-nat{font-size:calc(13px * var(--u,1));font-style:italic;font-weight:500;font-variation-settings:"wdth" 85;fill:#5E8FAE;}
-.map .lbl-peak{font-size:calc(12px * var(--u,1));font-weight:650;font-variation-settings:"wdth" 80;fill:var(--ink-2);}
-.map .lbl-country{font-size:calc(12px * var(--u,1));letter-spacing:.3em;font-weight:600;fill:#A7B5BD;}
-.pin{cursor:pointer;}
-.pin circle.dot{stroke:var(--white);stroke-width:2;transition:fill .2s ease-out,r .15s ease-out;}
-.pin text{font-size:calc(11.5px * var(--u,1));font-weight:700;font-variation-settings:"wdth" 80;text-anchor:middle;dominant-baseline:central;pointer-events:none;}
+.map .lbl-town{font-size:calc(13px * var(--u,1));font-weight:650;font-variation-settings:"wdth" 75;fill:var(--ink);paint-order:stroke;stroke:var(--white);stroke-width:3px;stroke-linejoin:round;}
+.map .lbl-ref{font-size:calc(11.5px * var(--u,1));font-weight:500;font-variation-settings:"wdth" 75;fill:var(--ink-3);}
+.map .lbl-nat{font-size:calc(12.5px * var(--u,1));font-style:italic;font-weight:500;font-variation-settings:"wdth" 85;fill:#5E8FAE;}
+.map .lbl-ski{font-size:calc(11px * var(--u,1));font-style:italic;font-weight:500;font-variation-settings:"wdth" 80;fill:#8C9AA2;}
+.map .lbl-peak{font-size:calc(11.5px * var(--u,1));font-weight:650;font-variation-settings:"wdth" 80;fill:var(--ink-2);}
+.map .lbl-country{font-size:calc(11px * var(--u,1));letter-spacing:.3em;font-weight:600;fill:#A7B5BD;}
+.pin,.bub{cursor:pointer;}
+.pin circle.dot{stroke:var(--white);stroke-width:2;transition:fill .2s ease-out;}
+.pin text{font-size:11px;font-weight:700;font-variation-settings:"wdth" 78;text-anchor:middle;dominant-baseline:central;pointer-events:none;}
 .pin.free circle.dot{fill:var(--ink);} .pin.free text{fill:var(--white);}
 .pin.full circle.dot{fill:var(--white);stroke:#AEBBC2;stroke-width:1.5;} .pin.full text{fill:#8E9CA4;}
-.pin.over circle.dot{fill:#7E8D95;} .pin.over text{fill:var(--white);}
+.pin.over circle.dot{fill:#8C9AA2;} .pin.over text{fill:var(--white);}
 .pin circle.ring{fill:none;stroke:var(--gold);stroke-width:2.5;}
 .pin.hot circle.dot{fill:var(--pin);stroke:var(--white);} .pin.hot text{fill:var(--white);}
-.pin.dim{opacity:.18;}
+.pin.dim{opacity:.16;}
+.bub circle{fill:var(--ink);stroke:var(--white);stroke-width:3;}
+.bub.none circle{fill:var(--white);stroke:#AEBBC2;stroke-width:2;}
+.bub text{fill:var(--white);font-weight:720;font-variation-settings:"wdth" 80;text-anchor:middle;dominant-baseline:central;font-size:26px;pointer-events:none;}
+.bub.none text{fill:#8E9CA4;}
+.bub.on circle{fill:var(--pin);}
 .legend{display:flex;flex-wrap:wrap;gap:8px 20px;margin-top:12px;font-size:.85rem;color:var(--ink-2);}
 .legend span{display:inline-flex;align-items:center;gap:7px;}
 .legend i{width:14px;height:14px;border-radius:50%;display:inline-block;}
-.legend .k-free{background:var(--ink);} .legend .k-over{background:#7E8D95;}
+.legend .k-free{background:var(--ink);} .legend .k-over{background:#8C9AA2;}
 .legend .k-full{background:var(--white);border:1.5px solid #AEBBC2;}
-.legend .k-priv{border:2.5px solid var(--gold);}
+.legend .k-pool{border:2.5px solid var(--gold);}
 .legend small{color:var(--ink-3);font-size:.8rem;}
+.legend .on-phone{display:none;}
 .tip{position:absolute;pointer-events:none;background:var(--ink);color:var(--white);padding:8px 11px;border-radius:8px;font-size:.85rem;line-height:1.35;white-space:nowrap;transform:translate(-50%,calc(-100% - 14px));box-shadow:0 6px 18px -6px rgba(28,42,50,.45);opacity:0;transition:opacity .12s ease-out;}
 .tip.on{opacity:1;}
 .tip b{font-weight:650;}
@@ -78,37 +87,45 @@ h1{font-size:3.25rem;line-height:1;font-weight:760;font-variation-settings:"wdth
 
 .short h2{font-size:1.35rem;font-weight:700;font-variation-settings:"wdth" 112;letter-spacing:-.01em;}
 .short > p{color:var(--ink-2);font-size:.95rem;margin-top:4px;}
-.short ol{list-style:none;margin-top:18px;border-top:1px solid var(--rule);}
+.short ol{list-style:none;margin-top:16px;border-top:1px solid var(--rule);}
 .short li{border-bottom:1px solid var(--rule);}
-.pick{display:grid;grid-template-columns:120px 1fr;gap:16px;align-items:center;width:100%;padding:14px 0;border:0;background:none;text-align:left;cursor:pointer;}
-.pick .ph{position:relative;aspect-ratio:4/3;border-radius:10px;overflow:hidden;background:var(--glacier);}
-.pick .ph img{width:100%;height:100%;object-fit:cover;transition:transform .35s cubic-bezier(.16,1,.3,1);}
+.pick{display:grid;grid-template-columns:116px 1fr;gap:16px;align-items:center;width:100%;padding:12px 0;border:0;background:none;text-align:left;cursor:pointer;}
+.pick .ph{position:relative;aspect-ratio:4/3;border-radius:10px;overflow:hidden;background:var(--glacier);display:flex;align-items:center;justify-content:center;color:#8AA7B8;font-size:.72rem;font-weight:600;}
+.pick .ph img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform .35s cubic-bezier(.16,1,.3,1);}
 .pick:hover .ph img{transform:scale(1.04);}
-.pick .tag{position:absolute;left:6px;top:6px;min-width:22px;height:22px;padding:0 6px;border-radius:11px;background:var(--ink);color:var(--white);font-size:.75rem;font-weight:700;display:flex;align-items:center;justify-content:center;}
-.pick .why{font-size:.82rem;color:var(--ink-3);}
+.pick .tag{position:absolute;left:6px;top:6px;z-index:1;min-width:24px;height:24px;padding:0 7px;border-radius:12px;background:var(--ink);color:var(--white);font-size:.78rem;font-weight:720;display:flex;align-items:center;justify-content:center;}
+.pick .why{display:block;font-size:.82rem;line-height:1.35;color:var(--ink-3);}
 .pick h3{font-size:1.05rem;font-weight:680;line-height:1.25;margin-top:2px;}
 .pick .town{font-size:.88rem;color:var(--ink-2);}
-.pick .pp{margin-top:6px;font-size:.95rem;font-weight:650;}
+.pick .pp{margin-top:5px;font-size:.95rem;font-weight:650;}
 .pick .pp.full{color:var(--ko);font-weight:600;}
 .pick .pp small{font-weight:400;color:var(--ink-3);}
+.short h3.sub{font-size:1rem;font-weight:700;font-variation-settings:"wdth" 108;margin-top:26px;}
+.short .sub-p{color:var(--ink-2);font-size:.9rem;margin-top:2px;}
+.short ol.mini .pick{grid-template-columns:76px 1fr;gap:14px;padding:10px 0;}
+.short ol.mini .pick h3{font-size:.98rem;}
+.short ol.mini .pick .pp{margin-top:2px;font-size:.9rem;}
 
 /* ---------- Comparison ---------- */
 .compare{padding-top:64px;}
 .sec-head{display:flex;justify-content:space-between;align-items:end;gap:24px;flex-wrap:wrap;}
 h2.big{font-size:2rem;line-height:1.1;font-weight:740;font-variation-settings:"wdth" 116;letter-spacing:-.02em;}
-.sec-head p{color:var(--ink-2);max-width:60ch;margin-top:6px;}
-.tools{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;margin-top:22px;padding:12px 0;border-top:1px solid var(--rule);border-bottom:1px solid var(--rule);position:sticky;top:0;background:rgba(247,249,250,.96);z-index:4;}
-.zones{display:flex;gap:4px;flex-wrap:wrap;}
-.zones button{border:1px solid transparent;background:none;padding:7px 12px;border-radius:8px;font-size:.9rem;font-weight:550;color:var(--ink-2);cursor:pointer;transition:background .15s ease-out;}
-.zones button:hover{background:var(--rule-2);}
-.zones button[aria-pressed="true"]{background:var(--white);border-color:var(--rule);color:var(--ink);font-weight:650;}
-.checks{display:flex;gap:18px;flex-wrap:wrap;font-size:.9rem;color:var(--ink-2);}
+.sec-head p{color:var(--ink-2);max-width:66ch;margin-top:6px;}
+.tools{display:flex;justify-content:space-between;align-items:center;gap:12px 24px;flex-wrap:wrap;margin-top:22px;padding:12px 0;border-top:1px solid var(--rule);border-bottom:1px solid var(--rule);position:sticky;top:0;background:rgba(247,249,250,.96);z-index:4;}
+.tools-l{display:flex;gap:12px 20px;align-items:center;flex-wrap:wrap;}
+.seg{display:flex;gap:4px;flex-wrap:wrap;}
+.seg button{border:1px solid transparent;background:none;padding:7px 12px;border-radius:8px;font-size:.9rem;font-weight:550;color:var(--ink-2);cursor:pointer;transition:background .15s ease-out;}
+.seg button:hover{background:var(--rule-2);}
+.seg button[aria-pressed="true"]{background:var(--white);border-color:var(--rule);color:var(--ink);font-weight:650;}
+.seg .x{margin-left:6px;color:var(--ink-3);}
+.sortby{font-size:.85rem;color:var(--ink-3);display:flex;align-items:center;gap:6px;}
+.checks{display:flex;gap:16px;flex-wrap:wrap;font-size:.9rem;color:var(--ink-2);}
 .checks label{display:inline-flex;align-items:center;gap:7px;cursor:pointer;}
 .checks input{width:16px;height:16px;accent-color:var(--ink);}
 .count{font-size:.86rem;color:var(--ink-3);margin:14px 0 4px;}
 
-.grid{--cols:40px 112px minmax(0,1fr) 116px 136px 136px 132px;}
-.thead,.row{display:grid;grid-template-columns:var(--cols);gap:0 18px;align-items:center;}
+.grid{--cols:44px 112px minmax(0,1fr) 132px 104px 118px 118px 124px;}
+.thead,.row{display:grid;grid-template-columns:var(--cols);gap:0 16px;align-items:center;}
 .thead{padding:10px 0;font-size:.8rem;font-weight:600;color:var(--ink-3);border-bottom:1px solid var(--rule);}
 .thead .c-w{padding:6px 10px;border-radius:6px;font-weight:650;color:var(--ink-2);}
 .thead .c-w small{display:block;font-weight:500;color:var(--ink-3);}
@@ -117,16 +134,23 @@ h2.big{font-size:2rem;line-height:1.1;font-weight:740;font-variation-settings:"w
 .row:hover{background:linear-gradient(90deg,transparent,var(--white) 2%,var(--white) 98%,transparent);}
 .row.flash{animation:flash 1.4s ease-out;}
 @keyframes flash{0%{background:#FBE6E1;}100%{background:transparent;}}
-.c-n{font-weight:700;font-size:.9rem;color:var(--ink-3);text-align:center;}
-.row.is-free .c-n{color:var(--ink);}
-.c-ph{aspect-ratio:3/2;border-radius:8px;overflow:hidden;background:var(--glacier);display:flex;align-items:center;justify-content:center;color:#8AA7B8;font-size:.72rem;font-weight:600;text-align:center;line-height:1.2;padding:4px;}
-.c-ph img{width:100%;height:100%;object-fit:cover;}
+.c-n{font-weight:720;font-size:1rem;color:var(--ink-3);text-align:center;font-variation-settings:"wdth" 90;}
+.row.top5 .c-n{color:var(--ink);font-size:1.25rem;font-variation-settings:"wdth" 110;}
+.c-ph{aspect-ratio:3/2;border-radius:8px;overflow:hidden;background:var(--glacier);display:flex;align-items:center;justify-content:center;color:#8AA7B8;font-size:.72rem;font-weight:600;text-align:center;line-height:1.2;padding:4px;position:relative;}
+.c-ph img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;}
 .c-name h3{font-size:1.02rem;font-weight:650;line-height:1.3;}
 .c-name h3 button{border:0;background:none;padding:0;text-align:left;cursor:pointer;}
 .c-name .where{font-size:.88rem;color:var(--ink-2);margin-top:1px;}
-.c-pool{font-size:.88rem;color:var(--ink-2);}
-.c-pool.priv{color:#8A6418;font-weight:650;}
-.c-pool.priv::before{content:"";display:inline-block;width:9px;height:9px;border-radius:50%;border:2px solid var(--gold);margin-right:6px;vertical-align:1px;}
+.c-name .size{font-size:.82rem;color:var(--ink-3);margin-top:2px;}
+.c-name .rev-inline{display:none;}
+.c-pool{font-size:.88rem;color:var(--ink-3);line-height:1.35;}
+.c-pool.pool{color:var(--gold-ink);font-weight:650;}
+.c-pool.pool::before{content:"";display:inline-block;width:9px;height:9px;border-radius:50%;border:2px solid var(--gold);margin-right:6px;vertical-align:1px;}
+.c-pool.well{color:var(--ink-2);}
+.c-rev{font-size:.88rem;line-height:1.3;}
+.c-rev b{font-weight:680;font-size:.98rem;}
+.c-rev small{display:block;color:var(--ink-3);font-size:.78rem;}
+.c-rev .bon{color:var(--gold-ink);font-weight:650;}
 .c-w{font-size:.98rem;}
 .price{font-weight:680;}
 .price.over{color:var(--ko);}
@@ -136,22 +160,35 @@ h2.big{font-size:2rem;line-height:1.1;font-weight:740;font-variation-settings:"w
 .c-w.on{background:var(--sel);margin:-14px 0;padding:14px 10px;align-self:stretch;display:flex;flex-direction:column;justify-content:center;}
 .thead .c-w{margin:0;}
 .c-go{display:flex;justify-content:flex-end;}
-.go{display:inline-block;text-decoration:none;font-size:.88rem;font-weight:650;padding:8px 12px;border-radius:8px;border:1px solid var(--rule);background:var(--white);white-space:nowrap;transition:border-color .15s ease-out,background .15s ease-out;}
+.go{display:inline-block;text-decoration:none;font-size:.88rem;font-weight:650;padding:8px 12px;border-radius:8px;border:1px solid var(--rule);background:var(--white);white-space:nowrap;transition:border-color .15s ease-out;}
 .go:hover{border-color:var(--ink);}
 .more{grid-column:3 / -1;display:grid;grid-template-rows:0fr;transition:grid-template-rows .22s cubic-bezier(.16,1,.3,1);}
 .more > div{overflow:hidden;}
 .row.open .more{grid-template-rows:1fr;}
-.more-in{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px 32px;padding-top:12px;}
+.more-in{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,auto);gap:10px 32px;padding-top:12px;}
 .more ul{list-style:none;display:grid;gap:4px;font-size:.92rem;color:var(--ink-2);}
 .more li::before{content:"–";color:var(--ink-3);margin-right:8px;}
 .more .meta{font-size:.85rem;color:var(--ink-3);text-align:right;}
 .more .meta .go{display:none;}
+.score{grid-column:1/-1;display:flex;flex-wrap:wrap;gap:4px 18px;font-size:.84rem;color:var(--ink-3);}
+.score b{color:var(--ink);font-weight:680;}
+.score span b{color:var(--ink-2);font-weight:600;}
 .more .note{grid-column:1/-1;font-size:.88rem;color:#7A5714;background:var(--gold-bg);padding:8px 12px;border-radius:8px;justify-self:start;}
 .empty{padding:48px 0;text-align:center;color:var(--ink-2);border-bottom:1px solid var(--rule);}
-.empty button{margin-top:12px;border:1px solid var(--ink);background:var(--ink);color:var(--white);padding:9px 16px;border-radius:8px;font-weight:650;cursor:pointer;}
+.empty button,.more-btn{margin-top:12px;border:1px solid var(--ink);background:var(--ink);color:var(--white);padding:9px 16px;border-radius:8px;font-weight:650;cursor:pointer;}
+.more-wrap{padding:22px 0 0;text-align:center;}
+.more-btn{background:var(--white);color:var(--ink);margin-top:0;}
+.more-btn:hover{background:var(--rule-2);}
 
-/* ---------- Ruled out ---------- */
-.out{padding-top:72px;}
+/* ---------- Method + ruled out ---------- */
+.method{padding-top:72px;}
+.method > p{color:var(--ink-2);margin-top:6px;max-width:66ch;}
+.method dl{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:0 28px;margin-top:20px;border-top:1px solid var(--rule);}
+.method dl div{padding:14px 0;}
+.method dt{font-weight:680;font-size:1rem;}
+.method dt span{color:var(--ink-3);font-weight:500;}
+.method dd{color:var(--ink-2);font-size:.9rem;margin-top:4px;}
+.out{padding-top:64px;}
 .out dl{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 48px;margin-top:18px;border-top:1px solid var(--rule);}
 .out dl div{padding:14px 0;border-bottom:1px solid var(--rule);}
 .out dt{font-weight:650;font-size:.98rem;}
@@ -159,29 +196,41 @@ h2.big{font-size:2rem;line-height:1.1;font-weight:740;font-variation-settings:"w
 
 footer{margin-top:80px;border-top:1px solid var(--rule);}
 footer .wrap{padding-top:24px;padding-bottom:40px;display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;font-size:.88rem;color:var(--ink-3);}
+footer p{max-width:80ch;}
 footer a{color:var(--ink);font-weight:600;}
 
 @media (prefers-reduced-motion:reduce){*{transition:none !important;animation:none !important;}}
 
 /* ---------- Responsive ---------- */
-@media (max-width:1080px){
-  .atlas{grid-template-columns:1fr;gap:32px;}
-  .short ol{display:grid;grid-template-columns:1fr 1fr;gap:0 24px;}
-  .grid{--cols:32px 96px minmax(0,1fr) 104px 112px 112px;}
+@media (max-width:1180px){
+  .grid{--cols:40px 104px minmax(0,1fr) 124px 100px 112px 112px;}
   .c-go,.thead span:last-child{display:none;}
   .more .meta a.go{display:inline-block;margin-top:6px;}
+}
+@media (max-width:1080px){
+  .atlas{grid-template-columns:1fr;gap:32px;}
+  .short{display:grid;grid-template-columns:1fr 1fr;gap:0 32px;align-items:start;}
+  .short > .s-main,.short > .s-bons{min-width:0;}
+  .method dl{grid-template-columns:repeat(3,minmax(0,1fr));}
+}
+@media (max-width:900px){
+  .grid{--cols:36px 96px minmax(0,1fr) 112px 108px 108px;}
+  .c-rev,.thead .h-rev{display:none;}
+  .c-name .rev-inline{display:block;font-size:.82rem;color:var(--ink-3);margin-top:2px;}
 }
 @media (max-width:760px){
   .wrap{padding:0 18px;}
   .top{grid-template-columns:1fr;padding-top:28px;padding-bottom:22px;}
-  h1{font-size:2.4rem;}
+  h1{font-size:2.35rem;}
   .weeks{width:100%;} .weeks button{flex:1;min-width:0;padding:9px 10px;}
-  .short ol{grid-template-columns:1fr;}
+  .short{display:block;}
   .pick{grid-template-columns:96px 1fr;}
+  .legend .on-desk{display:none;} .legend .on-phone{display:inline;}
   .tools{position:static;}
   .thead{display:none;}
-  .row{grid-template-columns:28px 88px minmax(0,1fr);grid-template-areas:"n ph name" "n ph pool" ". w w";row-gap:6px;align-items:start;}
-  .c-n{grid-area:n;padding-top:2px;} .c-ph{grid-area:ph;} .c-name{grid-area:name;} .c-pool{grid-area:pool;}
+  .row{grid-template-columns:30px 88px minmax(0,1fr);grid-template-areas:"n ph name" "n ph pool" ". w w";row-gap:6px;align-items:start;}
+  .c-n{grid-area:n;padding-top:2px;} .row.top5 .c-n{font-size:1.1rem;}
+  .c-ph{grid-area:ph;} .c-name{grid-area:name;} .c-pool{grid-area:pool;}
   .wk{grid-area:w;display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:6px;}
   .c-w,.c-w.on{margin:0;padding:8px 10px;border-radius:8px;background:var(--rule-2);display:block;align-self:auto;}
   .c-w.on{background:var(--sel);}
@@ -189,6 +238,8 @@ footer a{color:var(--ink);font-weight:600;}
   .more{grid-column:1 / -1;}
   .more-in{grid-template-columns:1fr;}
   .more .meta{text-align:left;}
+  .method dl{grid-template-columns:1fr;}
+  .method dl div{border-bottom:1px solid var(--rule);}
   .out dl{grid-template-columns:1fr;}
   h2.big{font-size:1.6rem;}
 }
@@ -199,63 +250,93 @@ footer a{color:var(--ink);font-weight:600;}
 
 <header class="wrap top">
   <div>
-    <h1>Noël au ski 2026</h1>
-    <p class="lede">Une semaine à cinq, avec une piscine pour souffler, à moins de 30 minutes des pistes et pas plus de 5 000 € la semaine.</p>
+    <h1>Ski en famille, février 2027</h1>
+    <p class="lede">Une semaine à cinq autour de Chamonix et de Megève, avec une piscine ou au moins beaucoup de place, à moins de 5&nbsp;000&nbsp;€ la location. 56 logements vérifiés, classés.</p>
   </div>
   <div class="weeks" role="group" aria-label="Semaine">
-    <button data-w="w1" aria-pressed="true"><span class="w-name">Semaine de Noël</span><span class="w-sub num" id="s-w1">19 – 26 déc.</span></button>
-    <button data-w="w2" aria-pressed="false"><span class="w-name">Nouvel An</span><span class="w-sub num" id="s-w2">26 déc. – 2 janv.</span></button>
+    <button data-w="w1" aria-pressed="true"><span class="w-name">Février</span><span class="w-sub num">6 – 13 févr.</span></button>
+    <button data-w="w2" aria-pressed="false"><span class="w-name">Avril</span><span class="w-sub num">3 – 10 avr.</span></button>
   </div>
+  <p class="week-note" id="week-note"></p>
 </header>
 
 <main class="wrap">
-  <section class="atlas" aria-label="Carte et short-list">
+  <section class="atlas" aria-label="Carte et sélection">
     <div class="map" id="map">
-      <svg id="mapsvg" viewBox="0 0 800 780" role="img" aria-label="Carte de la Haute-Savoie avec les logements numérotés"></svg>
+      <svg id="mapsvg" viewBox="0 0 800 612" role="img" aria-label="Carte de la vallée de Chamonix et du pays du Mont-Blanc avec les logements numérotés par rang"></svg>
       <div class="tip" id="tip" role="status"></div>
       <div class="legend" aria-hidden="true">
         <span><i class="k-free"></i>Libre dans le budget</span>
-        <span><i class="k-over"></i>Libre, au-dessus du budget</span>
-        <span><i class="k-full"></i>Complet</span>
-        <span><i class="k-priv"></i>Piscine privée</span>
-        <small>Carte indicative, positions à l'échelle de la commune.</small>
+        <span><i class="k-over"></i>Au-dessus du budget</span>
+        <span><i class="k-full"></i>Indisponible</span>
+        <span class="on-desk"><i class="k-pool"></i>Accès piscine</span>
+        <small class="on-desk">Le numéro est le rang au classement. Positions regroupées par commune.</small>
+        <small class="on-phone">Touchez une commune pour filtrer la liste.</small>
       </div>
     </div>
     <aside class="short">
-      <h2>Notre short-list</h2>
-      <p id="short-sub"></p>
-      <ol id="picks"></ol>
+      <div class="s-main">
+        <h2>Le top 5</h2>
+        <p id="short-sub"></p>
+        <ol id="picks"></ol>
+      </div>
+      <div class="s-bons">
+        <h3 class="sub">Bons plans sans avis</h3>
+        <p class="sub-p">Annonces récentes, prometteuses sur le papier. À appeler avant de réserver.</p>
+        <ol class="mini" id="bons"></ol>
+      </div>
     </aside>
   </section>
 
   <section class="compare" aria-labelledby="t-cmp">
     <div class="sec-head">
       <div>
-        <h2 class="big" id="t-cmp">Tous les logements, semaine par semaine</h2>
-        <p>Chaque logement a une piscine utilisable en hiver. Cliquez une ligne pour le détail. Les lignes sont triées selon la semaine choisie.</p>
+        <h2 class="big" id="t-cmp">Le classement complet</h2>
+        <p>Les logements avec piscine passent devant, puis les grands chalets. Cliquez une ligne pour le détail de la note et les points à vérifier.</p>
       </div>
     </div>
     <div class="tools">
-      <div class="zones" role="group" aria-label="Secteur">
-        <button data-z="all" aria-pressed="true">Tous les secteurs</button>
-        <button data-z="cham" aria-pressed="false">Vallée de Chamonix</button>
-        <button data-z="meg" aria-pressed="false">Megève, Saint-Gervais</button>
-        <button data-z="other" aria-pressed="false">Grand Massif et ailleurs</button>
+      <div class="tools-l">
+        <div class="seg" id="zones" role="group" aria-label="Secteur">
+          <button data-z="all" aria-pressed="true">Tous</button>
+          <button data-z="cham" aria-pressed="false">Vallée de Chamonix</button>
+          <button data-z="meg" aria-pressed="false">Megève, Saint-Gervais</button>
+        </div>
+        <div class="sortby"><span>Trier</span>
+          <div class="seg" id="sort" role="group" aria-label="Tri">
+            <button data-s="rank" aria-pressed="true">Rang</button>
+            <button data-s="price" aria-pressed="false">Prix</button>
+          </div>
+        </div>
       </div>
       <div class="checks">
-        <label><input type="checkbox" id="onlyAvail" checked> Masquer les complets</label>
+        <label><input type="checkbox" id="onlyAvail" checked> Masquer les indisponibles</label>
         <label><input type="checkbox" id="onlyBudget"> Dans le budget</label>
-        <label><input type="checkbox" id="onlyPrivate"> Piscine privée</label>
+        <label><input type="checkbox" id="onlyPool"> Accès piscine</label>
+        <label><input type="checkbox" id="onlyNew"> Sans avis</label>
       </div>
     </div>
     <p class="count num" id="count" aria-live="polite"></p>
     <div class="grid">
       <div class="thead" aria-hidden="true">
-        <span class="c-n">N°</span><span></span><span>Logement</span><span>Piscine</span>
-        <span class="c-w" data-w="w1">Noël<small class="num">19 – 26 déc.</small></span><span class="c-w" data-w="w2">Nouvel An<small class="num">26 déc. – 2 janv.</small></span><span></span>
+        <span class="c-n">Rang</span><span></span><span>Logement</span><span>Détente</span><span class="h-rev">Avis</span>
+        <span class="c-w" data-w="w1">Février<small class="num">6 – 13 févr.</small></span><span class="c-w" data-w="w2">Avril<small class="num">3 – 10 avr.</small></span><span></span>
       </div>
       <div id="rows"></div>
     </div>
+    <div class="more-wrap" id="more-wrap"></div>
+  </section>
+
+  <section class="method" aria-labelledby="t-met">
+    <h2 class="big" id="t-met">Comment on a classé</h2>
+    <p>Une note sur 100, calculée sur la semaine de février. Elle sert à trier, pas à trancher : lisez les notes en jaune avant de réserver.</p>
+    <dl>
+      <div><dt>Espace <span>/25</span></dt><dd>Chambres, surface, salles de bain. Une seule salle de bain pour cinq coûte des points.</dd></div>
+      <div><dt>Détente <span>/25</span></dt><dd>Piscine de résidence avec sauna 25, piscine seule 22, spa et sauna privatifs 18, sauna ou jacuzzi 12, thermes à côté 5.</dd></div>
+      <div><dt>Avis <span>/25</span></dt><dd>Moyenne pondérée par le nombre d'avis, toutes plateformes : 5/5 sur trois avis pèse moins que 4,9 sur cent cinquante. Petit bonus si deux sites confirment. Sans avis, note neutre.</dd></div>
+      <div><dt>Situation <span>/15</span></dt><dd>Le ski, et de quoi occuper qui ne skie pas : Chamonix, Saint-Gervais et Megève en tête, Vallorcine et Servoz plus calmes.</dd></div>
+      <div><dt>Prix <span>/10</span></dt><dd>10 sous 2 300 €, 3 au-delà de 4 200 €. Le budget compte moins que le reste puisqu'il est respecté.</dd></div>
+    </dl>
   </section>
 
   <section class="out" aria-labelledby="t-out">
@@ -266,123 +347,1816 @@ footer a{color:var(--ink);font-weight:600;}
 
 <footer>
   <div class="wrap">
-    <p>Prix pour 7 nuits, hors taxe de séjour. Relevés sur Airbnb, Booking, Ski-Planet et Travelski les 8 et 10 octobre 2026 ; ils changent vite.</p>
+    <p>Prix totaux pour 7 nuits, frais de service compris, relevés sur Airbnb, Abritel et Booking le 17 octobre 2026 pour 2 adultes et 3 enfants. « Indisponible » veut dire non réservable à ces dates au moment du relevé. Les prix bougent vite.</p>
     <p><a href="../">Retour au guide des Açores</a></p>
   </div>
 </footer>
 
 <script>
 const BUDGET = 5000;
-// w1 = 19→26 déc. · w2 = 26 déc.→2 janv. · null = complet · undefined = non vérifié
+// w1 = 6→13 févr. 2027 · w2 = 3→10 avr. 2027 · null = indisponible · undefined = non relevé
 const LODGINGS = [
-  {name:"Chalet Taninges — piscine privée", where:"Taninges · env. 20 min de Praz-de-Lys et des Gets (estimation)", src:"Airbnb",
-   private:true, w1:4695, w2:4845, rating:"4,71 (14 avis)", url:"https://www.airbnb.fr/rooms/641683846827813656", img:"https://a0.muscache.com/im/pictures/hosting/Hosting-U3RheVN1cHBseUxpc3Rpbmc6NjQxNjgzODQ2ODI3ODEzNjU2/original/fe55eb27-d066-4eb7-93df-7664d3a224eb.jpeg?im_w=720",
-   facts:["130 m², 4 chambres, jusqu'à 8 personnes","Piscine intérieure chauffée privée","Terrasse de 77 m² avec vue panoramique","Linge et ménage inclus"]},
-  {name:"Chalet Booboo", where:"Morillon · domaine du Grand Massif", src:"Airbnb",
-   w1:2999, w2:null, rating:"Superhôte · 5,0 (2 avis)", url:"https://www.airbnb.fr/rooms/1468834047328772164", img:"https://a0.muscache.com/im/pictures/hosting/Hosting-U3RheVN1cHBseUxpc3Rpbmc6MTQ2ODgzNDA0NzMyODc3MjE2NA==/original/2b0ea3a1-b6dc-447f-90d6-0d6e666b7eae.jpeg?im_w=720",
-   facts:["3 chambres, 2 salles de bain, 8 personnes","Piscine intérieure chauffée, sauna, salle de sport (résidence, partagés)","Garage privé avec sèche-chaussures de ski","Annulation gratuite avant le 19 novembre"]},
-  {name:"CGH La Reine des Prés 4*", where:"Samoëns · 5 min à pied des remontées", src:"Ski-Planet",
-   w1:2835, w2:4517, rating:"Résidence CGH", url:"https://www.ski-planet.com/fr/location-ski/la-reine-des-pres_samoens.html", img:"https://docs.ski-planet.com/photo/samoens/medium/la-reine-des-pres-435937.jpg",
-   facts:["Appartement 4 pièces 8 personnes (3 chambres)","Piscine intérieure, sauna, bain à remous","Prix Ski-Planet avec −10 %"],
-   note:"Annulation : 30 % retenus à plus de 30 jours, 100 % ensuite."},
-  {name:"Chalet Morillon — piscine & sauna", where:"Morillon · 265 km de pistes (Grand Massif)", src:"Airbnb",
-   w1:3329, w2:3805, rating:"Nouvelle annonce, sans avis", url:"https://www.airbnb.fr/rooms/1785538496002057199", img:"https://a0.muscache.com/im/pictures/hosting/Hosting-1785538496002057199/original/15d4b710-200c-4ec7-9b3c-c7a4300fb4b1.jpeg?im_w=720",
-   facts:["3 chambres (1 lit double, 2 × 2 lits simples)","Piscine intérieure chauffée, sauna, fitness","Balcon privé vue montagne"]},
-  {name:"Duplex T4, résidence 3*", where:"Samoëns", src:"Airbnb",
-   w1:2282, w2:2604, rating:"5,0 (3 avis)", url:"https://www.airbnb.fr/rooms/1205793715318151210", img:"https://a0.muscache.com/im/pictures/hosting/Hosting-1205793715318151210/original/876660f4-5a0d-417e-ab64-07ab08964380.jpeg?im_w=720",
-   facts:["Duplex 3 chambres, 6–8 personnes, plein sud","Piscine intérieure chauffée + piscine extérieure, sauna","Draps et serviettes en location"]},
-  {name:"Résidence La Renardière", where:"Samoëns · 0,7 km du centre", src:"Booking",
-   w1:2324, w2:null, rating:"Booking 9,0", url:"https://www.booking.com/hotel/fr/residence-ha-telia-re-la-renardiere.fr.html",
-   facts:["Appartement 3 chambres, 2 salles de bain","Piscine intérieure chauffée","Petit-déjeuner, boulangerie et bar sur place","Hammam, sauna et massages en supplément"]},
-  {name:"Sherpa — 10 pers.", where:"Saint-Jean-d'Aulps · route de la télécabine, 7 km de Morzine", src:"Booking",
-   w1:3628, w2:null, rating:"Booking 10", url:"https://www.booking.com/hotel/fr/sherpa-10-pers.fr.html",
-   facts:["Appartement 3 chambres, 2 salles de bain","Piscine intérieure","Vue montagne"],
-   note:"Tarif partiellement remboursable seulement."},
-  {name:"Résidence luxe et spa", where:"Chamonix · vue Mont-Blanc", src:"Airbnb",
-   w1:2713, w2:null, rating:"4,86 (74 avis)", url:"https://www.airbnb.fr/rooms/29640849", img:"https://a0.muscache.com/im/pictures/35823030-e377-4c40-a750-7cf0a01952fd.jpg?im_w=720",
-   facts:["3/4 pièces, 3 chambres, 2 salles de bain","Piscine et espace spa de la résidence","Annulation gratuite"]},
-  {name:"Duplex familial — piscine intérieure", where:"Saint-Gervais · navette au pied du logement", src:"Airbnb",
-   w1:2252, w2:null, rating:"4,78 (18 avis)", url:"https://www.airbnb.fr/rooms/1253324765664826270", img:"https://a0.muscache.com/im/pictures/hosting/Hosting-U3RheVN1cHBseUxpc3Rpbmc6MTI1MzMyNDc2NTY2NDgyNjI3MA==/original/fa035843-b678-4ead-a35d-579a68a5a9e2.jpeg?im_w=720",
-   facts:["3 chambres, 2 salles de bain","Piscine intérieure de la résidence (ouverte dès le 15 déc.)","Parking en garage, casier à ski"]},
-  {name:"Chalet cosy 6/8 p.", where:"Morillon · navette gratuite à 1 min, Lac Bleu", src:"Airbnb",
-   w1:3343, w2:null, rating:"Superhôte · 4,74 (23 avis)", url:"https://www.airbnb.fr/rooms/1541840057216773054", img:"https://a0.muscache.com/im/pictures/hosting/Hosting-1541840057216773054/original/7e0d3667-f527-410e-ad61-230da80d73e3.jpeg?im_w=720",
-   facts:["3 chambres, 2 salles de bain","Piscine, sauna et salle de sport dans les parties communes","Annulation gratuite"]},
-  {name:"CGH Les Chalets de Layssia 5*", where:"Samoëns · centre village", src:"Ski-Planet",
-   w1:2495, w2:3610, rating:"Résidence CGH 5*", url:"https://www.ski-planet.com/fr/location-ski/les-chalets-de-layssia_samoens.html", img:"https://docs.ski-planet.com/photo/samoens/medium/les-chalets-de-layssia-437651.jpg",
-   facts:["Reste seulement le 3 pièces 6 personnes (2 chambres, 50 m²)","Piscine, sauna, hammam, jacuzzi gratuits"],
-   note:"Le 4 pièces est complet à Noël — moins d'espace que souhaité."},
-  {name:"CGH Les Cimes Blanches 4*", where:"La Rosière · 1 850 m, skis aux pieds", src:"Ski-Planet",
-   w1:3011, w2:4949, rating:"8,4/10", url:"https://www.ski-planet.com/fr/location-ski/les-cimes-blanches_la-rosiere.html", img:"https://docs.ski-planet.com/photo/la-rosiere/medium/les-cimes-blanches-484649.jpg",
-   facts:["Reste seulement le 3 pièces 6 personnes","Piscine couverte chauffée, jacuzzi, sauna, hammam","Enneigement le plus sûr de la sélection"],
-   note:"4 et 5 pièces complets à Noël."},
-  {name:"Les Fermes de Samoëns 3*", where:"Samoëns · 1 km de la télécabine (navettes)", src:"Ski-Planet",
-   w1:1558, w2:undefined, rating:"Option économique", url:"https://www.ski-planet.com/fr/location-ski/residence-les-fermes-de-samoens_samoens.html", img:"https://docs.ski-planet.com/photo/samoens/medium/residence-les-fermes-de-samoens-435120.jpg",
-   facts:["3 pièces cabine 8 personnes","Piscine couverte de la résidence"],
-   note:"Des avis signalent une piscine petite et pas toujours chauffée."},
-  {name:"Chalet Vaudagne — piscine privée", where:"Les Houches · voiture nécessaire, remontées du Prarion", src:"Airbnb",
-   private:true, w1:4532, w2:null, rating:"5,0", url:"https://www.airbnb.fr/rooms/1502040626825909187", img:"https://a0.muscache.com/im/pictures/hosting/Hosting-1502040626825909187/original/9b0ab20d-1ef6-4c2c-b721-138f06e65f13.jpeg?im_w=720",
-   facts:["Chalet entier, 4 chambres, 4 salles de bain, 8 personnes","Espace spa privé : piscine chauffée 3 × 3 m et sauna","Salon avec cheminée, sur 3 niveaux"],
-   note:"Isolé : il faut la voiture pour les commerces et les pistes."},
-  {name:"CGH Le Hameau de Pierre Blanche", where:"Les Houches · vue Mont-Blanc", src:"Booking",
-   w1:4411, w2:6945, rating:"Booking 9,2", url:"https://www.booking.com/hotel/fr/le-hameau-de-pierre-blanche.fr.html",
-   facts:["Appartement 3 chambres, 90 m², accès spa inclus","Piscine intérieure chauffée, bains à remous, sauna","Services hôteliers CGH"],
-   note:"2e semaine : 6 945 €, hors budget."},
-  {name:"Aubretia — résidence avec spa", where:"Les Houches · à quelques pas des téléphériques Bellevue et Prarion", src:"Airbnb",
-   w1:4640, w2:null, rating:"5,0 · Booking 9,8", url:"https://www.airbnb.fr/rooms/1391864190939210115", img:"https://a0.muscache.com/im/pictures/prohost-api/Hosting-1391864190939210115/original/9b6ac907-cd75-43d3-b50c-46ad4130a4a2.jpeg?im_w=720",
-   facts:["77 m², 3 chambres avec balcon, 2 salles de bain","Piscine intérieure, jacuzzi et sauna (résidence Les Mazots de Kayla)","Accès direct aux Houches – Saint-Gervais"]},
-  {name:"Ours Bleu B13 — ski aux pieds", where:"Vallorcine · 10 min d'Argentière, domaine Balme-Vallorcine", src:"Airbnb",
-   w1:2827, w2:null, rating:"5,0 (9 avis)", url:"https://www.airbnb.fr/rooms/1522435280389428245", img:"https://a0.muscache.com/im/pictures/hosting/Hosting-1522435280389428245/original/0a9c3294-9f31-4636-a15a-a65136c5a349.jpeg?im_w=720",
-   facts:["3 chambres, 3 salles de bain, 6 personnes","Piscine, jacuzzi intérieur, sauna, aires de jeux enfants (résidence)","Accès direct aux pistes"],
-   note:"Équipements communs ouverts à partir de mi-décembre."},
-  {name:"Dormio Resort Les Portes du Mont-Blanc", where:"Vallorcine · même résidence que l'Ours Bleu", src:"Booking",
-   w1:4199, w2:4839, rating:"Booking 8,2", url:"https://www.booking.com/hotel/fr/ours-bleu.fr.html",
-   facts:["Appartement 3 chambres, 80 m² (duplex la 2e semaine)","Piscine intérieure, spa, sauna, hammam","Ski aux pieds"],
-   note:"Tarif non remboursable. Version annulable : 4 738 € / 5 462 €."},
-  {name:"Ski aux pieds Tête Rousse", where:"Les Houches · vrai ski-in / ski-out", src:"Airbnb",
-   w1:3519, w2:null, rating:"Superhôte · 4,43 (44 avis)", url:"https://www.airbnb.fr/rooms/3753695", img:"https://a0.muscache.com/im/pictures/hosting/Hosting-3753695/original/411e148a-89c9-4326-8f94-d9c05c6c8347.jpeg?im_w=720",
-   facts:["Rez-de-chaussée, 3 chambres, 8 personnes","Piscine intérieure chauffée de la résidence","Garage souterrain"]},
-  {name:"Appartement au pied du Jaillet", where:"Megève · 200 m du centre, pied des télécabines du Jaillet", src:"Airbnb",
-   w1:4429, w2:4429, rating:"Nouvelle annonce, sans avis", url:"https://www.airbnb.fr/rooms/1788112373236328667", img:"https://a0.muscache.com/im/pictures/hosting/Hosting-1788112373236328667/original/3b3e0df0-e9ae-4b10-8447-02b7c0fb8533.jpeg?im_w=720",
-   facts:["4 pièces, 3 chambres, 6 personnes","2 piscines chauffées de résidence, dont une intérieure","Baby-foot et ping-pong"],
-   note:"Une seule salle de bain pour 5."},
-  {name:"L'Écrin de Rochebrune", where:"Megève · 700 m du téléphérique de Rochebrune, navettes gratuites", src:"Airbnb",
-   w1:4743, w2:7026, rating:"Nouvelle annonce · conciergerie Welkeys", url:"https://www.airbnb.fr/rooms/1785365241612244572", img:"https://a0.muscache.com/im/pictures/hosting/Hosting-1785365241612244572/original/640a8048-0ced-4c1d-99c4-614de80db752.jpeg?im_w=720",
-   facts:["3 chambres, 2 salles de bain, terrasse et jardin","Piscine intérieure chauffée, sauna, hammam, fitness","Garage couvert privé, ménage et linge hôteliers"],
-   note:"2e semaine : 7 026 €, hors budget."},
-  {name:"TERRESENS Les Fermes du Mont-Blanc", where:"Combloux · 13 min à pied du Bouchet, domaine Évasion (Megève)", src:"Booking",
-   w1:2828, w2:null, rating:"Booking 8,6", url:"https://www.booking.com/hotel/fr/les-fermes-du-mont-blanc.fr.html",
-   facts:["Appartement 3 chambres, 8 personnes","Piscine intérieure","Annulation gratuite avant le 19 novembre"]},
+{
+"id": "1661598777296947993",
+"name": "Appartement 4 chambres, terrasse et spa",
+"where": "Les Houches · résidence récente au pied de Bellevue et du Prarion",
+"src": "Airbnb",
+"url": "https://www.airbnb.fr/rooms/1661598777296947993?check_in=2027-02-06&check_out=2027-02-13&adults=2&children=3",
+"img": "https://a0.muscache.com/im/pictures/hosting/Hosting-1661598777296947993/original/72887d30-ebe4-4ce3-96e4-d179dbd40e3f.jpeg?im_w=720",
+"w1": 4287,
+"w2": null,
+"kind": "res+",
+"pool": "Piscine et sauna de résidence",
+"size": "4 ch. · 117 m² · 3 sdb · 8 pers. max",
+"rating": "5/5 sur Airbnb (17 avis)",
+"head": "5/5",
+"nrev": 17,
+"bon": false,
+"score": 83.6,
+"parts": {
+"space": 24,
+"well": 25,
+"rev": 18.6,
+"loc": 13,
+"price": 3
+},
+"facts": [
+"Espace bien-être de la résidence : piscine, jacuzzi, sauna, salle de sport (10 h – 20 h)",
+"Grande terrasse avec vue, garage",
+"Neuf, 3 salles de bain"
+],
+"note": "Le plus grand logement avec piscine trouvé. Complet sur la semaine d'avril.",
+"rank": 1
+},
+{
+"id": "1517416660206271228",
+"name": "Appartement Havre des Alpes",
+"where": "Megève · route de Prariand, 1,5 km du centre",
+"src": "Airbnb",
+"url": "https://www.airbnb.fr/rooms/1517416660206271228?check_in=2027-02-06&check_out=2027-02-13&adults=2&children=3",
+"img": "https://a0.muscache.com/im/pictures/hosting/Hosting-1517416660206271228/original/4f603bcf-a5d7-44bd-8507-9f943019a783.jpeg?im_w=720",
+"w1": 4395,
+"w2": 2324,
+"kind": "res+",
+"pool": "Piscine et sauna de résidence",
+"size": "4 ch. · 89 m² · 3 sdb · 8 pers. max",
+"rating": "5/5 sur Airbnb (12 avis) · 10/10 sur Booking",
+"head": "5/5",
+"nrev": 13,
+"bon": false,
+"score": 79.7,
+"parts": {
+"space": 20,
+"well": 25,
+"rev": 17.7,
+"loc": 14,
+"price": 3
+},
+"facts": [
+"Piscine, sauna, jacuzzi et salle de fitness dans la résidence",
+"4 chambres, 3 salles de bain",
+"Megève : patinoire, Palais des sports, village piéton pour qui ne skie pas"
+],
+"note": "En avril, le domaine de Megève ferme le 4 : à ne garder que pour février.",
+"rank": 2
+},
+{
+"id": "30786392",
+"name": "Appartement De Mesure",
+"where": "Vallorcine · résidence avec piscine et sauna",
+"src": "Airbnb",
+"url": "https://www.airbnb.fr/rooms/30786392?check_in=2027-02-06&check_out=2027-02-13&adults=2&children=3",
+"img": "https://a0.muscache.com/im/pictures/prohost-api/Hosting-30786392/original/31567d98-8579-4290-8b2e-1f859b027b6e.jpeg?im_w=720",
+"w1": 3516,
+"w2": 1863,
+"kind": "res+",
+"pool": "Piscine et sauna de résidence",
+"size": "4 ch. · 105 m² · 4,5 sdb · 10 pers. max",
+"rating": "4,74/5 sur Airbnb (31 avis)",
+"head": "4,74/5",
+"nrev": 31,
+"bon": false,
+"score": 76.7,
+"parts": {
+"space": 24,
+"well": 25,
+"rev": 10.7,
+"loc": 10,
+"price": 7
+},
+"facts": [
+"Piscine et sauna de la résidence, cités dans plusieurs avis",
+"4 salles de bain et demie",
+"Domaine de Balme, train direct pour Chamonix"
+],
+"note": "Les avis saluent l'espace et la piscine, pas la déco jugée vieillotte.",
+"rank": 3
+},
+{
+"id": "1948710",
+"name": "Appartement 140 m², spa et sauna",
+"where": "Argentière · Montroc, 1 km du Tour, 2 km des Grands Montets",
+"src": "Abritel",
+"url": "https://www.abritel.fr/location-vacances/p1948710?startDate=2027-02-06&endDate=2027-02-13&adults=2&children=1_8%2C1_8%2C1_11",
+"img": "https://media.vrbo.com/lodging/60000000/59400000/59394700/59394658/5fb8f5df.jpg",
+"w1": 2669,
+"w2": 2454,
+"kind": "spa+",
+"pool": "Spa et sauna privatifs",
+"size": "3 ch. · 140 m² · 3 sdb · 7 pers. max",
+"rating": "10/10 sur Abritel (23 avis)",
+"head": "10/10",
+"nrev": 23,
+"bon": false,
+"score": 75.9,
+"parts": {
+"space": 19,
+"well": 18,
+"rev": 19.4,
+"loc": 11,
+"price": 8.5
+},
+"facts": [
+"Spa extérieur privatif sur la terrasse plein sud, sauna",
+"Sur deux niveaux, cuisine de 15 m², buanderie, local à skis",
+"Navette et bus à moins de 100 m"
+],
+"note": "10/10 sur 23 avis et 140 m² pour 2 669 € : le meilleur rapport espace-prix de la sélection.",
+"rank": 4
+},
+{
+"id": "1458587334337098959",
+"name": "Kayla du Mont-Blanc",
+"where": "Les Houches · 450 m des remontées",
+"src": "Airbnb",
+"url": "https://www.airbnb.fr/rooms/1458587334337098959?check_in=2027-02-06&check_out=2027-02-13&adults=2&children=3",
+"img": "https://a0.muscache.com/im/pictures/prohost-api/Hosting-1458587334337098959/original/93c1bde1-69b9-43a3-ae63-24348442d74a.jpeg?im_w=720",
+"w1": 3918,
+"w2": 1658,
+"kind": "res+",
+"pool": "Piscine et sauna de résidence",
+"size": "3 ch. · 3 sdb · 6 pers. max",
+"rating": "4,92/5 sur Airbnb (13 avis)",
+"head": "4,92/5",
+"nrev": 13,
+"bon": false,
+"score": 71.5,
+"parts": {
+"space": 13,
+"well": 25,
+"rev": 15.5,
+"loc": 13,
+"price": 5
+},
+"facts": [
+"Piscine intérieure, sauna et bain à remous ouverts du 15 décembre au 30 avril",
+"3 chambres avec chacune sa salle de bain",
+"Annoncé « idéal pour les grandes familles »"
+],
+"note": "",
+"rank": 5
+},
+{
+"id": "1014427381328777361",
+"name": "Appartement avec piscine au pied des pistes",
+"where": "Vallorcine · résidence au départ de Balme",
+"src": "Airbnb",
+"url": "https://www.airbnb.fr/rooms/1014427381328777361?check_in=2027-02-06&check_out=2027-02-13&adults=2&children=3",
+"img": "https://a0.muscache.com/im/pictures/miso/Hosting-1014427381328777361/original/99aa9410-cca6-487a-99f2-132d7e37082b.jpeg?im_w=720",
+"w1": 2290,
+"w2": 912,
+"kind": "res+",
+"pool": "Piscine et sauna de résidence",
+"size": "3 ch. · 84 m² · 2 sdb · 8 pers. max",
+"rating": "4,84/5 sur Airbnb (38 avis)",
+"head": "4,84/5",
+"nrev": 38,
+"bon": false,
+"score": 70.5,
+"parts": {
+"space": 11,
+"well": 25,
+"rev": 14.5,
+"loc": 10,
+"price": 10
+},
+"facts": [
+"Piscine et sauna de la résidence",
+"Skis aux pieds sur le domaine de Balme",
+"84 m², 8 couchages"
+],
+"note": "912 € la semaine d'avril, vérifié deux fois.",
+"rank": 6
+},
+{
+"id": "1391864190939210115",
+"name": "Aubretia, appartement avec spa",
+"where": "Les Houches · Les Mazots de Kayla",
+"src": "Airbnb",
+"url": "https://www.airbnb.fr/rooms/1391864190939210115?check_in=2027-02-06&check_out=2027-02-13&adults=2&children=3",
+"img": "https://a0.muscache.com/im/pictures/prohost-api/Hosting-1391864190939210115/original/9b6ac907-cd75-43d3-b50c-46ad4130a4a2.jpeg?im_w=720",
+"w1": 3514,
+"w2": null,
+"kind": "res+",
+"pool": "Piscine et sauna de résidence",
+"size": "3 ch. · 77 m² · 2 sdb · 6 pers. max",
+"rating": "5/5 sur Airbnb (2 avis) · 9,8/10 sur Booking",
+"head": "9,8/10",
+"nrev": 5,
+"bon": true,
+"score": 70.5,
+"parts": {
+"space": 11,
+"well": 25,
+"rev": 14.5,
+"loc": 13,
+"price": 7
+},
+"facts": [
+"Accès à l'espace bien-être de la résidence Kayla (piscine, sauna)",
+"Aussi sur Booking, noté 9,8"
+],
+"note": "Complet en avril.",
+"rank": 7
+},
+{
+"id": "581096872938724392",
+"name": "Cordée 112",
+"where": "Chamonix · résidence La Cordée, vue Mont-Blanc",
+"src": "Airbnb",
+"url": "https://www.airbnb.fr/rooms/581096872938724392?check_in=2027-02-06&check_out=2027-02-13&adults=2&children=3",
+"img": "https://a0.muscache.com/im/pictures/miso/Hosting-581096872938724392/original/5f87026f-2f5f-492e-86e2-934da62a2742.jpeg?im_w=720",
+"w1": 3901,
+"w2": null,
+"kind": "res+",
+"pool": "Piscine et sauna de résidence",
+"size": "3 ch. · 2 sdb · 6 pers. max",
+"rating": "4,81/5 sur Airbnb (31 avis) · 9,6/10 sur Abritel (19 avis)",
+"head": "4,81/5",
+"nrev": 50,
+"bon": false,
+"score": 70.4,
+"parts": {
+"space": 11,
+"well": 25,
+"rev": 15.4,
+"loc": 14,
+"price": 5
+},
+"facts": [
+"Piscine intérieure chauffée, jacuzzi, sauna et hammam de la résidence",
+"Parking souterrain et casier à skis",
+"Bien noté sur deux plateformes"
+],
+"note": "Complet sur la semaine d'avril.",
+"rank": 8
+},
+{
+"id": "18970509",
+"name": "Chalet 4 chambres avec sauna, vue à 360°",
+"where": "Argentière · Montroc, près des pistes du Tour",
+"src": "Airbnb",
+"url": "https://www.airbnb.fr/rooms/18970509?check_in=2027-02-06&check_out=2027-02-13&adults=2&children=3",
+"img": "https://a0.muscache.com/im/pictures/miso/Hosting-18970509/original/1f953cb2-c1c5-42db-96d7-facabc089f0d.jpeg?im_w=720",
+"w1": 3322,
+"w2": null,
+"kind": "priv",
+"pool": "Sauna privatif",
+"size": "4 ch. · 3 sdb · 7 pers. max",
+"rating": "4,93/5 sur Airbnb (123 avis)",
+"head": "4,93/5",
+"nrev": 123,
+"bon": false,
+"score": 69.1,
+"parts": {
+"space": 20,
+"well": 12,
+"rev": 19.1,
+"loc": 11,
+"price": 7
+},
+"facts": [
+"Sauna privatif",
+"4 chambres, 3 salles de bain",
+"123 avis, moyenne 4,93"
+],
+"note": "Complet en avril.",
+"rank": 9
+},
+{
+"id": "terresens",
+"name": "Terresens Les Sources de Canopée",
+"where": "Saint-Gervais · avenue du Mont d'Arbois",
+"src": "Booking",
+"url": "https://www.booking.com/hotel/fr/terresens-les-sources-de-canopee.html?checkin=2027-02-06&checkout=2027-02-13&group_adults=2&group_children=3&age=8&age=8&age=11",
+"img": "",
+"w1": 2787,
+"w2": 764,
+"kind": "res+",
+"pool": "Piscine et sauna de résidence",
+"size": "3 ch. · 68 m² · 1 sdb · 6 pers. max",
+"rating": "8,9/10 sur Booking (95 avis)",
+"head": "8,9/10",
+"nrev": 95,
+"bon": false,
+"score": 68.8,
+"parts": {
+"space": 7,
+"well": 25,
+"rev": 14.3,
+"loc": 14,
+"price": 8.5
+},
+"facts": [
+"Résidence 4 étoiles : piscine intérieure, sauna, hammam",
+"3 chambres, 68 m², une salle de bain",
+"Annulation et services de résidence"
+],
+"note": "Le prix d'avril est celui du logement le moins cher pour cinq : vérifier qu'il s'agit bien du 3 chambres.",
+"rank": 10
+},
+{
+"id": "1689027989326692616",
+"name": "V Balme 26",
+"where": "Vallorcine · à côté des remontées",
+"src": "Airbnb",
+"url": "https://www.airbnb.fr/rooms/1689027989326692616?check_in=2027-02-06&check_out=2027-02-13&adults=2&children=3",
+"img": "https://a0.muscache.com/im/pictures/hosting/Hosting-1689027989326692616/original/27c594c5-4566-4f78-a08b-8adf0972efe3.jpeg?im_w=720",
+"w1": 2567,
+"w2": 1382,
+"kind": "res+",
+"pool": "Piscine et sauna de résidence",
+"size": "3 ch. · 2 sdb · 6 pers. max",
+"rating": "5/5 sur Airbnb (3 avis)",
+"head": "5/5",
+"nrev": 3,
+"bon": true,
+"score": 67.5,
+"parts": {
+"space": 11,
+"well": 25,
+"rev": 13.0,
+"loc": 10,
+"price": 8.5
+},
+"facts": [
+"Piscine, sauna et salle de sport de la résidence",
+"Au départ des pistes de Balme"
+],
+"note": "Seulement 3 avis, tous à 5.",
+"rank": 11
+},
+{
+"id": "1761732847092453516",
+"name": "Chalet jacuzzi et sauna, pied des Grands Montets",
+"where": "Argentière · au pied des pistes",
+"src": "Airbnb",
+"url": "https://www.airbnb.fr/rooms/1761732847092453516?check_in=2027-02-06&check_out=2027-02-13&adults=2&children=3",
+"img": "https://a0.muscache.com/im/pictures/hosting/Hosting-1761732847092453516/original/f0727fa2-b798-48c1-97a4-be93f44c68c1.jpeg?im_w=720",
+"w1": 4429,
+"w2": 3299,
+"kind": "spa+",
+"pool": "Spa et sauna privatifs",
+"size": "4 ch. · 140 m² · 5,5 sdb · 8 pers. max",
+"rating": "Pas encore d'avis",
+"head": null,
+"nrev": 0,
+"bon": true,
+"score": 67.2,
+"parts": {
+"space": 25,
+"well": 18,
+"rev": 9.2,
+"loc": 12,
+"price": 3
+},
+"facts": [
+"Jacuzzi et sauna privatifs",
+"140 m², une salle de bain par chambre",
+"Grands Montets, le meilleur enneigement de la vallée"
+],
+"note": "Nouvelle annonce sans avis.",
+"rank": 12
+},
+{
+"id": "27302897",
+"name": "Chalet familial avec sauna",
+"where": "Vallorcine · pistes à proximité",
+"src": "Airbnb",
+"url": "https://www.airbnb.fr/rooms/27302897?check_in=2027-02-06&check_out=2027-02-13&adults=2&children=3",
+"img": "https://a0.muscache.com/im/pictures/225e9966-174b-4df5-b834-d29648e16537.jpg?im_w=720",
+"w1": 3016,
+"w2": 2631,
+"kind": "priv",
+"pool": "Sauna privatif",
+"size": "4 ch. · 2,5 sdb · 8 pers. max",
+"rating": "4,98/5 sur Airbnb (40 avis)",
+"head": "4,98/5",
+"nrev": 40,
+"bon": false,
+"score": 66.9,
+"parts": {
+"space": 18,
+"well": 12,
+"rev": 19.9,
+"loc": 10,
+"price": 7
+},
+"facts": [
+"Sauna, garage",
+"4 chambres, 2 salles de bain, 3e WC",
+"Annoncé « parfait pour les familles »"
+],
+"note": "",
+"rank": 13
+},
+{
+"id": "1788222383139252445",
+"name": "La Source, duplex",
+"where": "Saint-Gervais · télécabines à 4 min à pied",
+"src": "Airbnb",
+"url": "https://www.airbnb.fr/rooms/1788222383139252445?check_in=2027-02-06&check_out=2027-02-13&adults=2&children=3",
+"img": "https://a0.muscache.com/im/pictures/hosting/Hosting-1788222383139252445/original/c1dad967-aafa-4011-a42e-0e35f10ae06c.jpeg?im_w=720",
+"w1": 3512,
+"w2": 1517,
+"kind": "res+",
+"pool": "Piscine et sauna de résidence",
+"size": "3 ch. · 75 m² · 2 sdb · 6 pers. max",
+"rating": "Pas encore d'avis",
+"head": null,
+"nrev": 0,
+"bon": true,
+"score": 66.2,
+"parts": {
+"space": 11,
+"well": 25,
+"rev": 9.2,
+"loc": 14,
+"price": 7
+},
+"facts": [
+"Résidence neuve : piscine, sauna, hammam, jacuzzi en accès libre",
+"Centre à 9 min à pied, thermes de Saint-Gervais tout proches",
+"Salle de jeux pour ados"
+],
+"note": "Nouvelle annonce sans avis.",
+"rank": 14
+},
+{
+"id": "25142667",
+"name": "Chalet au centre du village",
+"where": "Les Houches · 5 min à pied des remontées",
+"src": "Airbnb",
+"url": "https://www.airbnb.fr/rooms/25142667?check_in=2027-02-06&check_out=2027-02-13&adults=2&children=3",
+"img": "https://a0.muscache.com/im/pictures/42d316a5-1252-4aa4-9bd8-80f1cc7bed9b.jpg?im_w=720",
+"w1": 4016,
+"w2": 3659,
+"kind": "priv",
+"pool": "Jacuzzi privatif",
+"size": "4 ch. · 3,5 sdb · 10 pers. max",
+"rating": "4,87/5 sur Airbnb (55 avis)",
+"head": "4,87/5",
+"nrev": 55,
+"bon": false,
+"score": 66.0,
+"parts": {
+"space": 20,
+"well": 12,
+"rev": 16.0,
+"loc": 13,
+"price": 5
+},
+"facts": [
+"Jacuzzi extérieur sur la terrasse privée",
+"Cuisine double hauteur, salon spacieux",
+"Local à skis sécurisé"
+],
+"note": "",
+"rank": 15
+},
+{
+"id": "45526712",
+"name": "Chalet luxueux avec sauna",
+"where": "Combloux · vue sur le Mont-Blanc",
+"src": "Airbnb",
+"url": "https://www.airbnb.fr/rooms/45526712?check_in=2027-02-06&check_out=2027-02-13&adults=2&children=3",
+"img": "https://a0.muscache.com/im/pictures/f8324f9b-bdc5-488e-9675-737bc3db8bcc.jpg?im_w=720",
+"w1": 4376,
+"w2": 2661,
+"kind": "priv",
+"pool": "Sauna privatif",
+"size": "4 ch. · 3,5 sdb · 8 pers. max",
+"rating": "4,94/5 sur Airbnb (142 avis)",
+"head": "4,94/5",
+"nrev": 142,
+"bon": false,
+"score": 65.7,
+"parts": {
+"space": 20,
+"well": 12,
+"rev": 19.7,
+"loc": 11,
+"price": 3
+},
+"facts": [
+"Sauna",
+"4 chambres, 3 salles de bain et demie",
+"142 avis, moyenne 4,94"
+],
+"note": "Domaine Evasion Mont-Blanc : fin de saison début avril, à vérifier avant de réserver avril.",
+"rank": 16
+},
+{
+"id": "1695611620457537598",
+"name": "Bonnelle, 100 m² avec terrasse",
+"where": "Les Houches · résidence avec espace bien-être",
+"src": "Airbnb",
+"url": "https://www.airbnb.fr/rooms/1695611620457537598?check_in=2027-02-06&check_out=2027-02-13&adults=2&children=3",
+"img": "https://a0.muscache.com/im/pictures/hosting/Hosting-1695611620457537598/original/a8cb254c-b8cd-470a-b491-52f103445636.jpeg?im_w=720",
+"w1": 4322,
+"w2": 2296,
+"kind": "res+",
+"pool": "Piscine et sauna de résidence",
+"size": "3 ch. · 100 m² · 2,5 sdb · 5 pers. max",
+"rating": "Pas encore d'avis",
+"head": null,
+"nrev": 0,
+"bon": true,
+"score": 65.2,
+"parts": {
+"space": 15,
+"well": 25,
+"rev": 9.2,
+"loc": 13,
+"price": 3
+},
+"facts": [
+"Piscine, sauna, jacuzzi et salle de sport partagés",
+"Terrasse, vue montagne",
+"Capacité 5 personnes, pile la famille"
+],
+"note": "Nouvelle annonce sans avis.",
+"rank": 17
+},
+{
+"id": "5764534",
+"name": "Grand appartement, sauna et piscine",
+"where": "Argentière · centre du village, 700 m du téléphérique",
+"src": "Airbnb",
+"url": "https://www.airbnb.fr/rooms/5764534?check_in=2027-02-06&check_out=2027-02-13&adults=2&children=3",
+"img": "https://a0.muscache.com/im/pictures/71755186/55c10fe8_original.jpg?im_w=720",
+"w1": 2139,
+"w2": 1964,
+"kind": "res+",
+"pool": "Piscine et sauna de résidence",
+"size": "3 ch. · 70 m² · 2 sdb · 6 pers. max",
+"rating": "4,69/5 sur Airbnb (102 avis)",
+"head": "4,69/5",
+"nrev": 102,
+"bon": false,
+"score": 64.8,
+"parts": {
+"space": 9,
+"well": 25,
+"rev": 8.8,
+"loc": 12,
+"price": 10
+},
+"facts": [
+"Piscine intérieure commune ouverte toute l'année, sauna",
+"À pied des commerces et du téléphérique des Grands Montets",
+"Plus de cent avis"
+],
+"note": "",
+"rank": 18
+},
+{
+"id": "11822244",
+"name": "Chalet de luxe à Chamonix",
+"where": "Chamonix · face au Brévent",
+"src": "Airbnb",
+"url": "https://www.airbnb.fr/rooms/11822244?check_in=2027-02-06&check_out=2027-02-13&adults=2&children=3",
+"img": "https://a0.muscache.com/im/pictures/0e679d74-5586-48c9-9bea-ff06fe46d8c1.jpg?im_w=720",
+"w1": 4298,
+"w2": 3102,
+"kind": "priv",
+"pool": "Jacuzzi privatif",
+"size": "4 ch. · 4 sdb · 8 pers. max",
+"rating": "4,85/5 sur Airbnb (87 avis)",
+"head": "4,85/5",
+"nrev": 87,
+"bon": false,
+"score": 64.5,
+"parts": {
+"space": 20,
+"well": 12,
+"rev": 15.5,
+"loc": 14,
+"price": 3
+},
+"facts": [
+"Jacuzzi",
+"4 chambres, 4 salles de bain",
+"Vue sur le téléphérique du Brévent"
+],
+"note": "",
+"rank": 19
+},
+{
+"id": "16203980",
+"name": "Chalet entre pistes et thermes",
+"where": "Saint-Gervais · près des thermes",
+"src": "Airbnb",
+"url": "https://www.airbnb.fr/rooms/16203980?check_in=2027-02-06&check_out=2027-02-13&adults=2&children=3",
+"img": "https://a0.muscache.com/im/pictures/hosting/Hosting-16203980/original/4ccd4865-1197-4767-8787-176e96bffa7c.jpeg?im_w=720",
+"w1": 3522,
+"w2": 2712,
+"kind": "therm",
+"pool": "Thermes à côté",
+"size": "4 ch. · 2 sdb · 8 pers. max",
+"rating": "4,95/5 sur Airbnb (137 avis)",
+"head": "4,95/5",
+"nrev": 137,
+"bon": false,
+"score": 64.1,
+"parts": {
+"space": 18,
+"well": 5,
+"rev": 20.1,
+"loc": 14,
+"price": 7
+},
+"facts": [
+"Thermes de Saint-Gervais à proximité, idéal pour qui ne skie pas",
+"137 avis, moyenne 4,95"
+],
+"note": "",
+"rank": 20
+},
+{
+"id": "1172328167681118591",
+"name": "Duplex avec sauna",
+"where": "Argentière · 300 m de la remontée",
+"src": "Airbnb",
+"url": "https://www.airbnb.fr/rooms/1172328167681118591?check_in=2027-02-06&check_out=2027-02-13&adults=2&children=3",
+"img": "https://a0.muscache.com/im/pictures/miso/Hosting-1172328167681118591/original/2cca100c-5719-44ed-aa14-e1a7aff66a53.jpeg?im_w=720",
+"w1": 2699,
+"w2": 1091,
+"kind": "priv",
+"pool": "Sauna privatif",
+"size": "3 ch. · 2 sdb · 6 pers. max",
+"rating": "4,9/5 sur Airbnb (72 avis) · 9,7/10 sur Booking (10 avis) · 10/10 sur Abritel (3 avis)",
+"head": "4,9/5",
+"nrev": 85,
+"bon": false,
+"score": 63.8,
+"parts": {
+"space": 11,
+"well": 12,
+"rev": 20.3,
+"loc": 12,
+"price": 8.5
+},
+"facts": [
+"Sauna privatif, balcon, parking",
+"Ascenseur, 300 m des pistes",
+"Noté sur trois plateformes : 4,9 Airbnb, 9,7 Booking, 10 Abritel"
+],
+"note": "",
+"rank": 21
+},
+{
+"id": "285949",
+"name": "Chalet Narnia",
+"where": "Les Houches · 5 min de la remontée et des commerces",
+"src": "Airbnb",
+"url": "https://www.airbnb.fr/rooms/285949?check_in=2027-02-06&check_out=2027-02-13&adults=2&children=3",
+"img": "https://a0.muscache.com/im/pictures/64904913/2608a26d_original.jpg?im_w=720",
+"w1": 4856,
+"w2": null,
+"kind": "priv",
+"pool": "Jacuzzi privatif",
+"size": "4 ch. · 2,5 sdb · 10 pers. max",
+"rating": "4,9/5 sur Airbnb (157 avis)",
+"head": "4,9/5",
+"nrev": 157,
+"bon": false,
+"score": 63.0,
+"parts": {
+"space": 18,
+"well": 12,
+"rev": 18.0,
+"loc": 12,
+"price": 3
+},
+"facts": [
+"Jacuzzi",
+"10 couchages",
+"157 avis, l'annonce la plus commentée de la sélection"
+],
+"note": "Complet en avril.",
+"rank": 22
+},
+{
+"id": "47434838",
+"name": "Chalet familial près du Prarion",
+"where": "Les Houches · proche de la télécabine",
+"src": "Airbnb",
+"url": "https://www.airbnb.fr/rooms/47434838?check_in=2027-02-06&check_out=2027-02-13&adults=2&children=3",
+"img": "https://a0.muscache.com/im/pictures/60c5a8bf-d4cb-41e2-beda-1bc8b9429049.jpg?im_w=720",
+"w1": 3155,
+"w2": null,
+"kind": "none",
+"pool": "—",
+"size": "5 ch. · 2,5 sdb · 10 pers. max",
+"rating": "5/5 sur Airbnb (29 avis)",
+"head": "5/5",
+"nrev": 29,
+"bon": false,
+"score": 61.0,
+"parts": {
+"space": 21,
+"well": 0,
+"rev": 20.0,
+"loc": 13,
+"price": 7
+},
+"facts": [
+"5 chambres, 10 couchages",
+"29 avis, tous à 5"
+],
+"note": "Complet en avril.",
+"rank": 23
+},
+{
+"id": "658298756083064403",
+"name": "Appartement 3 chambres au pied du Prarion",
+"where": "Les Houches · près des remontées",
+"src": "Airbnb",
+"url": "https://www.airbnb.fr/rooms/658298756083064403?check_in=2027-02-06&check_out=2027-02-13&adults=2&children=3",
+"img": "https://a0.muscache.com/im/pictures/miso/Hosting-658298756083064403/original/18334035-f017-4345-8d72-75d23a224d9d.jpeg?im_w=720",
+"w1": 2145,
+"w2": null,
+"kind": "res",
+"pool": "Piscine de résidence",
+"size": "3 ch. · 76 m² · 1,5 sdb · 6 pers. max",
+"rating": "4,6/5 sur Airbnb (115 avis)",
+"head": "4,6/5",
+"nrev": 115,
+"bon": false,
+"score": 60.9,
+"parts": {
+"space": 11,
+"well": 22,
+"rev": 4.9,
+"loc": 13,
+"price": 10
+},
+"facts": [
+"Piscine de la résidence",
+"Au pied des pistes du Prarion",
+"Une salle de bain et une salle d'eau"
+],
+"note": "Complet en avril.",
+"rank": 24
+},
+{
+"id": "52874188",
+"name": "Appartement en chalet neuf, bain nordique",
+"where": "Megève · 10 min en voiture du centre et des pistes",
+"src": "Airbnb",
+"url": "https://www.airbnb.fr/rooms/52874188?check_in=2027-02-06&check_out=2027-02-13&adults=2&children=3",
+"img": "https://a0.muscache.com/im/pictures/miso/Hosting-52874188/original/b5a7607b-ce7d-4a20-9ed3-b67cd57210af.jpeg?im_w=720",
+"w1": 2423,
+"w2": undefined,
+"kind": "priv",
+"pool": "Bain nordique privatif",
+"size": "3 ch. · 2 sdb · 6 pers. max",
+"rating": "4,94/5 sur Airbnb (16 avis)",
+"head": "4,94/5",
+"nrev": 16,
+"bon": false,
+"score": 59.1,
+"parts": {
+"space": 11,
+"well": 12,
+"rev": 16.6,
+"loc": 11,
+"price": 8.5
+},
+"facts": [
+"Bain nordique chauffé privatif dans le jardin",
+"Patio et jardin privés",
+"Chalet récent"
+],
+"note": "Prix d'avril non relevé ; Megève ferme le 4 avril.",
+"rank": 25
+},
+{
+"id": "994094909131973236",
+"name": "Chalet 180 m², vue Mont-Blanc",
+"where": "Saint-Gervais · parking au pied des pistes",
+"src": "Airbnb",
+"url": "https://www.airbnb.fr/rooms/994094909131973236?check_in=2027-02-06&check_out=2027-02-13&adults=2&children=3",
+"img": "https://a0.muscache.com/im/pictures/hosting/Hosting-U3RheVN1cHBseUxpc3Rpbmc6OTk0MDk0OTA5MTMxOTczMjM2/original/56ed31f8-ccac-4fe7-ac79-1d10ad721eb2.jpeg?im_w=720",
+"w1": 3774,
+"w2": 3774,
+"kind": "none",
+"pool": "—",
+"size": "5 ch. · 180 m² · 4 sdb · 12 pers. max",
+"rating": "5/5 sur Airbnb (8 avis)",
+"head": "5/5",
+"nrev": 8,
+"bon": false,
+"score": 59.1,
+"parts": {
+"space": 25,
+"well": 0,
+"rev": 16.1,
+"loc": 13,
+"price": 5
+},
+"facts": [
+"180 m², 5 chambres, 4 salles de bain : le plus grand de la sélection",
+"Parking au pied des pistes (y aller tôt)"
+],
+"note": "",
+"rank": 26
+},
+{
+"id": "1255844585043351330",
+"name": "Demi-chalet 150 m²",
+"where": "Megève · 5 min à pied du centre",
+"src": "Airbnb",
+"url": "https://www.airbnb.fr/rooms/1255844585043351330?check_in=2027-02-06&check_out=2027-02-13&adults=2&children=3",
+"img": "https://a0.muscache.com/im/pictures/miso/Hosting-1255844585043351330/original/0c8c5966-956a-432f-9679-9ae734560438.jpeg?im_w=720",
+"w1": 3292,
+"w2": 2792,
+"kind": "none",
+"pool": "—",
+"size": "5 ch. · 150 m² · 5 sdb · 8 pers. max",
+"rating": "5/5 sur Airbnb (3 avis)",
+"head": "5/5",
+"nrev": 3,
+"bon": true,
+"score": 59.0,
+"parts": {
+"space": 25,
+"well": 0,
+"rev": 13.0,
+"loc": 14,
+"price": 7
+},
+"facts": [
+"150 m², 5 chambres, 5 salles de bain",
+"Grand jardin, centre de Megève à pied"
+],
+"note": "Seulement 3 avis. Megève ferme le 4 avril.",
+"rank": 27
+},
+{
+"id": "981869316668871646",
+"name": "Chalet Perronneau",
+"where": "Vallorcine · hameau de Siseray",
+"src": "Airbnb",
+"url": "https://www.airbnb.fr/rooms/981869316668871646?check_in=2027-02-06&check_out=2027-02-13&adults=2&children=3",
+"img": "https://a0.muscache.com/im/pictures/miso/Hosting-981869316668871646/original/83637ad0-b4c8-4df1-ad93-bea41b371e7d.jpeg?im_w=720",
+"w1": 2930,
+"w2": 2930,
+"kind": "none",
+"pool": "—",
+"size": "4 ch. · 3 sdb · 8 pers. max",
+"rating": "5/5 sur Airbnb (33 avis)",
+"head": "5/5",
+"nrev": 33,
+"bon": false,
+"score": 58.8,
+"parts": {
+"space": 20,
+"well": 0,
+"rev": 20.3,
+"loc": 10,
+"price": 8.5
+},
+"facts": [
+"4 chambres, 3 salles de bain",
+"Hameau au calme, entouré de forêt",
+"33 avis, tous à 5"
+],
+"note": "",
+"rank": 28
+},
+{
+"id": "38587689",
+"name": "Chalet de charme, vue sur le massif",
+"where": "Les Houches · Taconnaz",
+"src": "Airbnb",
+"url": "https://www.airbnb.fr/rooms/38587689?check_in=2027-02-06&check_out=2027-02-13&adults=2&children=3",
+"img": "https://a0.muscache.com/im/pictures/d5841a22-5d1b-4526-b75f-535905baf2f2.jpg?im_w=720",
+"w1": 2945,
+"w2": null,
+"kind": "none",
+"pool": "—",
+"size": "4 ch. · 2 sdb · 7 pers. max",
+"rating": "5/5 sur Airbnb (19 avis)",
+"head": "5/5",
+"nrev": 19,
+"bon": false,
+"score": 57.4,
+"parts": {
+"space": 18,
+"well": 0,
+"rev": 18.9,
+"loc": 12,
+"price": 8.5
+},
+"facts": [
+"4 chambres, 2 salles de bain",
+"19 avis, tous à 5"
+],
+"note": "Complet en avril.",
+"rank": 29
+},
+{
+"id": "1477451125197722361",
+"name": "Duplex 105 m², vue Mont-Blanc",
+"where": "Combloux",
+"src": "Airbnb",
+"url": "https://www.airbnb.fr/rooms/1477451125197722361?check_in=2027-02-06&check_out=2027-02-13&adults=2&children=3",
+"img": "https://a0.muscache.com/im/pictures/hosting/Hosting-U3RheVN1cHBseUxpc3Rpbmc6MTQ3NzQ1MTEyNTE5NzcyMjM2MQ==/original/d2c867b3-7481-4a5a-ad60-4beb63e53c48.jpeg?im_w=720",
+"w1": 2094,
+"w2": 1130,
+"kind": "none",
+"pool": "—",
+"size": "4 ch. · 105 m² · 2 sdb · 8 pers. max",
+"rating": "5/5 sur Airbnb (4 avis)",
+"head": "5/5",
+"nrev": 4,
+"bon": true,
+"score": 56.8,
+"parts": {
+"space": 22,
+"well": 0,
+"rev": 13.8,
+"loc": 11,
+"price": 10
+},
+"facts": [
+"105 m², 4 chambres, 8 lits",
+"Le moins cher des grands logements en février"
+],
+"note": "Seulement 4 avis.",
+"rank": 30
+},
+{
+"id": "21258409",
+"name": "Chalet Silène",
+"where": "Chamonix · Les Bossons, 7 min en voiture des remontées",
+"src": "Airbnb",
+"url": "https://www.airbnb.fr/rooms/21258409?check_in=2027-02-06&check_out=2027-02-13&adults=2&children=3",
+"img": "https://a0.muscache.com/im/pictures/b5461500-ef54-4018-860a-b35e72d269ee.jpg?im_w=720",
+"w1": 2290,
+"w2": null,
+"kind": "none",
+"pool": "—",
+"size": "4 ch. · 2 sdb · 6 pers. max",
+"rating": "4,8/5 sur Airbnb (100 avis) · 10/10 sur Abritel (3 avis)",
+"head": "4,8/5",
+"nrev": 103,
+"bon": false,
+"score": 56.7,
+"parts": {
+"space": 18,
+"well": 0,
+"rev": 15.7,
+"loc": 13,
+"price": 10
+},
+"facts": [
+"4 chambres",
+"100 avis Airbnb, 10/10 sur Abritel"
+],
+"note": "Complet en avril.",
+"rank": 31
+},
+{
+"id": "10016340",
+"name": "Chalet moderne, vue Mont-Blanc",
+"where": "Cordon · balcon du Mont-Blanc",
+"src": "Airbnb",
+"url": "https://www.airbnb.fr/rooms/10016340?check_in=2027-02-06&check_out=2027-02-13&adults=2&children=3",
+"img": "https://a0.muscache.com/im/pictures/4c6fa402-95fb-4885-9531-cb1365b24f97.jpg?im_w=720",
+"w1": 3215,
+"w2": null,
+"kind": "none",
+"pool": "—",
+"size": "5 ch. · 2 sdb · 10 pers. max",
+"rating": "4,91/5 sur Airbnb (109 avis)",
+"head": "4,91/5",
+"nrev": 109,
+"bon": false,
+"score": 56.2,
+"parts": {
+"space": 21,
+"well": 0,
+"rev": 18.2,
+"loc": 10,
+"price": 7
+},
+"facts": [
+"5 chambres, 10 couchages",
+"109 avis"
+],
+"note": "Complet en avril.",
+"rank": 32
+},
+{
+"id": "10006445",
+"name": "Chalet 8 personnes face au Mont-Blanc",
+"where": "Chamonix · Les Bossons",
+"src": "Airbnb",
+"url": "https://www.airbnb.fr/rooms/10006445?check_in=2027-02-06&check_out=2027-02-13&adults=2&children=3",
+"img": "https://a0.muscache.com/im/pictures/0c789113-8e9c-4c75-b554-45e782ae06fc.jpg?im_w=720",
+"w1": 2919,
+"w2": 4991,
+"kind": "none",
+"pool": "—",
+"size": "4 ch. · 90 m² · 1 sdb · 8 pers. max",
+"rating": "4,96/5 sur Airbnb (28 avis)",
+"head": "4,96/5",
+"nrev": 28,
+"bon": false,
+"score": 56.0,
+"parts": {
+"space": 16,
+"well": 0,
+"rev": 18.5,
+"loc": 13,
+"price": 8.5
+},
+"facts": [
+"90 m², 4 chambres",
+"Une seule salle de bain"
+],
+"note": "Curieusement plus cher en avril qu'en février.",
+"rank": 33
+},
+{
+"id": "1536808795919949292",
+"name": "Chalet de charme 168 m²",
+"where": "Les Houches · Taconnaz, bus à 2 min",
+"src": "Airbnb",
+"url": "https://www.airbnb.fr/rooms/1536808795919949292?check_in=2027-02-06&check_out=2027-02-13&adults=2&children=3",
+"img": "https://a0.muscache.com/im/pictures/hosting/Hosting-1536808795919949292/original/bd854acc-b8f4-468a-9b62-ea8cd81f4824.jpeg?im_w=720",
+"w1": 3629,
+"w2": null,
+"kind": "none",
+"pool": "—",
+"size": "4 ch. · 168 m² · 3,5 sdb · 6 pers. max",
+"rating": "5/5 sur Airbnb (4 avis)",
+"head": "5/5",
+"nrev": 4,
+"bon": true,
+"score": 55.8,
+"parts": {
+"space": 25,
+"well": 0,
+"rev": 13.8,
+"loc": 12,
+"price": 5
+},
+"facts": [
+"168 m², le plus vaste après le chalet de Saint-Gervais",
+"Bus pour Chamonix et les remontées à 2 min"
+],
+"note": "Seulement 4 avis. Complet en avril.",
+"rank": 34
+},
+{
+"id": "4974265",
+"name": "Chalet Chantey",
+"where": "Argentière · vue, 8 personnes",
+"src": "Airbnb",
+"url": "https://www.airbnb.fr/rooms/4974265?check_in=2027-02-06&check_out=2027-02-13&adults=2&children=3",
+"img": "https://a0.muscache.com/im/pictures/64511882/555d6739_original.jpg?im_w=720",
+"w1": 3569,
+"w2": 3569,
+"kind": "none",
+"pool": "—",
+"size": "4 ch. · 3 sdb · 8 pers. max",
+"rating": "4,89/5 sur Airbnb (46 avis)",
+"head": "4,89/5",
+"nrev": 46,
+"bon": false,
+"score": 55.6,
+"parts": {
+"space": 20,
+"well": 0,
+"rev": 16.6,
+"loc": 12,
+"price": 7
+},
+"facts": [
+"4 chambres, 3 salles de bain",
+"Vue dégagée"
+],
+"note": "",
+"rank": 35
+},
+{
+"id": "913663765354896453",
+"name": "Appartement-chalet 135 m²",
+"where": "Chamonix · 1 km du centre, 4 min du Brévent",
+"src": "Airbnb",
+"url": "https://www.airbnb.fr/rooms/913663765354896453?check_in=2027-02-06&check_out=2027-02-13&adults=2&children=3",
+"img": "https://a0.muscache.com/im/pictures/e439dd47-5b77-4c24-82a1-3cfd515a730b.jpg?im_w=720",
+"w1": 4937,
+"w2": null,
+"kind": "none",
+"pool": "—",
+"size": "4 ch. · 135 m² · 2 sdb · 8 pers. max",
+"rating": "5/5 sur Airbnb (9 avis)",
+"head": "5/5",
+"nrev": 9,
+"bon": false,
+"score": 55.5,
+"parts": {
+"space": 22,
+"well": 0,
+"rev": 16.5,
+"loc": 14,
+"price": 3
+},
+"facts": [
+"135 m², face au Mont-Blanc",
+"Ambiance cosy"
+],
+"note": "Complet en avril.",
+"rank": 36
+},
+{
+"id": "1326027610353697540",
+"name": "Chalet de charme avec jardin",
+"where": "Chamonix · vue",
+"src": "Airbnb",
+"url": "https://www.airbnb.fr/rooms/1326027610353697540?check_in=2027-02-06&check_out=2027-02-13&adults=2&children=3",
+"img": "https://a0.muscache.com/im/pictures/hosting/Hosting-1326027610353697540/original/da0e2cc9-7adf-4454-8d3b-cd5ca629d0de.jpeg?im_w=720",
+"w1": 3785,
+"w2": 2283,
+"kind": "none",
+"pool": "—",
+"size": "5 ch. · 1 sdb · 10 pers. max",
+"rating": "4,94/5 sur Airbnb (18 avis)",
+"head": "4,94/5",
+"nrev": 18,
+"bon": false,
+"score": 54.8,
+"parts": {
+"space": 19,
+"well": 0,
+"rev": 16.8,
+"loc": 14,
+"price": 5
+},
+"facts": [
+"5 chambres, jardin",
+"Une seule salle de bain"
+],
+"note": "",
+"rank": 37
+},
+{
+"id": "1222150724418329544",
+"name": "Chalet des Plans",
+"where": "Vallorcine · au pied des pistes",
+"src": "Airbnb",
+"url": "https://www.airbnb.fr/rooms/1222150724418329544?check_in=2027-02-06&check_out=2027-02-13&adults=2&children=3",
+"img": "https://a0.muscache.com/im/pictures/hosting/Hosting-U3RheVN1cHBseUxpc3Rpbmc6MTIyMjE1MDcyNDQxODMyOTU0NA%3D%3D/original/e8773e58-4c17-4c74-a664-d2429b242b7a.jpeg?im_w=720",
+"w1": 3071,
+"w2": 2922,
+"kind": "none",
+"pool": "—",
+"size": "4 ch. · 1,5 sdb · 8 pers. max",
+"rating": "5/5 sur Airbnb (9 avis) · 10/10 sur Abritel (4 avis)",
+"head": "5/5",
+"nrev": 13,
+"bon": false,
+"score": 54.7,
+"parts": {
+"space": 18,
+"well": 0,
+"rev": 19.7,
+"loc": 10,
+"price": 7
+},
+"facts": [
+"Skis aux pieds",
+"5,0 sur Airbnb, 10 sur Abritel",
+"Une salle de bain et une salle d'eau"
+],
+"note": "",
+"rank": 38
+},
+{
+"id": "1573211573830208652",
+"name": "Le Montagnard",
+"where": "Saint-Gervais",
+"src": "Airbnb",
+"url": "https://www.airbnb.fr/rooms/1573211573830208652?check_in=2027-02-06&check_out=2027-02-13&adults=2&children=3",
+"img": "https://a0.muscache.com/im/pictures/hosting/Hosting-1573211573830208652/original/946eaf72-fb5f-419e-96b6-147627a996e7.jpeg?im_w=720",
+"w1": 2542,
+"w2": null,
+"kind": "none",
+"pool": "—",
+"size": "4 ch. · 2 sdb · 8 pers. max",
+"rating": "5/5 sur Airbnb (6 avis)",
+"head": "5/5",
+"nrev": 6,
+"bon": false,
+"score": 54.6,
+"parts": {
+"space": 18,
+"well": 0,
+"rev": 15.1,
+"loc": 13,
+"price": 8.5
+},
+"facts": [
+"4 chambres",
+"6 avis, tous à 5"
+],
+"note": "Complet en avril.",
+"rank": 39
+},
+{
+"id": "1059369331344819828",
+"name": "Chalet cosy, vue sur le Mont-Blanc",
+"where": "Chamonix · Les Bossons",
+"src": "Airbnb",
+"url": "https://www.airbnb.fr/rooms/1059369331344819828?check_in=2027-02-06&check_out=2027-02-13&adults=2&children=3",
+"img": "https://a0.muscache.com/im/pictures/9fcf044e-95b3-425a-84f3-43ffdadc28e7.jpg?im_w=720",
+"w1": 2620,
+"w2": 1707,
+"kind": "none",
+"pool": "—",
+"size": "3 ch. · 2 sdb · 6 pers. max",
+"rating": "5/5 sur Airbnb (62 avis)",
+"head": "5/5",
+"nrev": 62,
+"bon": false,
+"score": 53.9,
+"parts": {
+"space": 11,
+"well": 0,
+"rev": 21.4,
+"loc": 13,
+"price": 8.5
+},
+"facts": [
+"62 avis, tous à 5",
+"3 chambres"
+],
+"note": "",
+"rank": 40
+},
+{
+"id": "1735557978417860182",
+"name": "Chalet du Vargne",
+"where": "Argentière · Montroc",
+"src": "Airbnb",
+"url": "https://www.airbnb.fr/rooms/1735557978417860182?check_in=2027-02-06&check_out=2027-02-13&adults=2&children=3",
+"img": "https://a0.muscache.com/im/pictures/hosting/Hosting-1735557978417860182/original/0e6b7f26-8e86-46f3-9ed6-2a36b05a8113.jpeg?im_w=720",
+"w1": 3476,
+"w2": 2392,
+"kind": "none",
+"pool": "—",
+"size": "5 ch. · 2 sdb · 8 pers. max",
+"rating": "4,91/5 sur Airbnb (11 avis)",
+"head": "4,91/5",
+"nrev": 11,
+"bon": false,
+"score": 53.8,
+"parts": {
+"space": 21,
+"well": 0,
+"rev": 14.8,
+"loc": 11,
+"price": 7
+},
+"facts": [
+"5 chambres",
+"Hameau de Montroc, entre Argentière et Le Tour"
+],
+"note": "",
+"rank": 41
+},
+{
+"id": "1096333915849682080",
+"name": "Chalet Altiora",
+"where": "Argentière · entrée du village",
+"src": "Airbnb",
+"url": "https://www.airbnb.fr/rooms/1096333915849682080?check_in=2027-02-06&check_out=2027-02-13&adults=2&children=3",
+"img": "https://a0.muscache.com/im/pictures/miso/Hosting-1096333915849682080/original/b025186c-0abe-49ce-8368-cf8c60d7ac29.jpeg?im_w=720",
+"w1": 4263,
+"w2": 2514,
+"kind": "none",
+"pool": "—",
+"size": "4 ch. · 120 m² · 2 sdb · 6 pers. max",
+"rating": "5/5 sur Airbnb (9 avis)",
+"head": "5/5",
+"nrev": 9,
+"bon": false,
+"score": 53.5,
+"parts": {
+"space": 22,
+"well": 0,
+"rev": 16.5,
+"loc": 12,
+"price": 3
+},
+"facts": [
+"120 m², 4 chambres",
+"Position dégagée à l'entrée d'Argentière"
+],
+"note": "",
+"rank": 42
+},
+{
+"id": "53580739",
+"name": "Maison 4 chambres, grand jardin",
+"where": "Servoz · 10 min des pistes",
+"src": "Airbnb",
+"url": "https://www.airbnb.fr/rooms/53580739?check_in=2027-02-06&check_out=2027-02-13&adults=2&children=3",
+"img": "https://a0.muscache.com/im/pictures/miso/Hosting-53580739/original/9974a00d-6b7e-4654-adcc-5d127bf05e00.jpeg?im_w=720",
+"w1": 4174,
+"w2": null,
+"kind": "none",
+"pool": "—",
+"size": "4 ch. · 3 sdb · 7 pers. max",
+"rating": "5/5 sur Airbnb (21 avis)",
+"head": "5/5",
+"nrev": 21,
+"bon": false,
+"score": 53.2,
+"parts": {
+"space": 20,
+"well": 0,
+"rev": 19.2,
+"loc": 9,
+"price": 5
+},
+"facts": [
+"Village ensoleillé entre Les Houches et Saint-Gervais",
+"4 chambres, 3 salles de bain"
+],
+"note": "Complet en avril.",
+"rank": 43
+},
+{
+"id": "1176054832440021124",
+"name": "Appartement 113 m² avec jardin",
+"where": "Chamonix · calme, garage",
+"src": "Airbnb",
+"url": "https://www.airbnb.fr/rooms/1176054832440021124?check_in=2027-02-06&check_out=2027-02-13&adults=2&children=3",
+"img": "https://a0.muscache.com/im/pictures/miso/Hosting-1176054832440021124/original/a78213de-3626-4c54-8a2a-f2a05a8685d0.jpeg?im_w=720",
+"w1": 3973,
+"w2": null,
+"kind": "none",
+"pool": "—",
+"size": "4 ch. · 113 m² · 2 sdb · 8 pers. max",
+"rating": "4,77/5 sur Airbnb (75 avis)",
+"head": "4,77/5",
+"nrev": 75,
+"bon": false,
+"score": 53.1,
+"parts": {
+"space": 22,
+"well": 0,
+"rev": 12.1,
+"loc": 14,
+"price": 5
+},
+"facts": [
+"113 m², 4 chambres",
+"Jardin, garage, coin bar"
+],
+"note": "Complet en avril.",
+"rank": 44
+},
+{
+"id": "552141775088705582",
+"name": "Chalet L'Oratoire",
+"where": "Les Houches · mazot",
+"src": "Airbnb",
+"url": "https://www.airbnb.fr/rooms/552141775088705582?check_in=2027-02-06&check_out=2027-02-13&adults=2&children=3",
+"img": "https://a0.muscache.com/im/pictures/prohost-api/Hosting-552141775088705582/original/58aa9ee6-89f9-4f12-b031-378d62aaf7cc.jpeg?im_w=720",
+"w1": 3895,
+"w2": 2080,
+"kind": "none",
+"pool": "—",
+"size": "4 ch. · 2 sdb · 8 pers. max",
+"rating": "5/5 sur Airbnb (12 avis)",
+"head": "5/5",
+"nrev": 12,
+"bon": false,
+"score": 52.5,
+"parts": {
+"space": 18,
+"well": 0,
+"rev": 17.5,
+"loc": 12,
+"price": 5
+},
+"facts": [
+"4 chambres, 2 salles de bain"
+],
+"note": "",
+"rank": 45
+},
+{
+"id": "30946765",
+"name": "Chalet à Argentière, vue",
+"where": "Argentière · ski et randonnée",
+"src": "Airbnb",
+"url": "https://www.airbnb.fr/rooms/30946765?check_in=2027-02-06&check_out=2027-02-13&adults=2&children=3",
+"img": "https://a0.muscache.com/im/pictures/dead41aa-592c-4127-a645-8fb47d8e7f63.jpg?im_w=720",
+"w1": 3652,
+"w2": 2473,
+"kind": "none",
+"pool": "—",
+"size": "4 ch. · 2,5 sdb · 8 pers. max",
+"rating": "4,88/5 sur Airbnb (57 avis)",
+"head": "4,88/5",
+"nrev": 57,
+"bon": false,
+"score": 51.5,
+"parts": {
+"space": 18,
+"well": 0,
+"rev": 16.5,
+"loc": 12,
+"price": 5
+},
+"facts": [
+"4 chambres, 2 salles de bain et demie",
+"Boulangeries et commerces à pied"
+],
+"note": "",
+"rank": 46
+},
+{
+"id": "1035478766711698743",
+"name": "Chalet savoyard authentique",
+"where": "Les Houches · vue sur le massif",
+"src": "Airbnb",
+"url": "https://www.airbnb.fr/rooms/1035478766711698743?check_in=2027-02-06&check_out=2027-02-13&adults=2&children=3",
+"img": "https://a0.muscache.com/im/pictures/hosting/Hosting-U3RheVN1cHBseUxpc3Rpbmc6MTAzNTQ3ODc2NjcxMTY5ODc0Mw%3D%3D/original/41fc8bc0-c741-48e9-8550-c5d7eaf78a5e.jpeg?im_w=720",
+"w1": 2661,
+"w2": null,
+"kind": "none",
+"pool": "—",
+"size": "4 ch. · 1 sdb · 8 pers. max",
+"rating": "4,85/5 sur Airbnb (33 avis)",
+"head": "4,85/5",
+"nrev": 33,
+"bon": false,
+"score": 51.3,
+"parts": {
+"space": 16,
+"well": 0,
+"rev": 14.8,
+"loc": 12,
+"price": 8.5
+},
+"facts": [
+"4 chambres",
+"Une seule salle de bain pour cinq"
+],
+"note": "Complet en avril.",
+"rank": 47
+},
+{
+"id": "45536322",
+"name": "Chalet aux Praz",
+"where": "Chamonix · Les Praz, ski de fond au départ",
+"src": "Airbnb",
+"url": "https://www.airbnb.fr/rooms/45536322?check_in=2027-02-06&check_out=2027-02-13&adults=2&children=3",
+"img": "https://a0.muscache.com/im/pictures/5aa18b40-dcdd-404f-af96-632153d9b6bf.jpg?im_w=720",
+"w1": 3298,
+"w2": 2437,
+"kind": "none",
+"pool": "—",
+"size": "4 ch. · 3,5 sdb · 8 pers. max",
+"rating": "4,75/5 sur Airbnb (79 avis)",
+"head": "4,75/5",
+"nrev": 79,
+"bon": false,
+"score": 51.3,
+"parts": {
+"space": 20,
+"well": 0,
+"rev": 11.3,
+"loc": 13,
+"price": 7
+},
+"facts": [
+"4 chambres, 3 salles de bain et demie",
+"Pistes de fond accessibles depuis le chalet"
+],
+"note": "",
+"rank": 48
+},
+{
+"id": "1605022932750695981",
+"name": "Chalet du Grand Air",
+"where": "Megève · Rochebrune",
+"src": "Airbnb",
+"url": "https://www.airbnb.fr/rooms/1605022932750695981?check_in=2027-02-06&check_out=2027-02-13&adults=2&children=3",
+"img": "https://a0.muscache.com/im/pictures/hosting/Hosting-1605022932750695981/original/d6407231-09ef-4c78-a8bf-15cc9e7a011f.jpeg?im_w=720",
+"w1": 3038,
+"w2": 1898,
+"kind": "none",
+"pool": "—",
+"size": "4 ch. · 105 m² · 2 sdb · 6 pers. max",
+"rating": "Pas encore d'avis",
+"head": null,
+"nrev": 0,
+"bon": true,
+"score": 51.2,
+"parts": {
+"space": 22,
+"well": 0,
+"rev": 9.2,
+"loc": 13,
+"price": 7
+},
+"facts": [
+"105 m², 4 chambres"
+],
+"note": "Nouvelle annonce sans avis. Megève ferme le 4 avril.",
+"rank": 49
+},
+{
+"id": "589615243228294944",
+"name": "Chalet familial, retour skis aux pieds",
+"where": "Argentière · 10 min à pied des Grands Montets",
+"src": "Airbnb",
+"url": "https://www.airbnb.fr/rooms/589615243228294944?check_in=2027-02-06&check_out=2027-02-13&adults=2&children=3",
+"img": "https://a0.muscache.com/im/pictures/miso/Hosting-589615243228294944/original/4fc8153f-d59f-48dd-9609-7ec72a7449c7.jpeg?im_w=720",
+"w1": 2956,
+"w2": 2956,
+"kind": "none",
+"pool": "—",
+"size": "4 ch. · 2 sdb · 8 pers. max",
+"rating": "5/5 sur Airbnb (2 avis)",
+"head": "5/5",
+"nrev": 2,
+"bon": true,
+"score": 50.5,
+"parts": {
+"space": 18,
+"well": 0,
+"rev": 12.0,
+"loc": 12,
+"price": 8.5
+},
+"facts": [
+"Retour à skis jusqu'au chalet",
+"Vue Mont-Blanc"
+],
+"note": "Seulement 2 avis.",
+"rank": 50
+},
+{
+"id": "4670192",
+"name": "Duplex au centre de Chamonix",
+"where": "Chamonix · face au Mont-Blanc",
+"src": "Airbnb",
+"url": "https://www.airbnb.fr/rooms/4670192?check_in=2027-02-06&check_out=2027-02-13&adults=2&children=3",
+"img": "https://a0.muscache.com/im/pictures/764c6c10-214b-4856-aacc-dcf5dc216da3.jpg?im_w=720",
+"w1": 4431,
+"w2": 3101,
+"kind": "none",
+"pool": "—",
+"size": "4 ch. · 2 sdb · 8 pers. max",
+"rating": "4,82/5 sur Airbnb (65 avis)",
+"head": "4,82/5",
+"nrev": 65,
+"bon": false,
+"score": 50.1,
+"parts": {
+"space": 18,
+"well": 0,
+"rev": 14.1,
+"loc": 15,
+"price": 3
+},
+"facts": [
+"En plein centre",
+"15 min à pied des télécabines"
+],
+"note": "",
+"rank": 51
+},
+{
+"id": "29375960",
+"name": "Chalet du Glacier",
+"where": "Chamonix · centre, 50 m du téléphérique",
+"src": "Airbnb",
+"url": "https://www.airbnb.fr/rooms/29375960?check_in=2027-02-06&check_out=2027-02-13&adults=2&children=3",
+"img": "https://a0.muscache.com/im/pictures/6effcb48-a317-487d-bc63-150ebf0e68d8.jpg?im_w=720",
+"w1": 4259,
+"w2": null,
+"kind": "none",
+"pool": "—",
+"size": "3 ch. · 3 sdb · 6 pers. max",
+"rating": "4,93/5 sur Airbnb (122 avis)",
+"head": "4,93/5",
+"nrev": 122,
+"bon": false,
+"score": 50.1,
+"parts": {
+"space": 13,
+"well": 0,
+"rev": 19.1,
+"loc": 15,
+"price": 3
+},
+"facts": [
+"Au cœur de Chamonix",
+"3 chambres, 3 salles de bain",
+"122 avis"
+],
+"note": "Complet en avril.",
+"rank": 52
+},
+{
+"id": "786921800460197135",
+"name": "Chalet Michka",
+"where": "Megève · entrée du village",
+"src": "Airbnb",
+"url": "https://www.airbnb.fr/rooms/786921800460197135?check_in=2027-02-06&check_out=2027-02-13&adults=2&children=3",
+"img": "https://a0.muscache.com/im/pictures/miso/Hosting-786921800460197135/original/47c99fc0-5673-4f70-9896-3a00ff594e95.jpeg?im_w=720",
+"w1": 4633,
+"w2": 7273,
+"kind": "none",
+"pool": "—",
+"size": "3 ch. · 3 sdb · 8 pers. max",
+"rating": "4,94/5 sur Airbnb (34 avis)",
+"head": "4,94/5",
+"nrev": 34,
+"bon": false,
+"score": 47.1,
+"parts": {
+"space": 13,
+"well": 0,
+"rev": 18.1,
+"loc": 13,
+"price": 3
+},
+"facts": [
+"3 chambres, 3 salles de bain",
+"3 min en voiture du centre"
+],
+"note": "",
+"rank": 53
+},
+{
+"id": "793879291570710111",
+"name": "Chalet Vernay",
+"where": "Combloux · vue Mont-Blanc imprenable",
+"src": "Airbnb",
+"url": "https://www.airbnb.fr/rooms/793879291570710111?check_in=2027-02-06&check_out=2027-02-13&adults=2&children=3",
+"img": "https://a0.muscache.com/im/pictures/miso/Hosting-793879291570710111/original/f210728a-2bcb-4d77-bfd8-feba014db99d.jpeg?im_w=720",
+"w1": 4258,
+"w2": null,
+"kind": "none",
+"pool": "—",
+"size": "3 ch. · 2 sdb · 6 pers. max",
+"rating": "5/5 sur Airbnb (79 avis)",
+"head": "5/5",
+"nrev": 79,
+"bon": false,
+"score": 46.7,
+"parts": {
+"space": 11,
+"well": 0,
+"rev": 21.7,
+"loc": 11,
+"price": 3
+},
+"facts": [
+"79 avis, tous à 5",
+"3 chambres"
+],
+"note": "Complet en avril.",
+"rank": 54
+},
+{
+"id": "10480212",
+"name": "Grand chalet familial",
+"where": "Argentière · Montroc",
+"src": "Airbnb",
+"url": "https://www.airbnb.fr/rooms/10480212?check_in=2027-02-06&check_out=2027-02-13&adults=2&children=3",
+"img": "https://a0.muscache.com/im/pictures/8dad4390-0a4c-494f-abee-8222ade22ffd.jpg?im_w=720",
+"w1": 4431,
+"w2": 2686,
+"kind": "none",
+"pool": "—",
+"size": "5 ch. · 2,5 sdb · 10 pers. max",
+"rating": "4,7/5 sur Airbnb (37 avis)",
+"head": "4,7/5",
+"nrev": 37,
+"bon": false,
+"score": 44.2,
+"parts": {
+"space": 21,
+"well": 0,
+"rev": 9.2,
+"loc": 11,
+"price": 3
+},
+"facts": [
+"5 chambres, 10 couchages",
+"Piscine et patinoire de Chamonix à 15 min"
+],
+"note": "",
+"rank": 55
+},
+{
+"id": "6016589",
+"name": "Chalet Wahou",
+"where": "Vallorcine · au pied des pistes de Balme, vers Le Tour",
+"src": "Abritel",
+"url": "https://www.abritel.fr/location-vacances/p6016589a?startDate=2027-02-06&endDate=2027-02-13&adults=2&children=1_8%2C1_8%2C1_11",
+"img": "https://media.vrbo.com/lodging/34000000/33250000/33248600/33248599/d134e478.jpg",
+"w1": 3978,
+"w2": null,
+"kind": "none",
+"pool": "—",
+"size": "4 ch. · 1 sdb · 11 pers. max",
+"rating": "9,6/10 sur Abritel (22 avis)",
+"head": "9,6/10",
+"nrev": 22,
+"bon": false,
+"score": 43.6,
+"parts": {
+"space": 16,
+"well": 0,
+"rev": 12.6,
+"loc": 10,
+"price": 5
+},
+"facts": [
+"Accès direct aux pistes",
+"11 couchages, jardin",
+"9,6/10 sur 22 avis"
+],
+"note": "Indisponible en avril.",
+"rank": 56
+}
 ];
 const EXCLUDED = [
-  ["Chalet Nosefosa, Morzine","Complet du 19 déc. au 9 janv., et dès 7 275 € la semaine"],
-  ["Chalet La Moutellette, Morzine","Annonce retirée des sites de l'office de tourisme"],
-  ["Chalet L'Etoile, Les Gets (Airbnb)","5 039 € la 1re semaine, complet la 2e"],
-  ["P&V Premium Les Fermes du Soleil, Les Carroz","Disponible (2 478 € / 3 566 €) mais seulement 35 m²"],
-  ["Club Med Grand Massif","Tout compris très au-delà du budget à Noël"],
-  ["Androsace 31, Argentière (Airbnb / Booking)","Piscine extérieure accessible l'été seulement"],
-  ["Chalet à la montagne, Les Houches","Piscine privée chauffée l'été seulement"],
-  ["Chalet Kandahar et Barberine, Les Houches","Annoncés « piscine », mais extérieure selon Booking"],
-  ["Megève : Duplex Rochebrune, Family Cocoon, appartements en parc","Piscines extérieures ou d'été uniquement"],
-  ["TERRESENS L'Éclat des Veriaz, Megève","Piscine intérieure, mais seulement 2 chambres (dès 3 885 €)"],
-  ["Chamonix centre : Douglas, Bel appartement central","Pas de piscine"],
-  ["Chalets de luxe à Chamonix (Booking)","De 10 000 à 27 000 € la semaine"],
+  ["La Cordée 504, Chamonix", "Même résidence que la Cordée 112, mais 5 122 € en février."],
+  ["Duplex familial 123 m², Megève", "Très bien noté (5/5 sur 56 avis), mais 5 148 €, au-dessus du budget."],
+  ["Résidences hôtelières avec piscine", "Ginabelle (2 009 €), Odalys Isatis (2 231 €), Balcons du Savoy (4 085 €) et Cristal de Jade (4 495 €) à Chamonix, Mont d'Arbois (1 967 €) et Éclat des Veriaz (3 647 €) à Megève : piscine couverte, mais 2 chambres et 49 à 60 m²."],
+  ["Ginabelle maeva, 4 pièces, Chamonix", "3 chambres mais 60 m², et Booking ne confirme pas l'accès à la piscine."],
+  ["Appartement skis aux pieds, Saint-Gervais", "Piscine extérieure, ouverte l'été seulement."],
+  ["Appartement près du centre, Megève", "Piscine extérieure de résidence, a priori fermée en février."],
+  ["Tête Rousse, Les Houches", "Piscine couverte, mais avis moyens : 4,43/5 sur 44."],
+  ["Les Hauts des Chavants, Les Houches", "Belle piscine de 6 × 12 m, mais 61 m² pour cinq."],
+  ["Appartement familial des Bossons, Chamonix", "Remonté par le filtre « piscine » d'Airbnb, sans piscine dans la fiche, et 74 m²."],
+  ["Appartements 3 chambres sans piscine", "Élégant appartement du centre de Chamonix, appartement neuf aux Houches, La Marmotte, Rochebrune et Cosy centre à Megève, chalet du centre d'Argentière : bien notés, mais ni piscine ni grand volume."],
+  ["Chalet Montet Forest, Argentière", "5 chambres, mais 4 967 €, au plafond du budget, et aucun avis."],
+  ["Chalet indépendant, Megève", "Fiche incohérente : 4 chambres et 2 lits annoncés."],
 ];
 
 const PICKS = [
-  {id:"641683846827813656", why:"Piscine privée, 4 chambres"},
-  {id:"1502040626825909187", why:"Piscine privée dans la vallée de Chamonix"},
-  {id:"1468834047328772164", why:"Le meilleur rapport qualité-prix"},
-  {id:"1788112373236328667", why:"Megève, libre les deux semaines"},
+  {id:"1661598777296947993", why:"Le plus grand avec piscine : 117 m², 4 chambres"},
+  {id:"1517416660206271228", why:"4 chambres, piscine et sauna, aux portes de Megève"},
+  {id:"30786392", why:"105 m² avec piscine, 1 863 € en avril"},
+  {id:"1948710", why:"140 m², spa privatif, 10/10 sur 23 avis"},
+  {id:"1458587334337098959", why:"Piscine couverte, une salle de bain par chambre"},
 ];
+const BONS = [
+  {id:"1788222383139252445", why:"Résidence neuve, piscine et hammam"},
+  {id:"1761732847092453516", why:"140 m², jacuzzi et sauna, au pied des pistes"},
+  {id:"1695611620457537598", why:"100 m², piscine et sauna, prévu pour cinq"},
+];
+const NOTES = {
+  w1: "<b>Semaine du 6 février :</b> seule la zone C est en vacances. La zone A arrive le 13, Genève et les Britanniques le 15 : c'est la semaine la plus calme des vacances d'hiver.",
+  w2: "<b>Semaine du 3 avril :</b> 30 à 60 % moins cher. Megève ferme le 4 avril, Balme (Vallorcine, Le Tour) le 11, Les Houches et le Brévent le 18 ; les Grands Montets tiennent jusqu'au 2 mai. Neige de printemps, à surveiller en bas de vallée."
+};
 
 /* ---------- Geography ---------- */
 const TOWNS = {
-  "Taninges":[46.108,6.589], "Morillon":[46.084,6.677], "Samoëns":[46.081,6.727], "Saint-Jean-d'Aulps":[46.234,6.651],
-  "Les Houches":[45.891,6.799], "Chamonix":[45.924,6.869], "Vallorcine":[46.033,6.933], "Megève":[45.857,6.617],
-  "Combloux":[45.897,6.642], "Saint-Gervais":[45.892,6.712], "La Rosière":[45.627,6.851]
+  "Vallorcine":[46.031,6.931], "Argentière":[45.985,6.930], "Chamonix":[45.918,6.866], "Les Houches":[45.889,6.792],
+  "Servoz":[45.931,6.763], "Saint-Gervais":[45.892,6.712], "Megève":[45.856,6.617], "Combloux":[45.897,6.642], "Cordon":[45.921,6.605]
 };
-const EXT = {n:46.27, s:45.79, w:6.40, e:7.06}, VW = 800, VH = 780;
-let U = 1;                                  // pin & label scale (bigger on phones, where the map is zoomed)
+const LABEL = { "Vallorcine":'right', "Argentière":'right', "Chamonix":'right', "Les Houches":'below', "Servoz":'above', "Saint-Gervais":'below', "Megève":'below', "Combloux":'above', "Cordon":'left' };
+const LABEL_PHONE = { "Vallorcine":'left', "Argentière":'left', "Chamonix":'right', "Les Houches":'right', "Servoz":'above', "Saint-Gervais":'above', "Megève":'below', "Combloux":'below', "Cordon":'above' };
+const EXT = {n:46.06, s:45.81, w:6.56, e:7.03}, VW = 800, VH = 612;
+const PR = 11.5, GAP = 25;                    // pin radius and spacing (desktop)
 const isPhone = () => matchMedia('(max-width:760px)').matches;
 const proj = ([lat, lon]) => [ (lon - EXT.w) / (EXT.e - EXT.w) * VW, (EXT.n - lat) / (EXT.n - EXT.s) * VH ];
 const path = pts => pts.map((p, i) => (i ? 'L' : 'M') + proj(p).map(v => v.toFixed(1)).join(' ')).join(' ');
@@ -396,154 +2170,193 @@ function smooth(pts, closed){                // Catmull-Rom through geographic p
   }
   return d + (closed ? 'Z' : '');
 }
-const LABEL = { Morillon:'below', "Saint-Gervais":'above', Combloux:'left', Taninges:'above' };
 
 const $ = id => document.getElementById(id);
 const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const fmt = n => n.toLocaleString('fr-FR') + ' €';
+const dec = n => String(n).replace('.', ',');
 const isNum = v => typeof v === 'number';
-const WEEK = {w1:'Semaine de Noël', w2:'Nouvel An'};
-let week = 'w1', zone = 'all', hot = null;
+const WEEK = {w1:'semaine de février', w2:'semaine d\'avril'};
+let week = 'w1', zone = 'all', sort = 'rank', hot = null, showAll = false;
+const SHOW = 20;
 
 LODGINGS.forEach((l, i) => {
   l.n = i + 1;
   const k = l.where.indexOf(' · ');
   l.town = k < 0 ? l.where : l.where.slice(0, k);
   l.detail = k < 0 ? '' : l.where.slice(k + 3);
-  l.zone = /Chamonix|Houches|Argenti|Vallorcine/.test(l.town) ? 'cham' : /Meg[eè]ve|Combloux|Saint-Gervais/.test(l.town) ? 'meg' : 'other';
-  l.title = / — .*piscine/i.test(l.name) ? l.name.replace(/ — .*/, '') : l.name;
-  l.id = (l.url.match(/(\d{6,})/) || [, ''])[1];
+  l.zone = /Chamonix|Houches|Argenti|Vallorcine|Servoz/.test(l.town) ? 'cham' : 'meg';
+  l.hasPool = l.kind === 'res' || l.kind === 'res+';
 });
+const byId = id => LODGINGS.find(l => l.id === id);
 const state = (l, w = week) => !isNum(l[w]) ? 'full' : l[w] > BUDGET ? 'over' : 'free';
 
-/* pin positions: cluster around the town point */
+/* desktop: hex-packed pins around each commune, best rank in the middle */
+const HEX = (() => {
+  const pts = [];
+  for (let q = -3; q <= 3; q++) for (let r = -3; r <= 3; r++) {
+    const x = GAP * (q + r / 2), y = GAP * r * Math.sqrt(3) / 2, d = Math.hypot(x, y);
+    pts.push([x, y, d, Math.atan2(y, x)]);
+  }
+  return pts.sort((a, b) => a[2] - b[2] || ((a[3] + 5.2) % 6.283) - ((b[3] + 5.2) % 6.283));
+})();
+const groups = {};
+LODGINGS.forEach(l => (groups[l.town] = groups[l.town] || []).push(l));
 function place(){
-  const groups = {};
-  LODGINGS.forEach(l => (groups[l.town] = groups[l.town] || []).push(l));
   for (const [town, ls] of Object.entries(groups)) {
-    let [x, y] = proj(TOWNS[town] || [45.8, 6.85]);
-    if (y > VH - 40) y = VH - 40;                       // La Rosière sits south of the frame
-    const r = ls.length === 1 ? 0 : (15 + ls.length * 3.2) * U;
-    ls.forEach((l, i) => {
-      const a = -Math.PI / 2 + i * 2 * Math.PI / ls.length;
-      l.px = x + r * Math.cos(a); l.py = y + r * Math.sin(a); l.cr = r; l.cx = x; l.cy = y;
-    });
+    const [x, y] = proj(TOWNS[town]);
+    let rad = 0;
+    ls.forEach((l, i) => { const h = HEX[i]; l.px = x + h[0]; l.py = y + h[1]; rad = Math.max(rad, h[2]); });
+    ls.cx = x; ls.cy = y; ls.r = rad + PR;
   }
 }
 
-function drawBase(){
-  const lake = [[46.27,6.40],[46.27,6.46]];
-  const arve = [[46.0,6.965],[45.98,6.925],[45.924,6.869],[45.891,6.80],[45.905,6.735],[45.915,6.70],[45.936,6.632],[46.0,6.60],[46.06,6.578],[46.075,6.50],[46.08,6.40]];
-  const giffre = [[46.06,6.80],[46.081,6.727],[46.084,6.677],[46.108,6.589],[46.095,6.52],[46.085,6.47]];
-  const dranse = [[46.179,6.709],[46.21,6.67],[46.25,6.64],[46.27,6.62]];
-  const border = [[46.27,6.865],[46.20,6.84],[46.15,6.85],[46.08,6.93],[46.035,6.965],[45.97,7.0],[45.92,7.04]];
-  const italy = [[45.92,7.04],[45.87,6.97],[45.833,6.865],[45.80,6.81]];
-  const massif = [[45.79,6.75],[45.815,6.79],[45.85,6.835],[45.885,6.88],[45.925,6.935],[45.965,6.985],[45.955,7.03],[45.92,7.05],[45.875,7.02],[45.835,6.965],[45.80,6.905],[45.785,6.83]];
-  const ar = [[45.925,6.79],[45.95,6.825],[45.98,6.865],[46.01,6.9],[46.005,6.925],[45.975,6.895],[45.945,6.855],[45.915,6.815]]; // Aiguilles Rouges
-  const giffreMass = [[45.975,6.70],[46.0,6.725],[46.03,6.775],[46.05,6.835],[46.03,6.86],[46.0,6.815],[45.98,6.76],[45.965,6.72]]; // Haut-Giffre
+function drawBase(phone){
+  const arve = [[45.996,6.99],[45.997,6.952],[45.983,6.928],[45.956,6.906],[45.938,6.888],[45.922,6.868],[45.903,6.838],[45.893,6.802],[45.903,6.778],[45.919,6.761],[45.913,6.73],[45.909,6.702],[45.924,6.672],[45.937,6.634],[45.972,6.612],[46.02,6.616],[46.06,6.602]];
+  const eauNoire = [[46.006,6.937],[46.03,6.933],[46.047,6.946],[46.06,6.957]];
+  const bonNant = [[45.81,6.728],[45.85,6.722],[45.882,6.713],[45.906,6.703]];
+  const massif = [[45.81,6.775],[45.835,6.795],[45.862,6.835],[45.885,6.868],[45.905,6.895],[45.93,6.93],[45.955,6.968],[45.985,6.995],[46.004,7.03],[45.81,7.03]];
+  const ar = [[45.903,6.782],[45.922,6.806],[45.943,6.84],[45.964,6.872],[45.99,6.902],[46.016,6.924],[46.022,6.912],[45.998,6.882],[45.972,6.852],[45.95,6.822],[45.929,6.792],[45.91,6.772]];
+  const arbois = [[45.85,6.635],[45.868,6.66],[45.885,6.69],[45.875,6.70],[45.857,6.68],[45.842,6.652]];
+  const swiss = [[46.06,6.975],[46.044,6.988],[46.025,6.998],[46.0,7.012],[45.975,7.03]];
+  const italy = [[45.922,7.03],[45.885,6.99],[45.869,6.975],[45.85,6.92],[45.833,6.865],[45.81,6.835]];
   const scale = (pts, c, f) => pts.map(([a, b]) => [c[0] + (a - c[0]) * f, c[1] + (b - c[1]) * f]);
-  const mb = [45.86, 6.90];
-  let s = '';
-  s += `<rect width="${VW}" height="${VH}" fill="var(--white)"/>`;
-  // relief tints
-  s += `<path d="${smooth(massif, true)}" fill="var(--glacier)"/>`;
-  [0.78, 0.56, 0.34].forEach(f => s += `<path d="${smooth(scale(massif, mb, f), true)}" fill="none" stroke="var(--contour)" stroke-width="1"/>`);
-  s += `<path d="${smooth(ar, true)}" fill="#EEF4F7"/><path d="${smooth(scale(ar,[45.965,6.86],.55), true)}" fill="none" stroke="var(--contour)"/>`;
-  s += `<path d="${smooth(giffreMass, true)}" fill="#EEF4F7"/><path d="${smooth(scale(giffreMass,[46.01,6.78],.55), true)}" fill="none" stroke="var(--contour)"/>`;
-  // borders
-  s += `<path d="${path(border)}" fill="none" stroke="#B9C5CC" stroke-width="1.4" stroke-dasharray="6 4"/>`;
+  const t = (ll, txt, cls, extra = '') => { const [x, y] = proj(ll); return `<text x="${x.toFixed(1)}" y="${y.toFixed(1)}" class="${cls}" ${extra}>${txt}</text>`; };
+  let s = `<rect width="${VW}" height="${VH}" fill="var(--white)"/>`;
+  s += `<path d="${smooth(massif.slice(0, -1), false)} L${proj([45.81,7.03]).join(' ')} Z" fill="var(--glacier)"/>`;
+  [0.8, 0.6, 0.4].forEach(f => s += `<path d="${smooth(scale(massif.slice(0, -1), [45.83, 6.98], f), false)}" fill="none" stroke="var(--contour)" stroke-width="1"/>`);
+  s += `<path d="${smooth(ar, true)}" fill="var(--ridge)"/><path d="${smooth(scale(ar, [45.962, 6.86], .55), true)}" fill="none" stroke="var(--contour)"/>`;
+  s += `<path d="${smooth(arbois, true)}" fill="var(--ridge)"/>`;
+  s += `<path d="${path(swiss)}" fill="none" stroke="#B9C5CC" stroke-width="1.4" stroke-dasharray="6 4"/>`;
   s += `<path d="${path(italy)}" fill="none" stroke="#B9C5CC" stroke-width="1.4" stroke-dasharray="6 4"/>`;
-  // rivers
-  [arve, giffre, dranse].forEach(r => s += `<path d="${smooth(r, false)}" fill="none" stroke="var(--river)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>`);
-  // labels: nature + countries
-  const t = (ll, txt, cls, dx = 0, dy = 0, extra = '') => { const [x, y] = proj(ll); return `<text x="${(x+dx).toFixed(1)}" y="${(y+dy).toFixed(1)}" class="${cls}" ${extra}>${txt}</text>`; };
-  s += t([46.06,6.545], 'Arve', 'lbl-nat');
-  s += t([46.04,6.80], 'Giffre', 'lbl-nat');
-  s += t([45.87,6.93], 'Massif du Mont-Blanc', 'lbl-nat', 0, 0, 'text-anchor="middle"');
-  s += t([46.19,6.96], 'SUISSE', 'lbl-country');
-  s += t([45.82,6.985], 'ITALIE', 'lbl-country');
-  // Mont Blanc summit
-  const [mx, my] = proj([45.8326, 6.8652]);
-  s += `<path d="M${mx} ${my-8} L${mx+7} ${my+5} L${mx-7} ${my+5}Z" fill="var(--ink-2)"/>`;
-  s += `<text x="${mx+11}" y="${my+5}" class="lbl-peak">Mont Blanc 4 806 m</text>`;
-  // reference towns (no lodgings)
-  [["Morzine",[46.179,6.709]],["Les Gets",[46.158,6.669]],["Cluses",[46.06,6.578]],["Sallanches",[45.936,6.632]],["Flaine",[46.006,6.69]],["Argentière",[45.983,6.927]]]
-    .forEach(([n, ll]) => { const [x, y] = proj(ll); s += `<circle cx="${x}" cy="${y}" r="2.5" fill="#A7B5BD"/><text x="${x+6}" y="${y+4}" class="lbl-ref">${n}</text>`; });
-  // lodging towns
-  const placed = {};
-  LODGINGS.forEach(l => { if (placed[l.town]) return; placed[l.town] = 1;
-    const x = l.cx, y = l.cy, off = l.cr + 18 * U, pos = LABEL[l.town] || 'right';
-    const label = proj(TOWNS[l.town] || [0,0])[1] > VH - 40 ? 'La Rosière, 1 h 45 au sud' : l.town;
-    const [lx, ly, anchor] = pos === 'below' ? [x, y + off + 6 * U, 'middle'] : pos === 'above' ? [x, y - off - 2 * U, 'middle'] : pos === 'left' ? [x - off, y + 4 * U, 'end'] : [x + off, y + 4 * U, 'start'];
-    s += `<text x="${lx.toFixed(1)}" y="${ly.toFixed(1)}" text-anchor="${anchor}" class="lbl-town">${label}</text>`;
-  });
-  s += `<g id="pins"></g>`;
+  [arve, eauNoire, bonNant].forEach(r => s += `<path d="${smooth(r, false)}" fill="none" stroke="var(--river)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>`);
+  if (!phone) {
+    s += t([45.952, 6.712], 'Arve', 'lbl-nat');
+    s += t([45.968, 6.83], 'Aiguilles Rouges', 'lbl-nat', 'text-anchor="middle"');
+    s += t([45.958, 6.966], 'Grands Montets', 'lbl-ski');
+    s += t([46.016, 6.968], 'Balme', 'lbl-ski');
+    s += t([45.843, 6.752], 'Prarion', 'lbl-ski', 'text-anchor="middle"');
+    s += t([45.86, 6.652], "Mont d'Arbois", 'lbl-ski', 'text-anchor="middle"');
+  }
+  s += t(phone ? [45.853, 6.935] : [45.853, 6.965], 'Massif du Mont-Blanc', 'lbl-nat', 'text-anchor="middle"');
+  s += t([46.05, 7.024], 'SUISSE', 'lbl-country', 'text-anchor="end"');
+  if (!phone) s += t([45.822, 6.95], 'ITALIE', 'lbl-country');
+  const peak = (ll, txt) => { const [x, y] = proj(ll); return `<path d="M${x} ${y-7} L${x+6} ${y+4} L${x-6} ${y+4}Z" fill="var(--ink-2)"/><text x="${x+10}" y="${y+4}" class="lbl-peak">${txt}</text>`; };
+  s += peak([45.8326, 6.8652], 'Mont Blanc 4 806 m');
+  if (!phone) s += peak([45.8786, 6.8874], 'Aiguille du Midi');
+  [["Sallanches",[45.936,6.632]],["Les Contamines",[45.822,6.728]],["Le Tour",[45.995,6.997]]]
+    .forEach(([n, ll]) => { if (phone) return; const [x, y] = proj(ll); s += `<circle cx="${x}" cy="${y}" r="2.5" fill="#A7B5BD"/><text x="${x+6}" y="${y+4}" class="lbl-ref">${n}</text>`; });
+  s += `<g id="pins"></g><g id="labels"></g>`;
   $('mapsvg').innerHTML = s;
 }
 
+function drawLabels(phone){
+  let s = '';
+  for (const [town, ls] of Object.entries(groups)) {
+    const x = ls.cx, y = ls.cy, off = (phone ? bubR(ls) : ls.r) + 6, pos = (phone ? LABEL_PHONE : LABEL)[town] || 'right';
+    const fs = phone ? 28 : 13;
+    const [lx, ly, anchor] = pos === 'below' ? [x, y + off + fs * .85, 'middle'] : pos === 'above' ? [x, y - off - 4, 'middle'] : pos === 'left' ? [x - off, y + 4, 'end'] : [x + off, y + 4, 'start'];
+    s += `<text x="${lx.toFixed(1)}" y="${ly.toFixed(1)}" text-anchor="${anchor}" class="lbl-town"${phone ? ' style="font-size:28px;stroke-width:6px"' : ''}>${town}</text>`;
+  }
+  $('labels').innerHTML = s;
+}
+
+const bubR = ls => 21 + 4.5 * Math.sqrt(ls.length);
 function drawPins(){
-  // dim pins hidden by sector / budget / private filters; full ones stay visible as hollow pins
-  const visible = new Set(filtered(true).map(l => l.n));
+  if (isPhone()) return drawBubbles();
+  const visible = new Set(filtered(true).map(l => l.n));   // unavailable pins stay visible as empty dots
   $('pins').innerHTML = LODGINGS.map(l => {
-    const st = state(l), cls = ['pin', st, hot === l.n ? 'hot' : '', visible.has(l.n) ? '' : 'dim'].join(' ');
-    return `<g class="${cls}" data-n="${l.n}" tabindex="-1">
-      ${l.private ? `<circle class="ring" cx="${l.px}" cy="${l.py}" r="${15.5 * U}"/>` : ''}
-      <circle class="dot" cx="${l.px}" cy="${l.py}" r="${11.5 * U}"/>
+    const cls = ['pin', state(l), hot === l.n ? 'hot' : '', visible.has(l.n) ? '' : 'dim'].join(' ');
+    return `<g class="${cls}" data-n="${l.n}">
+      ${l.hasPool ? `<circle class="ring" cx="${l.px}" cy="${l.py}" r="${PR + 3.2}"/>` : ''}
+      <circle class="dot" cx="${l.px}" cy="${l.py}" r="${PR}"/>
       <text x="${l.px}" y="${l.py + .5}">${l.n}</text></g>`;
+  }).join('');
+}
+function drawBubbles(){
+  $('pins').innerHTML = Object.entries(groups).map(([town, ls]) => {
+    const free = ls.filter(l => state(l) === 'free').length, on = zone === 'T:' + town;
+    return `<g class="bub${free ? '' : ' none'}${on ? ' on' : ''}" data-town="${esc(town)}"><circle cx="${ls.cx}" cy="${ls.cy}" r="${bubR(ls)}"/><text x="${ls.cx}" y="${ls.cy + 1}">${free}</text></g>`;
   }).join('');
 }
 
 function priceText(l, w){
   const v = l[w];
-  return isNum(v) ? fmt(v) : (v === null ? 'Complet' : 'Non vérifié');
+  return isNum(v) ? fmt(v) : (v === null ? 'indisponible' : 'non relevé');
 }
 
+function pickHTML(p, mini){
+  const l = byId(p.id); if (!l) return '';
+  const v = l[week];
+  return `<li><button class="pick" data-n="${l.n}">
+    <span class="ph">${l.img ? `<img src="${l.img}" alt="" loading="lazy" referrerpolicy="no-referrer" onerror="this.remove()">` : `Photos sur ${l.src}`}<span class="tag num">${l.n}</span></span>
+    <span><span class="why">${esc(p.why)}</span><h3>${esc(l.name)}</h3>${mini ? '' : `<span class="town">${esc(l.town)} · ${esc(l.size.split(' · ').slice(0, 2).join(' · '))}</span>`}
+    <p class="pp num ${isNum(v) ? '' : 'full'}">${isNum(v) ? `${fmt(v)} <small>la semaine${mini ? ' · ' + esc(l.town) : ''}</small>` : `Indisponible cette semaine${mini ? ' · ' + esc(l.town) : ''}`}</p></span>
+  </button></li>`;
+}
 function drawPicks(){
   const free = LODGINGS.filter(l => state(l) === 'free').length;
-  $('short-sub').textContent = `${WEEK[week]} : ${free} logements sur ${LODGINGS.length} sont libres dans le budget.`;
-  $('picks').innerHTML = PICKS.map(p => {
-    const l = LODGINGS.find(x => x.id === p.id); if (!l) return '';
-    const v = l[week];
-    return `<li><button class="pick" data-n="${l.n}">
-      <span class="ph">${l.img ? `<img src="${l.img}" alt="" loading="lazy" referrerpolicy="no-referrer" onerror="this.remove()">` : ''}<span class="tag num">${l.n}</span></span>
-      <span><span class="why">${esc(p.why)}</span><h3>${esc(l.title)}</h3><span class="town">${esc(l.town)}</span>
-      <p class="pp num ${isNum(v) ? '' : 'full'}">${isNum(v) ? `${fmt(v)} <small>la semaine</small>` : 'Complet cette semaine'}</p></span>
-    </button></li>`;
-  }).join('');
+  const m = week === 'w1' ? 'février' : 'avril';
+  $('short-sub').textContent = free === LODGINGS.length ? `En ${m}, les ${free} logements retenus sont libres dans le budget.` : `En ${m}, ${free} logements sur ${LODGINGS.length} sont libres dans le budget.`;
+  $('picks').innerHTML = PICKS.map(p => pickHTML(p, false)).join('');
+  $('bons').innerHTML = BONS.map(p => pickHTML(p, true)).join('');
+  $('week-note').innerHTML = NOTES[week];
 }
 
 function filtered(keepFull){
-  const a = !keepFull && $('onlyAvail').checked, b = $('onlyBudget').checked, pv = $('onlyPrivate').checked;
-  return LODGINGS.filter(l => (!a || isNum(l[week])) && (!b || state(l) === 'free') && (!pv || l.private) && (zone === 'all' || l.zone === zone));
+  const a = $('onlyAvail').checked && !keepFull, b = $('onlyBudget').checked, pl = $('onlyPool').checked, nw = $('onlyNew').checked;
+  return LODGINGS.filter(l => (!a || isNum(l[week])) && (!b || state(l) === 'free') && (!pl || l.hasPool) && (!nw || l.nrev < 5)
+    && (zone === 'all' || l.zone === zone || zone === 'T:' + l.town));
 }
 
 function cell(l, w){
-  const v = l[w], on = w === week ? ' on' : '', label = w === 'w1' ? 'Noël' : 'Nouvel An';
-  if (!isNum(v)) return `<div class="c-w${on}" data-label="${label}"><span class="full">${v === null ? 'Complet' : 'Non vérifié'}</span></div>`;
+  const v = l[w], on = w === week ? ' on' : '', label = w === 'w1' ? 'Février' : 'Avril';
+  if (!isNum(v)) return `<div class="c-w${on}" data-label="${label}"><span class="full">${v === null ? 'Indisponible' : 'Non relevé'}</span></div>`;
   const over = v > BUDGET;
   return `<div class="c-w${on}" data-label="${label}"><span class="price num${over ? ' over' : ''}">${fmt(v)}${over ? '<small>au-dessus du budget</small>' : ''}</span></div>`;
 }
+function revHTML(l){
+  if (!l.nrev) return `<span class="bon">Sans avis</span><small>annonce récente</small>`;
+  const sites = l.rating.split(' · ').length;
+  return `<b class="num">${esc(l.head)}</b><small>${l.nrev} avis${sites > 1 ? ` · ${sites} sites` : ''}</small>`;
+}
+function poolHTML(l){
+  const cls = l.hasPool ? ' pool' : l.kind === 'none' ? '' : ' well';
+  return `<span class="c-pool${cls}">${esc(l.pool)}</span>`;
+}
 
 function drawRows(){
-  const rows = filtered().sort((x, y) => (isNum(x[week]) ? 0 : 1) - (isNum(y[week]) ? 0 : 1) || ((x[week] || 9e9) - (y[week] || 9e9)));
-  $('count').textContent = rows.length ? `${rows.length} logement${rows.length > 1 ? 's' : ''} affiché${rows.length > 1 ? 's' : ''} sur ${LODGINGS.length}` : '';
+  let rows = filtered();
+  if (sort === 'price') rows.sort((x, y) => (isNum(x[week]) ? 0 : 1) - (isNum(y[week]) ? 0 : 1) || ((x[week] || 9e9) - (y[week] || 9e9)));
+  const total = rows.length, cut = !showAll && total > SHOW + 4;
+  if (cut) rows = rows.slice(0, SHOW);
+  $('count').textContent = total ? `${total} logement${total > 1 ? 's' : ''} sur ${LODGINGS.length}` : '';
   document.querySelectorAll('.thead .c-w').forEach(h => h.classList.toggle('on', h.dataset.w === week));
-  $('rows').innerHTML = rows.length ? rows.map(l => `
-    <article class="row is-${state(l)}" id="l${l.n}" data-n="${l.n}">
+  $('rows').innerHTML = rows.length ? rows.map(l => {
+    const p = l.parts;
+    return `
+    <article class="row is-${state(l)}${l.n <= 5 ? ' top5' : ''}" id="l${l.n}" data-n="${l.n}">
       <span class="c-n num">${l.n}</span>
       <div class="c-ph">${l.img ? `<img src="${l.img}" alt="" loading="lazy" referrerpolicy="no-referrer" onerror="this.remove()">` : `Photos sur ${l.src}`}</div>
-      <div class="c-name"><h3><button aria-expanded="false" aria-controls="m${l.n}">${esc(l.title)}</button></h3><p class="where">${esc(l.town)}${l.detail ? ', ' + esc(l.detail) : ''}</p></div>
-      <span class="c-pool${l.private ? ' priv' : ''}">${l.private ? 'Privée' : 'De résidence'}</span>
+      <div class="c-name"><h3><button aria-expanded="false" aria-controls="m${l.n}">${esc(l.name)}</button></h3>
+        <p class="where">${esc(l.town)}${l.detail ? ', ' + esc(l.detail) : ''}</p>
+        <p class="size num">${esc(l.size)}</p>
+        <p class="rev-inline">${l.nrev ? esc(l.head) + ' · ' + l.nrev + ' avis' : 'Sans avis'}</p></div>
+      ${poolHTML(l)}
+      <div class="c-rev">${revHTML(l)}</div>
       <div class="wk">${cell(l, 'w1')}${cell(l, 'w2')}</div>
       <div class="c-go"><a class="go" href="${l.url}" target="_blank" rel="noopener">Voir l'annonce</a></div>
       <div class="more" id="m${l.n}"><div><div class="more-in">
         <ul>${l.facts.map(f => `<li>${esc(f)}</li>`).join('')}</ul>
         <p class="meta">${esc(l.rating)}<br>Source : ${l.src}<br><a class="go" href="${l.url}" target="_blank" rel="noopener">Voir l'annonce</a></p>
+        <p class="score num"><b>${dec(l.score)} / 100</b><span>espace <b>${dec(p.space)}</b>/25</span><span>détente <b>${dec(p.well)}</b>/25</span><span>avis <b>${dec(p.rev)}</b>/25</span><span>situation <b>${dec(p.loc)}</b>/15</span><span>prix <b>${dec(p.price)}</b>/10</span></p>
         ${l.note ? `<p class="note">${esc(l.note)}</p>` : ''}
       </div></div></div>
-    </article>`).join('')
-  : `<div class="empty">Aucun logement ne correspond à ces filtres pour la ${WEEK[week].toLowerCase()}.<br><button type="button" id="reset">Retirer les filtres</button></div>`;
-  const r = $('reset'); if (r) r.onclick = () => { $('onlyBudget').checked = false; $('onlyPrivate').checked = false; setZone('all'); };
+    </article>`; }).join('')
+  : `<div class="empty">Aucun logement ne correspond à ces filtres pour la ${WEEK[week]}.<br><button type="button" id="reset">Retirer les filtres</button></div>`;
+  $('more-wrap').innerHTML = cut ? `<button class="more-btn" type="button" id="showall">Afficher les ${total - SHOW} suivants</button>` : '';
+  const r = $('reset'); if (r) r.onclick = () => { ['onlyBudget','onlyPool','onlyNew'].forEach(id => $(id).checked = false); setZone('all'); };
+  const m = $('showall'); if (m) m.onclick = () => { showAll = true; drawRows(); };
 }
 
 function toggleRow(row, force){
@@ -551,10 +2364,9 @@ function toggleRow(row, force){
   row.classList.toggle('open', open);
   row.querySelector('.c-name button').setAttribute('aria-expanded', open);
 }
-
 function focusLodging(n){
   let row = $('l' + n);
-  if (!row) { $('onlyAvail').checked = false; $('onlyBudget').checked = false; $('onlyPrivate').checked = false; zone = 'all'; syncZones(); drawRows(); drawPins(); row = $('l' + n); }
+  if (!row) { ['onlyAvail','onlyBudget','onlyPool','onlyNew'].forEach(id => $(id).checked = false); zone = 'all'; showAll = true; syncZones(); drawRows(); drawPins(); row = $('l' + n); }
   if (!row) return;
   toggleRow(row, true);
   row.scrollIntoView({behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'center'});
@@ -562,7 +2374,15 @@ function focusLodging(n){
 }
 
 function setHot(n){ hot = n; document.querySelectorAll('.pin').forEach(p => p.classList.toggle('hot', +p.dataset.n === n)); }
-function syncZones(){ document.querySelectorAll('.zones button').forEach(b => b.setAttribute('aria-pressed', b.dataset.z === zone)); }
+function syncZones(){
+  const box = $('zones');
+  box.querySelectorAll('[data-z^="T:"]').forEach(b => { if (b.dataset.z !== zone) b.remove(); });
+  if (zone.startsWith('T:') && !box.querySelector(`[data-z="${zone}"]`)) {
+    const b = document.createElement('button'); b.dataset.z = zone; b.innerHTML = `${esc(zone.slice(2))}<span class="x" aria-hidden="true">×</span>`;
+    b.setAttribute('aria-label', `${zone.slice(2)}, retirer ce filtre`); box.appendChild(b);
+  }
+  box.querySelectorAll('button').forEach(b => b.setAttribute('aria-pressed', b.dataset.z === zone));
+}
 function setZone(z){ zone = z; syncZones(); drawRows(); drawPins(); }
 function render(){ drawPicks(); drawRows(); drawPins(); }
 
@@ -570,8 +2390,9 @@ function render(){ drawPicks(); drawRows(); drawPins(); }
 document.querySelectorAll('.weeks button').forEach(b => b.addEventListener('click', () => {
   week = b.dataset.w; document.querySelectorAll('.weeks button').forEach(x => x.setAttribute('aria-pressed', x === b)); render();
 }));
-document.querySelectorAll('.zones button').forEach(b => b.addEventListener('click', () => setZone(b.dataset.z)));
-['onlyAvail','onlyBudget','onlyPrivate'].forEach(id => $(id).addEventListener('change', () => { drawRows(); drawPins(); }));
+$('zones').addEventListener('click', e => { const b = e.target.closest('button'); if (!b) return; setZone(b.dataset.z.startsWith('T:') ? 'all' : b.dataset.z); });
+$('sort').addEventListener('click', e => { const b = e.target.closest('button'); if (!b) return; sort = b.dataset.s; $('sort').querySelectorAll('button').forEach(x => x.setAttribute('aria-pressed', x === b)); drawRows(); });
+['onlyAvail','onlyBudget','onlyPool','onlyNew'].forEach(id => $(id).addEventListener('change', () => { drawRows(); drawPins(); }));
 
 $('rows').addEventListener('click', e => {
   if (e.target.closest('a')) return;
@@ -579,9 +2400,11 @@ $('rows').addEventListener('click', e => {
 });
 $('rows').addEventListener('mouseover', e => { const row = e.target.closest('.row'); setHot(row ? +row.dataset.n : null); });
 $('rows').addEventListener('mouseleave', () => setHot(null));
-$('picks').addEventListener('click', e => { const b = e.target.closest('.pick'); if (b) focusLodging(+b.dataset.n); });
-$('picks').addEventListener('mouseover', e => { const b = e.target.closest('.pick'); setHot(b ? +b.dataset.n : null); });
-$('picks').addEventListener('mouseleave', () => setHot(null));
+['picks','bons'].forEach(id => {
+  $(id).addEventListener('click', e => { const b = e.target.closest('.pick'); if (b) focusLodging(+b.dataset.n); });
+  $(id).addEventListener('mouseover', e => { const b = e.target.closest('.pick'); setHot(b ? +b.dataset.n : null); });
+  $(id).addEventListener('mouseleave', () => setHot(null));
+});
 
 const tip = $('tip');
 $('mapsvg').addEventListener('mousemove', e => {
@@ -591,19 +2414,22 @@ $('mapsvg').addEventListener('mousemove', e => {
   const vb = $('mapsvg').viewBox.baseVal, k = svgBox.width / vb.width;
   tip.style.left = ((l.px - vb.x) * k + svgBox.left - box.left) + 'px';
   tip.style.top = ((l.py - vb.y) * k + svgBox.top - box.top) + 'px';
-  tip.innerHTML = `<b>${l.n}. ${esc(l.title)}</b><br><span>${esc(l.town)}, ${priceText(l, week)}</span>`;
+  tip.innerHTML = `<b>${l.n}. ${esc(l.name)}</b><br><span>${esc(l.town)}, ${priceText(l, week)}</span>`;
   tip.classList.add('on'); setHot(l.n);
 });
 $('mapsvg').addEventListener('mouseleave', () => { tip.classList.remove('on'); setHot(null); });
-$('mapsvg').addEventListener('click', e => { const g = e.target.closest('.pin'); if (g) focusLodging(+g.dataset.n); });
+$('mapsvg').addEventListener('click', e => {
+  const g = e.target.closest('.pin'); if (g) return focusLodging(+g.dataset.n);
+  const b = e.target.closest('.bub'); if (!b) return;
+  const z = 'T:' + b.dataset.town; showAll = true; setZone(zone === z ? 'all' : z);
+  if (zone !== 'all') $('t-cmp').scrollIntoView({behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth'});
+});
 
 $('out').innerHTML = EXCLUDED.map(([n, r]) => `<div><dt>${esc(n)}</dt><dd>${esc(r)}</dd></div>`).join('');
 function layout(){
   const phone = isPhone();
-  U = phone ? 1.45 : 1;
-  $('mapsvg').setAttribute('viewBox', phone ? '110 40 690 720' : `0 0 ${VW} ${VH}`);
-  $('map').style.setProperty('--u', U);
-  place(); drawBase(); drawPins();
+  $('map').style.setProperty('--u', phone ? 2.1 : 1);
+  place(); drawBase(phone); drawLabels(phone); drawPins();
 }
 let lastPhone = isPhone();
 addEventListener('resize', () => { if (isPhone() !== lastPhone) { lastPhone = isPhone(); layout(); } });

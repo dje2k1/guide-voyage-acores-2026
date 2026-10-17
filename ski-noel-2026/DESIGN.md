@@ -1,6 +1,6 @@
-# Noël au ski 2026 — design
+# Ski en famille, février 2027 — design
 
-**Thesis.** A family's ski-week decision laid out like a topo map and a comparison sheet, not a travel ad. Mode: Operate (compare, filter, open a listing).
+**Thesis.** A family's ski-week decision laid out like a topo map and a ranked comparison sheet, not a travel ad. Mode: Operate (compare, filter, open a listing).
 
 ## Tokens
 | Role | Value |
@@ -10,19 +10,20 @@
 | Ink / secondary / tertiary | `#1C2A32` / `#4B5B64` / `#74838B` |
 | Rules | `#DCE3E7`, light `#EDF1F3` |
 | Selected week column | `#EAF2F7` |
-| Map: glacier / contour / river | `#E1EEF5` / `#C3D3DC` / `#7FAFCB` |
+| Map: glacier / ridge / contour / river | `#E1EEF5` / `#EEF4F7` / `#C3D3DC` / `#7FAFCB` |
 | Hovered pin | `#C2361F` |
-| Private pool | `#C8952C` (ring), `#FAF1DC` (note background) |
-| Over budget / full | `#A3402E` / tertiary ink |
+| Pool access | `#C8952C` (ring), `#8A6418` (text), `#FAF1DC` (note background) |
+| Over budget | `#A3402E` |
 
 ## Type
-Archivo only (Google Fonts, variable width). Titles wide (`wdth` 112–118, 700–760, tracking −0.02/−0.025em); body `wdth` 100; map lettering condensed (`wdth` 75–85), water and massifs in italic. Prices use tabular figures.
+Archivo only (Google Fonts, variable width). Titles wide (`wdth` 108–118, 680–760, tracking −0.02/−0.025em); body `wdth` 100; map lettering condensed (`wdth` 75–85), water, massifs and ski areas in italic. Prices use tabular figures.
 
 ## Components
-- **Week switch**: segmented control in the header; drives map pins, short-list prices, table sort and the highlighted column.
-- **Map**: hand-projected SVG (lat/lon → viewBox), pins clustered around their commune, numbered with the lodging's stable number. Fill = availability for the selected week; gold ring = private pool. Phones get a zoomed viewBox and larger pins (`--u`).
-- **Short-list**: four ruled rows with photo, reason, name, price for the week.
-- **Comparison rows**: ruled grid, both weeks side by side, click to expand facts and notes. Collapses to stacked rows under 760px.
+- **Week switch**: February (6–13) / April (3–10) segmented control in the header, with a one-line note on crowds and lift closures; drives map pins, short-list prices and the highlighted column.
+- **Map**: hand-projected SVG of the Mont-Blanc country (lat/lon → viewBox 800×612). Desktop: pins hex-packed around their commune, best rank in the middle, numbered by rank. Fill = availability for the selected week, gold ring = pool access. Phones: one bubble per commune with the count of lodgings free in budget; tapping filters the table to that commune.
+- **Short-list**: top five (photo, reason, name, size, price) and three no-review finds in a compact list.
+- **Ranking table**: rank, photo, name/where/size, wellness, reviews, both weeks, link. Click to expand facts, the score breakdown and a yellow "check before booking" note. First 20 rows, then a "show the rest" button. Collapses to stacked rows under 760px.
+- **Method**: five-column definition list explaining the 100-point score.
 - **Ruled out**: two-column definition list.
 
 ## Rules
