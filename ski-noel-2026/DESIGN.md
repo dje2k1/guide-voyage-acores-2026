@@ -1,4 +1,4 @@
-# Ski en famille, février 2027 — design
+# Ski en famille, février ou avril 2027 — design
 
 **Thesis.** A family's ski-week decision laid out like a topo map and a ranked comparison sheet, not a travel ad. Mode: Operate (compare, filter, open a listing).
 
@@ -19,10 +19,12 @@
 Archivo only (Google Fonts, variable width). Titles wide (`wdth` 108–118, 680–760, tracking −0.02/−0.025em); body `wdth` 100; map lettering condensed (`wdth` 75–85), water, massifs and ski areas in italic. Prices use tabular figures.
 
 ## Components
-- **Week switch**: February (6–13) / April (3–10) segmented control in the header, with a one-line note on crowds and lift closures; drives map pins, short-list prices and the highlighted column.
-- **Map**: hand-projected SVG of the Mont-Blanc country (lat/lon → viewBox 800×612). Desktop: pins hex-packed around their commune, best rank in the middle, numbered by rank. Fill = availability for the selected week, gold ring = pool access. Phones: one bubble per commune with the count of lodgings free in budget; tapping filters the table to that commune.
+- **Week switch**: February (6–13) / April (3–10) segmented control in the header, with a one-line note on crowds and lift closures. It drives everything: the map (Mont-Blanc in February, northern Alps in April), the ranking (scored per week), the top five, the zone filters and the April-only resorts table.
+- **Map**: hand-projected SVG. February: the Mont-Blanc country (viewBox 800×612). April: the northern French Alps (800×1160), one bubble per resort with the count of lodgings free in budget, open resorts without picks as hollow dots.
+  February detail: Desktop: pins hex-packed around their commune, best rank in the middle, numbered by rank. Fill = availability for the selected week, gold ring = pool access. Phones: one bubble per commune with the count of lodgings free in budget; tapping filters the table to that commune.
 - **Short-list**: top five (photo, reason, name, size, price) and three no-review finds in a compact list.
 - **Ranking table**: rank, photo, name/where/size, wellness, reviews, both weeks, link. Click to expand facts, the score breakdown and a yellow "check before booking" note. First 20 rows, then a "show the rest" button. Collapses to stacked rows under 760px.
+- **Resorts open in April**: ruled grid (resort, closing date, village altitude, drive from Paris, for non-skiers, count that filters the table). Shown only for April.
 - **Method**: five-column definition list explaining the 100-point score.
 - **Ruled out**: two-column definition list.
 
